@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Sidebar } from "./components/Sidebar";
 import { MonthTable, getCellTotal } from "./components/MonthTable";
 import { ScanModal } from "./components/ScanModal";
@@ -10,11 +10,27 @@ import {
   clearOcrSettings,
   fileToDataUrl,
   loadOcrSettings,
-  recognizeDeliveryNote,
   saveOcrSettings,
+  recognizeDeliveryNote,
   type OcrResult,
   type OcrSettings,
 } from "./lib/ocr";
+import {
+  addCloudAlias,
+  addCloudKnownShop,
+  fetchCloudAliases,
+  fetchCloudKnownShops,
+  fetchDeliveries,
+  flushPendingSync,
+  upsertDelivery,
+  deleteDelivery,
+} from "./lib/cloudStore";
+import {
+  getDeliveryForPart,
+  loadStoredMonths,
+  mergeCloudDeliveries,
+  saveStoredMonths,
+} from "./lib/dashboardStore";
 import type { AmountCell, AmountPart, MonthData } from "./types/dashboard";
 
 const MAX_BATCH = 10;
@@ -24,15 +40,16 @@ const findMonth = (months: MonthData[], year: number, month: number) => {
 };
 
 const getMonthTotal = (month: MonthData) => {
-  return Object.values(month.cells).reduce((sum, dayCells) => {
+  const total = Object.values(month.cells).reduce((sum, dayCells) => {
     return sum + Object.values(dayCells).reduce((daySum, cell) => daySum + getCellTotal(cell), 0);
   }, 0);
+  return Math.round(total * 100) / 100;
 };
 
 type ActiveView = "month" | "shopPayment";
 
 export default function App() {
-  const [months, setMonths] = useState<MonthData[]>(initialMonths);
+  const [months, setMonths] = useState<MonthData[]>(() => loadStoredMonths());
   const [selectedYear, setSelectedYear] = useState(2026);
   const [selectedMonth, setSelectedMonth] = useState(5);
   const [searchText, setSearchText] = useState("");
@@ -74,6 +91,74 @@ export default function App() {
   const currentMonth = useMemo(() => {
     return findMonth(months, selectedYear, selectedMonth);
   }, [months, selectedMonth, selectedYear]);
+
+  useEffect(() => {
+    saveStoredMonths(months);
+  }, [months]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const syncFromCloud = async () => {
+      const syncedCount = await flushPendingSync();
+      const cloudDeliveries = await fetchDeliveries();
+      if (cancelled) return;
+      if (cloudDeliveries.length > 0) {
+        setMonths((current) => {
+          const merged = mergeCloudDeliveries(current, cloudDeliveries);
+          saveStoredMonths(merged);
+          return merged;
+        });
+        setNotice((current) => current || "已同步云端数据");
+      } else if (syncedCount > 0) {
+        setNotice((current) => current || `已补传 ${syncedCount} 条离线数据`);
+      }
+    };
+
+    syncFromCloud();
+
+    const handleOnline = () => {
+      syncFromCloud();
+    };
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("online", handleOnline);
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const syncCloudDictionary = async () => {
+      const [cloudAliases, cloudKnownShops] = await Promise.all([
+        fetchCloudAliases(),
+        fetchCloudKnownShops(),
+      ]);
+      if (cancelled) return;
+
+      setOcrSettings((current) => {
+        if (!current) return current;
+        const merged: OcrSettings = {
+          ...current,
+          knownShops: Array.from(new Set([...cloudKnownShops, ...(current.knownShops ?? [])])),
+          shopAliases: {
+            ...cloudAliases,
+            ...(current.shopAliases ?? {}),
+          },
+        };
+        saveOcrSettings(merged);
+        return merged;
+      });
+    };
+
+    syncCloudDictionary();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleSelectYear = (year: number) => {
     const yearMonths = months.filter((item) => item.year === year).sort((a, b) => b.month - a.month);
@@ -252,6 +337,12 @@ export default function App() {
     setOcrSettings(settings);
     setShowSettings(false);
     setNotice("识别服务已保存");
+    for (const shop of settings.knownShops ?? []) {
+      addCloudKnownShop(shop);
+    }
+    for (const [alias, canonical] of Object.entries(settings.shopAliases ?? {})) {
+      addCloudAlias(alias, canonical);
+    }
   };
 
   const handleClearSettings = () => {
@@ -300,6 +391,26 @@ export default function App() {
     }
 
     const updatedAt = new Date().toISOString();
+    const oldPartIds = existingCell?.parts.map((part) => part.id) ?? [];
+    const newPart: AmountPart | null =
+      amount > 0
+        ? {
+            id: `manual-${selectedYear}-${selectedMonth}-${day}-${shop}`,
+            amount,
+            remark: "手工录入",
+            status: "已确认",
+            createdAt: existingCell?.parts[0]?.createdAt ?? updatedAt,
+          }
+        : null;
+
+    if (amount <= 0 && existingTotal > 0) {
+      const confirmed = window.confirm(
+        `${selectedYear}年${selectedMonth}月${day}日 ${shop} 已有 ${existingTotal} 元，确认清空吗？`
+      );
+      if (!confirmed) {
+        return false;
+      }
+    }
 
     setMonths((current) =>
       current.map((month) => {
@@ -313,15 +424,7 @@ export default function App() {
           delete dayCells[shop];
         } else {
           dayCells[shop] = {
-            parts: [
-              {
-                id: `manual-${selectedYear}-${selectedMonth}-${day}-${shop}`,
-                amount,
-                remark: "手工录入",
-                status: "已确认",
-                createdAt: existingCell?.parts[0]?.createdAt ?? updatedAt,
-              },
-            ],
+            parts: [newPart!],
             updatedAt,
           };
         }
@@ -342,6 +445,18 @@ export default function App() {
         ? `已修改：${selectedMonth}月${day}日 ${shop} ${amount}`
         : `已清空：${selectedMonth}月${day}日 ${shop}`
     );
+
+    if (newPart) {
+      upsertDelivery(getDeliveryForPart(selectedYear, selectedMonth, day, shop, newPart, updatedAt));
+      for (const id of oldPartIds.filter((id) => id !== newPart.id)) {
+        deleteDelivery(id);
+      }
+    } else {
+      for (const id of oldPartIds) {
+        deleteDelivery(id);
+      }
+    }
+
     return true;
   };
 
@@ -359,6 +474,7 @@ export default function App() {
       const updatedSettings: OcrSettings = { ...ocrSettings, shopAliases: newAliases };
       saveOcrSettings(updatedSettings);
       setOcrSettings(updatedSettings);
+      addCloudAlias(ocrShop, data.shop);
     }
 
 
@@ -408,6 +524,7 @@ export default function App() {
       status: "已确认",
       createdAt: new Date().toISOString(),
     };
+    const updatedAt = new Date().toISOString();
 
     setMonths((current) =>
       current.map((m) => {
@@ -418,7 +535,7 @@ export default function App() {
         const existingCell = m.cells[data.day]?.[data.shop];
         const updatedCell: AmountCell = {
           parts: [...(existingCell?.parts ?? []), newPart],
-          updatedAt: new Date().toISOString(),
+          updatedAt,
         };
 
         const updatedCells = {
@@ -435,10 +552,15 @@ export default function App() {
           ...m,
           cells: updatedCells,
           stores: updatedStores,
-          updatedAt: new Date().toISOString(),
+          updatedAt,
         };
       })
     );
+
+    upsertDelivery(getDeliveryForPart(selectedYear, selectedMonth, data.day, data.shop, newPart, updatedAt));
+    if (isNewShop) {
+      addCloudKnownShop(data.shop);
+    }
 
     const parts = [...existingParts, newPart];
     const sumLine = parts.map((p) => p.amount).join(" + ");

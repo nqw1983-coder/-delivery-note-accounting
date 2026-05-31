@@ -7,13 +7,14 @@ interface MonthTableProps {
 
 const daysInMonth = (year: number, month: number) => new Date(year, month, 0).getDate();
 const customerColumnCount = 13;
+const roundMoney = (value: number) => Math.round(value * 100) / 100;
 
 export const getCellTotal = (cell?: AmountCell) => {
   if (!cell) {
     return 0;
   }
 
-  return cell.parts.reduce((sum, part) => sum + part.amount, 0);
+  return roundMoney(cell.parts.reduce((sum, part) => sum + part.amount, 0));
 };
 
 export function MonthTable({ monthData, onChangeCell }: MonthTableProps) {
@@ -22,9 +23,9 @@ export function MonthTable({ monthData, onChangeCell }: MonthTableProps) {
     length: Math.max(customerColumnCount - monthData.stores.length, 0),
   });
 
-  const monthTotal = days.reduce((sum, day) => {
+  const monthTotal = roundMoney(days.reduce((sum, day) => {
     return sum + monthData.stores.reduce((daySum, shop) => daySum + getCellTotal(monthData.cells[day]?.[shop]), 0);
-  }, 0);
+  }, 0));
 
   return (
     <div className="table-shell">
@@ -43,7 +44,9 @@ export function MonthTable({ monthData, onChangeCell }: MonthTableProps) {
         </thead>
         <tbody>
           {days.map((day) => {
-            const dayTotal = monthData.stores.reduce((sum, shop) => sum + getCellTotal(monthData.cells[day]?.[shop]), 0);
+            const dayTotal = roundMoney(
+              monthData.stores.reduce((sum, shop) => sum + getCellTotal(monthData.cells[day]?.[shop]), 0)
+            );
 
             return (
               <tr key={day}>
@@ -87,7 +90,7 @@ export function MonthTable({ monthData, onChangeCell }: MonthTableProps) {
           <tr>
             <th scope="row">本月合计</th>
             {monthData.stores.map((shop) => {
-              const total = days.reduce((sum, day) => sum + getCellTotal(monthData.cells[day]?.[shop]), 0);
+              const total = roundMoney(days.reduce((sum, day) => sum + getCellTotal(monthData.cells[day]?.[shop]), 0));
               return <td key={shop}>{total}</td>;
             })}
             {blankCustomerColumns.map((_, index) => (

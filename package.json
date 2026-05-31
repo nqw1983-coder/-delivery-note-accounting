@@ -5,6 +5,7 @@
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.106.2",
     "@vitejs/plugin-react": "^5.0.0",
     "lucide-react": "^0.468.0",
     "pinyin-pro": "^3.28.1",
