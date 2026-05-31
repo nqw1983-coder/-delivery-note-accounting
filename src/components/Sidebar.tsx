@@ -1,5 +1,5 @@
 import type { ChangeEvent, RefObject } from "react";
-import { BarChart3, Plus, Search, Settings } from "lucide-react";
+import { BarChart3, Download, Plus, Search, Settings } from "lucide-react";
 import type { MonthData } from "../types/dashboard";
 import { years } from "../data/seedData";
 
@@ -15,6 +15,7 @@ interface SidebarProps {
   onAddMonth: () => void;
   onYearlyStats: () => void;
   onShopPayment: () => void;
+  onExport: () => void;
   fileInputRef: RefObject<HTMLInputElement>;
   fileName: string | null;
   onFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -41,6 +42,7 @@ export function Sidebar({
   onAddMonth,
   onYearlyStats,
   onShopPayment,
+  onExport,
   fileInputRef,
   fileName,
   onFileChange,
@@ -77,6 +79,9 @@ export function Sidebar({
           <div className="brand-actions">
             <button className="icon-button" type="button" aria-label="识别服务设置" onClick={onOpenSettings}>
               <Settings size={18} />
+            </button>
+            <button className="icon-button" type="button" aria-label="导出数据" onClick={onExport}>
+              <Download size={18} />
             </button>
             <button className="icon-button" type="button" aria-label="年度统计" onClick={onYearlyStats}>
               <BarChart3 size={18} />

@@ -5,7 +5,10 @@ import { ScanModal } from "./components/ScanModal";
 import { SettingsModal } from "./components/SettingsModal";
 import { ShopPaymentModal } from "./components/ShopPaymentModal";
 import { YearlyStatsModal } from "./components/YearlyStatsModal";
+import { ExportModal } from "./components/ExportModal";
 import { createEmptyMonth, initialMonths, shops } from "./data/seedData";
+import { isAdminMode } from "./lib/adminMode";
+import { getBackupStatus, recordNewEntryForBackupReminder } from "./lib/exporter";
 import {
   clearOcrSettings,
   fileToDataUrl,
@@ -58,6 +61,10 @@ export default function App() {
 
   const [showScanModal, setShowScanModal] = useState(false);
   const [showYearlyStats, setShowYearlyStats] = useState(false);
+  const [showExport, setShowExport] = useState(false);
+  const [adminMode] = useState(() => isAdminMode());
+  const [backupStatus, setBackupStatus] = useState(() => getBackupStatus());
+  const [backupBannerDismissed, setBackupBannerDismissed] = useState(false);
   const [shopPaymentEdits, setShopPaymentEdits] = useState<Record<string, string>>({});
   const [fileName, setFileName] = useState<string | null>(null);
   const [batchFiles, setBatchFiles] = useState<File[]>([]);
@@ -94,7 +101,30 @@ export default function App() {
 
   useEffect(() => {
     saveStoredMonths(months);
+    setBackupStatus(getBackupStatus());
   }, [months]);
+
+  const handleRestoreFromJson = (restoredMonths: MonthData[]) => {
+    setMonths((current) => {
+      // 把恢复的 months 当作"云端"数据走 merge 逻辑,以较新者为准
+      const restoredDeliveries = restoredMonths.flatMap((m) =>
+        Object.entries(m.cells).flatMap(([day, dayCells]) =>
+          Object.entries(dayCells ?? {}).flatMap(([shop, cell]) => {
+            if (!cell) return [];
+            return cell.parts.map((part) => getDeliveryForPart(m.year, m.month, Number(day), shop, part, cell.updatedAt));
+          })
+        )
+      );
+      const merged = mergeCloudDeliveries(current, restoredDeliveries);
+      saveStoredMonths(merged);
+      // 顺便把这些条目异步上传到云,确保多端一致
+      for (const delivery of restoredDeliveries) {
+        upsertDelivery(delivery);
+      }
+      return merged;
+    });
+    setNotice("已从备份恢复并合并");
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -448,6 +478,7 @@ export default function App() {
 
     if (newPart) {
       upsertDelivery(getDeliveryForPart(selectedYear, selectedMonth, day, shop, newPart, updatedAt));
+      recordNewEntryForBackupReminder();
       for (const id of oldPartIds.filter((id) => id !== newPart.id)) {
         deleteDelivery(id);
       }
@@ -558,6 +589,7 @@ export default function App() {
     );
 
     upsertDelivery(getDeliveryForPart(selectedYear, selectedMonth, data.day, data.shop, newPart, updatedAt));
+    recordNewEntryForBackupReminder();
     if (isNewShop) {
       addCloudKnownShop(data.shop);
     }
@@ -592,6 +624,7 @@ export default function App() {
           onAddMonth={handleAddMonth}
           onYearlyStats={() => setShowYearlyStats(true)}
           onShopPayment={handleShowShopPayment}
+          onExport={() => setShowExport(true)}
           fileInputRef={fileInputRef}
           fileName={fileName}
           onFileChange={handleFileChange}
@@ -630,6 +663,15 @@ export default function App() {
             onClose={() => setShowSettings(false)}
           />
         )}
+
+        {showExport && (
+          <ExportModal
+            months={months}
+            isAdmin={adminMode}
+            onClose={() => setShowExport(false)}
+            onRestore={handleRestoreFromJson}
+          />
+        )}
       </main>
     );
   }
@@ -648,6 +690,7 @@ export default function App() {
         onAddMonth={handleAddMonth}
         onYearlyStats={() => setShowYearlyStats(true)}
         onShopPayment={handleShowShopPayment}
+        onExport={() => setShowExport(true)}
         fileInputRef={fileInputRef}
         fileName={fileName}
         onFileChange={handleFileChange}
@@ -664,6 +707,24 @@ export default function App() {
         </header>
 
         {notice && <p className="notice-text">{notice}</p>}
+
+        {backupStatus.shouldRemind && !backupBannerDismissed && (
+          <div className="backup-banner" role="status">
+            <span>
+              {backupStatus.reason === "never" && `💾 已累积 ${backupStatus.newRecordsSinceBackup} 条新记录,建议导出备份`}
+              {backupStatus.reason === "stale" && `⏰ 上次备份 ${backupStatus.daysSinceBackup} 天前,建议再导一次`}
+              {backupStatus.reason === "many_new" && `💾 累计 ${backupStatus.newRecordsSinceBackup} 条新记录未备份,点这里导出`}
+            </span>
+            <div>
+              <button type="button" className="backup-banner-action" onClick={() => setShowExport(true)}>
+                立即备份
+              </button>
+              <button type="button" className="backup-banner-dismiss" onClick={() => setBackupBannerDismissed(true)} aria-label="关闭提示">
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
 
         {activeView === "shopPayment" ? (
           <ShopPaymentModal
@@ -714,6 +775,15 @@ export default function App() {
           months={months}
           onSelectMonth={handleSelectMonth}
           onClose={() => setShowYearlyStats(false)}
+        />
+      )}
+
+      {showExport && (
+        <ExportModal
+          months={months}
+          isAdmin={adminMode}
+          onClose={() => setShowExport(false)}
+          onRestore={handleRestoreFromJson}
         />
       )}
     </main>

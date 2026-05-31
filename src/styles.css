@@ -942,3 +942,57 @@ button {
     font-size: 15px;
   }
 }
+
+/* ========== 备份提醒横幅 ========== */
+.backup-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0 12px;
+  padding: 10px 14px;
+  background: linear-gradient(90deg, #fff8e1 0%, #fffbf0 100%);
+  border: 1px solid #ffd591;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #6d4500;
+}
+
+.backup-banner span {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.backup-banner > div {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.backup-banner-action {
+  padding: 6px 14px;
+  background: #fa8c16;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.backup-banner-action:hover {
+  background: #d46b08;
+}
+
+.backup-banner-dismiss {
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  color: #8c6d3f;
+  cursor: pointer;
+}
+
+.backup-banner-dismiss:hover {
+  color: #333;
+}
