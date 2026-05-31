@@ -1116,3 +1116,184 @@ button {
   font-size: 12px;
   text-align: center;
 }
+
+/* ========== iPad / 平板专属(竖屏 + 横屏) ========== */
+/* 触摸目标至少 44pt(Apple HIG),iPad 上字体调大,适配小白用户 */
+
+@media (min-width: 768px) and (pointer: coarse) {
+  /* iPad 任何方向 */
+  body {
+    font-size: 16px;
+  }
+
+  .dashboard {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    padding: 16px 14px env(safe-area-inset-bottom, 14px) max(14px, env(safe-area-inset-left));
+  }
+
+  .brand-row h1 {
+    font-size: 22px;
+  }
+
+  .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .year-select,
+  .search-box {
+    height: 44px;
+    font-size: 16px;
+  }
+
+  .payment-entry-button {
+    height: 44px;
+    font-size: 16px;
+  }
+
+  .month-row {
+    min-height: 48px;
+    font-size: 16px;
+  }
+
+  .upload-label,
+  .scan-button {
+    height: 52px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+  }
+
+  .content {
+    padding: 20px 24px env(safe-area-inset-bottom, 20px) 20px;
+  }
+
+  .content-header h2 {
+    font-size: 24px;
+  }
+
+  /* 模态弹窗放大 */
+  .detail-modal {
+    max-width: min(720px, 92vw);
+    padding: 24px;
+    font-size: 16px;
+  }
+
+  .detail-modal h3 {
+    font-size: 20px;
+  }
+
+  .scan-field input,
+  .scan-field select,
+  .scan-field textarea {
+    min-height: 48px;
+    font-size: 16px;
+    padding: 10px 14px;
+  }
+
+  .scan-btn-clear,
+  .scan-btn-confirm {
+    min-height: 52px;
+    padding: 0 22px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* 密码门在 iPad 上也要好看 */
+  .password-gate-card {
+    max-width: 460px;
+    padding: 44px 36px;
+  }
+
+  .password-gate-card h1 {
+    font-size: 30px;
+  }
+
+  .password-gate-field input {
+    height: 56px;
+    font-size: 20px;
+  }
+
+  .password-gate-card button[type="submit"] {
+    height: 56px;
+    font-size: 18px;
+  }
+
+  /* 备份横幅文字加大 */
+  .backup-banner {
+    font-size: 15px;
+    padding: 12px 16px;
+  }
+
+  .backup-banner-action {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}
+
+/* ========== iPad 横屏强化(大屏 + 横向) ========== */
+
+@media (min-width: 900px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  /* 横屏时侧边栏可以再宽一点,内容区有更多呼吸 */
+  .dashboard {
+    grid-template-columns: 300px minmax(0, 1fr);
+  }
+
+  /* 月份列表横屏可以铺得更舒展 */
+  .month-list {
+    grid-template-rows: repeat(12, 44px);
+  }
+
+  /* 主操作按钮(开始扫描)右下,拇指可达 */
+  .scan-panel {
+    position: sticky;
+    bottom: env(safe-area-inset-bottom, 0);
+    padding-top: 12px;
+    background: #ffffff;
+    border-top: 1px solid #eef2ed;
+  }
+}
+
+/* ========== iPhone / 小屏强化(竖屏) ========== */
+
+@media (max-width: 760px) and (pointer: coarse) {
+  /* 触摸目标统一 ≥ 44pt */
+  .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .month-row {
+    min-height: 48px;
+    font-size: 15px;
+  }
+
+  /* safe-area 完整覆盖 */
+  .sidebar {
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-bottom: env(safe-area-inset-bottom, 10px);
+  }
+
+  .content {
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-bottom: env(safe-area-inset-bottom, 14px);
+  }
+
+  /* 模态弹窗 safe-area */
+  .modal-backdrop {
+    padding: env(safe-area-inset-top, 12px) env(safe-area-inset-right, 12px) env(safe-area-inset-bottom, 12px) env(safe-area-inset-left, 12px);
+  }
+}
+
+/* ========== PWA standalone 模式额外补丁 ========== */
+@media (display-mode: standalone) {
+  /* 全屏 PWA 状态栏区域留空 */
+  body {
+    padding-top: env(safe-area-inset-top);
+  }
+}
