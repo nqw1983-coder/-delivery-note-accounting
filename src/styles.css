@@ -996,3 +996,123 @@ button {
 .backup-banner-dismiss:hover {
   color: #333;
 }
+
+/* ========== 密码门 ========== */
+.password-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px env(safe-area-inset-right) 24px env(safe-area-inset-left);
+  background: linear-gradient(135deg, #0a3d2a 0%, #145c3c 50%, #1f7a52 100%);
+}
+
+.password-gate-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 380px;
+  padding: 32px 28px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.password-gate-card h1 {
+  margin: 0;
+  color: #0a3d2a;
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.password-gate-tagline {
+  margin: -6px 0 0;
+  color: #688e7a;
+  font-size: 14px;
+  text-align: center;
+}
+
+.password-gate-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.password-gate-field span {
+  color: #16281f;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.password-gate-field input {
+  height: 48px;
+  padding: 0 14px;
+  font-size: 18px;
+  color: #16281f;
+  background: #f7faf7;
+  border: 1.5px solid #d0ddd3;
+  border-radius: 10px;
+  outline: none;
+}
+
+.password-gate-field input:focus {
+  border-color: #145c3c;
+  background: #ffffff;
+}
+
+.password-gate-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #456356;
+  font-size: 14px;
+  user-select: none;
+}
+
+.password-gate-remember input {
+  width: 18px;
+  height: 18px;
+  accent-color: #145c3c;
+}
+
+.password-gate-error {
+  margin: 0;
+  padding: 8px 12px;
+  background: #fff1f0;
+  color: #cf1322;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid #ffa39e;
+}
+
+.password-gate-card button[type="submit"] {
+  height: 50px;
+  margin-top: 4px;
+  background: #145c3c;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.password-gate-card button[type="submit"]:hover:not(:disabled) {
+  background: #0a3d2a;
+}
+
+.password-gate-card button[type="submit"]:disabled {
+  background: #97a89d;
+  cursor: not-allowed;
+}
+
+.password-gate-hint {
+  margin: 0;
+  color: #97a89d;
+  font-size: 12px;
+  text-align: center;
+}
