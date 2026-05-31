@@ -1,4 +1,5 @@
 import { mergeKnownShops, mergeShopAliases, BUILT_IN_KNOWN_SHOPS, BUILT_IN_SHOP_ALIASES } from "../data/shopMemory";
+import { supabase } from "./supabase";
 
 export type OcrProvider = "qwen" | "doubao";
 
@@ -29,8 +30,14 @@ const DEFAULT_MODELS: Record<OcrProvider, string> = {
 };
 
 // 开发环境走 Vite 代理（同源，避免浏览器跨域鉴权问题）；
-// 生产环境直连（需自行配置后端代理或 CORS）。
+// 生产环境走 Supabase Edge Function（OCR Key 留服务端）。
 const USE_PROXY = typeof import.meta !== "undefined" && import.meta.env?.DEV;
+// 生产模式下若 Supabase 已配置,走 Edge Function 代理(Key 安全)
+const USE_EDGE_FUNCTION =
+  !USE_PROXY &&
+  typeof import.meta !== "undefined" &&
+  Boolean(import.meta.env?.VITE_SUPABASE_URL) &&
+  Boolean(import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY);
 
 const ENDPOINTS: Record<OcrProvider, string> = {
   qwen: USE_PROXY
@@ -390,6 +397,24 @@ function findBestMatchInKnownShops(
   return best && best.score >= threshold ? best : null;
 }
 
+async function callOcrViaEdgeFunction(imageDataUrl: string, prompt: string, model: string): Promise<string> {
+  if (!supabase) throw new Error("Supabase 未配置,无法调 Edge Function");
+  const { data, error } = await supabase.functions.invoke("ocr-proxy", {
+    body: { imageDataUrl, prompt, model },
+  });
+  if (error) {
+    throw new Error(`Edge Function 调用失败:${error.message}`);
+  }
+  const payload = data as { content?: string; error?: string };
+  if (payload?.error) {
+    throw new Error(`OCR 服务返回错误:${payload.error}`);
+  }
+  if (!payload?.content) {
+    throw new Error("Edge Function 返回为空");
+  }
+  return payload.content;
+}
+
 export async function recognizeDeliveryNote(
   imageDataUrl: string,
   settings: OcrSettings
@@ -399,38 +424,47 @@ export async function recognizeDeliveryNote(
   const apiKey = sanitizeKey(settings.apiKey);
   const promptText = buildPrompt(settings.knownShops);
 
-  const body = {
-    model,
-    messages: [
-      {
-        role: "user",
-        content: [
-          { type: "image_url", image_url: { url: imageDataUrl } },
-          { type: "text", text: promptText },
-        ],
-      },
-    ],
-    temperature: 0,
-    max_tokens: 200, // 限制输出长度，加速响应
-  };
+  let content: string;
 
-  const response = await fetch(endpoint, {
-    method: "POST",
-    headers: buildAuthHeaders(apiKey),
-    body: JSON.stringify(body),
-  });
+  if (USE_EDGE_FUNCTION) {
+    // 生产环境:走 Supabase Edge Function,API Key 在服务端
+    content = await callOcrViaEdgeFunction(imageDataUrl, promptText, model);
+  } else {
+    // 开发环境:直连云服务(走 Vite 代理),用客户端配置的 Key
+    const body = {
+      model,
+      messages: [
+        {
+          role: "user",
+          content: [
+            { type: "image_url", image_url: { url: imageDataUrl } },
+            { type: "text", text: promptText },
+          ],
+        },
+      ],
+      temperature: 0,
+      max_tokens: 200,
+    };
 
-  if (!response.ok) {
-    const errText = await response.text().catch(() => "");
-    throw new Error(`OCR 服务返回 ${response.status}：${errText.slice(0, 200)}`);
-  }
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: buildAuthHeaders(apiKey),
+      body: JSON.stringify(body),
+    });
 
-  const json = (await response.json()) as {
-    choices?: Array<{ message?: { content?: string } }>;
-  };
-  const content = json.choices?.[0]?.message?.content;
-  if (!content) {
-    throw new Error("OCR 服务返回为空");
+    if (!response.ok) {
+      const errText = await response.text().catch(() => "");
+      throw new Error(`OCR 服务返回 ${response.status}:${errText.slice(0, 200)}`);
+    }
+
+    const json = (await response.json()) as {
+      choices?: Array<{ message?: { content?: string } }>;
+    };
+    const c = json.choices?.[0]?.message?.content;
+    if (!c) {
+      throw new Error("OCR 服务返回为空");
+    }
+    content = c;
   }
 
   const parsed = extractJson(content);
