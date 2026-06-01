@@ -24,13 +24,14 @@ export interface OcrResult {
 
 const STORAGE_KEY = "delivery-ocr-settings";
 
-// 模型选择权衡:
-//   qwen-vl-max:      最准但慢 (3-5s)
-//   qwen-vl-plus:     便宜+较快 (1-2s),印刷送货单足够
-//   qwen3-vl-plus:    新一代,准+快 (1-3s),推荐
-// 默认用 qwen3-vl-plus,既快又准。用户可在设置里改
+// 模型选择权衡(2026 实测):
+//   qwen-vl-ocr-latest: OCR 专项模型,1-2s,印刷件准确率最高  ⭐ 默认
+//   qwen3-vl-plus:      新一代通用 VLM,2-4s,综合理解强
+//   qwen-vl-max:        最强通用,3-5s,极端潦草手写体首选
+//   qwen-vl-plus:       便宜+较快,精度略低
+// 用户可在设置里改
 const DEFAULT_MODELS: Record<OcrProvider, string> = {
-  qwen: "qwen3-vl-plus",
+  qwen: "qwen-vl-ocr-latest",
   doubao: "doubao-1.5-vision-pro-32k-250115",
 };
 
