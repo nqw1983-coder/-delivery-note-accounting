@@ -1,9 +1,12 @@
 import type { AmountCell, MonthData, ShopName } from "../types/dashboard";
-import { VoiceCell } from "./VoiceCell";
 
 interface MonthTableProps {
   monthData: MonthData;
   onChangeCell: (day: number, shop: ShopName, value: string) => boolean;
+  /** 用户点选/聚焦某格时回调,App 用这个状态喂给顶部语音按钮 */
+  onCellFocus?: (day: number, shop: ShopName) => void;
+  /** 当前选中的格子(由 App 状态控制),用于高亮 */
+  selectedCell?: { day: number; shop: ShopName } | null;
 }
 
 const daysInMonth = (year: number, month: number) => new Date(year, month, 0).getDate();
@@ -18,7 +21,7 @@ export const getCellTotal = (cell?: AmountCell) => {
   return roundMoney(cell.parts.reduce((sum, part) => sum + part.amount, 0));
 };
 
-export function MonthTable({ monthData, onChangeCell }: MonthTableProps) {
+export function MonthTable({ monthData, onChangeCell, onCellFocus, selectedCell }: MonthTableProps) {
   const days = Array.from({ length: daysInMonth(monthData.year, monthData.month) }, (_, index) => index + 1);
   const blankCustomerColumns = Array.from({
     length: Math.max(customerColumnCount - monthData.stores.length, 0),
@@ -55,13 +58,28 @@ export function MonthTable({ monthData, onChangeCell }: MonthTableProps) {
                 {monthData.stores.map((shop) => {
                   const amount = getCellTotal(monthData.cells[day]?.[shop]);
 
+                  const isSelected = selectedCell?.day === day && selectedCell?.shop === shop;
                   return (
-                    <td key={shop}>
-                      <VoiceCell
-                        day={day}
-                        shop={shop}
-                        amount={amount}
-                        onChange={onChangeCell}
+                    <td key={shop} className={isSelected ? "cell-selected" : undefined}>
+                      <input
+                        key={`${day}-${shop}-${amount}`}
+                        className="amount-cell-input"
+                        defaultValue={amount || ""}
+                        inputMode="decimal"
+                        placeholder="0"
+                        aria-label={`${day}日${shop}金额`}
+                        onFocus={() => onCellFocus?.(day, shop)}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter") {
+                            event.currentTarget.blur();
+                          }
+                        }}
+                        onBlur={(event) => {
+                          const changed = onChangeCell(day, shop, event.currentTarget.value);
+                          if (!changed) {
+                            event.currentTarget.value = amount ? String(amount) : "";
+                          }
+                        }}
                       />
                     </td>
                   );

@@ -1380,89 +1380,119 @@ button {
   }
 }
 
-/* ========== 语音输入按钮(每个表格格子) ========== */
 
-.voice-cell {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  width: 100%;
-  height: 100%;
-}
 
-.voice-cell .amount-cell-input {
-  flex: 1;
-  min-width: 0;
-}
+/* ========== 顶部语音录入按钮 ========== */
 
-.voice-cell-btn {
-  flex: 0 0 24px;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  font-size: 12px;
-  line-height: 1;
-  background: #f0f5f1;
-  border: 1px solid #d5e2d8;
-  border-radius: 4px;
-  color: #145c3c;
-  cursor: pointer;
+.voice-input-bar {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.voice-cell-btn:hover {
-  background: #d5e2d8;
-}
-
-.voice-cell-btn.voice-listening {
-  background: #ef4444;
-  color: #fff;
-  border-color: #ef4444;
-  animation: voice-pulse 1s infinite;
-}
-
-@keyframes voice-pulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
-  50% { transform: scale(1.08); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
-}
-
-.voice-feedback {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  margin-top: 4px;
-  padding: 4px 8px;
+.voice-input-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
   background: #145c3c;
-  color: #fff;
-  font-size: 12px;
-  border-radius: 4px;
+  color: #ffffff;
+  border: 1px solid #145c3c;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.voice-input-btn:hover:not(.is-disabled) {
+  background: #0a3d2a;
+}
+
+.voice-input-btn.is-listening {
+  background: #ef4444;
+  border-color: #ef4444;
+  animation: voice-bar-pulse 1s ease-in-out infinite;
+}
+
+.voice-input-btn.is-disabled {
+  background: #97a89d;
+  border-color: #97a89d;
+  cursor: default;
+}
+
+@keyframes voice-bar-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55); }
+  50%      { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+.voice-feedback-bar {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  z-index: 100;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* 移动端:按钮稍大,符合触摸 */
+.voice-feedback-success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.voice-feedback-warn {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.voice-feedback-info {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* 选中格子的高亮 — 让用户清楚哪个格子被点中 */
+.month-table td.cell-selected {
+  background: #fff3a4 !important;
+  box-shadow: inset 0 0 0 2px #f59e0b;
+}
+
+.month-table td.cell-selected .amount-cell-input {
+  background: transparent;
+  font-weight: 700;
+}
+
+/* ========== 移动端:语音按钮和标题挤在同一行,自动换行 ========== */
+
 @media (max-width: 760px) {
-  .voice-cell-btn {
-    flex: 0 0 32px;
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
+  .content-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
-}
 
-/* 桌面端:按钮可以稍微弱化,只在 hover 上显著 */
-@media (min-width: 761px) and (pointer: fine) {
-  .voice-cell-btn {
-    opacity: 0.6;
+  .content-header h2 {
+    margin-right: auto;
   }
-  .voice-cell:hover .voice-cell-btn,
-  .voice-cell-btn:focus-visible {
-    opacity: 1;
+
+  .voice-input-bar {
+    width: 100%;
+  }
+
+  .voice-input-btn {
+    flex: 1;
+    justify-content: center;
+    height: 44px;
+    font-size: 15px;
+  }
+
+  .voice-feedback-bar {
+    flex-basis: 100%;
+    max-width: none;
   }
 }

@@ -6,6 +6,7 @@ import { SettingsModal } from "./components/SettingsModal";
 import { ShopPaymentModal } from "./components/ShopPaymentModal";
 import { YearlyStatsModal } from "./components/YearlyStatsModal";
 import { ExportModal } from "./components/ExportModal";
+import { VoiceInputButton } from "./components/VoiceInputButton";
 import { createEmptyMonth, initialMonths, shops } from "./data/seedData";
 import { isAdminMode } from "./lib/adminMode";
 import { getBackupStatus, recordNewEntryForBackupReminder } from "./lib/exporter";
@@ -62,6 +63,7 @@ export default function App() {
   const [showScanModal, setShowScanModal] = useState(false);
   const [showYearlyStats, setShowYearlyStats] = useState(false);
   const [showExport, setShowExport] = useState(false);
+  const [selectedCell, setSelectedCell] = useState<{ day: number; shop: string } | null>(null);
   const [adminMode] = useState(() => isAdminMode());
   const [backupStatus, setBackupStatus] = useState(() => getBackupStatus());
   const [backupBannerDismissed, setBackupBannerDismissed] = useState(false);
@@ -697,6 +699,12 @@ export default function App() {
       <section className="content" aria-label="当前月份金额统计">
         <header className="content-header">
           <h2>{activeView === "shopPayment" ? "店铺收款确认" : `${selectedYear}年${selectedMonth}月`}</h2>
+          {activeView !== "shopPayment" && (
+            <VoiceInputButton
+              selectedCell={selectedCell}
+              onChange={handleMonthCellChange}
+            />
+          )}
         </header>
 
         {notice && <p className="notice-text">{notice}</p>}
@@ -731,6 +739,8 @@ export default function App() {
           <MonthTable
             monthData={currentMonth}
             onChangeCell={handleMonthCellChange}
+            onCellFocus={(day, shop) => setSelectedCell({ day, shop })}
+            selectedCell={selectedCell}
           />
         )}
       </section>
