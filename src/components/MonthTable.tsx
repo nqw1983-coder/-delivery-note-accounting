@@ -1,4 +1,5 @@
 import type { AmountCell, MonthData, ShopName } from "../types/dashboard";
+import { VoiceCell } from "./VoiceCell";
 
 interface MonthTableProps {
   monthData: MonthData;
@@ -56,24 +57,11 @@ export function MonthTable({ monthData, onChangeCell }: MonthTableProps) {
 
                   return (
                     <td key={shop}>
-                      <input
-                        key={`${day}-${shop}-${amount}`}
-                        className="amount-cell-input"
-                        defaultValue={amount || ""}
-                        inputMode="decimal"
-                        placeholder="0"
-                        aria-label={`${day}日${shop}金额`}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter") {
-                            event.currentTarget.blur();
-                          }
-                        }}
-                        onBlur={(event) => {
-                          const changed = onChangeCell(day, shop, event.currentTarget.value);
-                          if (!changed) {
-                            event.currentTarget.value = amount ? String(amount) : "";
-                          }
-                        }}
+                      <VoiceCell
+                        day={day}
+                        shop={shop}
+                        amount={amount}
+                        onChange={onChangeCell}
                       />
                     </td>
                   );

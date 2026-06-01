@@ -433,14 +433,7 @@ export default function App() {
           }
         : null;
 
-    if (amount <= 0 && existingTotal > 0) {
-      const confirmed = window.confirm(
-        `${selectedYear}年${selectedMonth}月${day}日 ${shop} 已有 ${existingTotal} 元，确认清空吗？`
-      );
-      if (!confirmed) {
-        return false;
-      }
-    }
+    // 清空(金额改为 0)直接执行,不再弹确认 — 用户明确要求
 
     setMonths((current) =>
       current.map((month) => {
