@@ -10,3 +10,7 @@ screenshots/
 .claude/
 supabase/.temp/
 supabase/.branches/
+
+snap*.mjs
+verify*.mjs
+test-cn*.mjs
