@@ -18,7 +18,7 @@
  */
 
 // SHA-256("songhuodan-2026") — 默认密码,务必上线前替换为自己的
-const PASSWORD_HASH = "SHA-256: 5598af1c7e4fd1601a7577e61ce038617ba24e64e3d00b1c2ffb34c224c4e16a";
+const PASSWORD_HASH = "5598af1c7e4fd1601a7577e61ce038617ba24e64e3d00b1c2ffb34c224c4e16a";
 
 const SESSION_KEY = "delivery-auth-session";
 const REMEMBER_KEY = "delivery-auth-remember";
