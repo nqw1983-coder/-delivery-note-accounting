@@ -10,7 +10,9 @@ interface MonthTableProps {
 }
 
 const daysInMonth = (year: number, month: number) => new Date(year, month, 0).getDate();
-const customerColumnCount = 13;
+// 表格固定显示 13 列:最多 11 家有名店铺 + 2 个空白预留列
+const MAX_LABELED_STORES = 11;
+const TOTAL_STORE_COLUMNS = 13;
 const roundMoney = (value: number) => Math.round(value * 100) / 100;
 
 export const getCellTotal = (cell?: AmountCell) => {
@@ -23,13 +25,12 @@ export const getCellTotal = (cell?: AmountCell) => {
 
 export function MonthTable({ monthData, onChangeCell, onCellFocus, selectedCell }: MonthTableProps) {
   const days = Array.from({ length: daysInMonth(monthData.year, monthData.month) }, (_, index) => index + 1);
+  // 限制显示前 11 家有名店铺;额外的数据保留在 DB,只是不在表格里以标签形式出现
+  const displayedStores = monthData.stores.slice(0, MAX_LABELED_STORES);
+  // 总固定 13 列,labeled 之后补足空白
   const blankCustomerColumns = Array.from({
-    length: Math.max(customerColumnCount - monthData.stores.length, 0),
+    length: Math.max(TOTAL_STORE_COLUMNS - displayedStores.length, 0),
   });
-
-  const monthTotal = roundMoney(days.reduce((sum, day) => {
-    return sum + monthData.stores.reduce((daySum, shop) => daySum + getCellTotal(monthData.cells[day]?.[shop]), 0);
-  }, 0));
 
   return (
     <div className="table-shell">
@@ -37,25 +38,20 @@ export function MonthTable({ monthData, onChangeCell, onCellFocus, selectedCell 
         <thead>
           <tr>
             <th>日期</th>
-            {monthData.stores.map((shop) => (
+            {displayedStores.map((shop) => (
               <th key={shop}>{shop}</th>
             ))}
             {blankCustomerColumns.map((_, index) => (
               <th aria-label={`空白客户列${index + 1}`} key={`blank-head-${index}`}></th>
             ))}
-            <th>当日合计</th>
           </tr>
         </thead>
         <tbody>
           {days.map((day) => {
-            const dayTotal = roundMoney(
-              monthData.stores.reduce((sum, shop) => sum + getCellTotal(monthData.cells[day]?.[shop]), 0)
-            );
-
             return (
               <tr key={day}>
                 <th scope="row">{day}日</th>
-                {monthData.stores.map((shop) => {
+                {displayedStores.map((shop) => {
                   const amount = getCellTotal(monthData.cells[day]?.[shop]);
 
                   const isSelected = selectedCell?.day === day && selectedCell?.shop === shop;
@@ -87,7 +83,6 @@ export function MonthTable({ monthData, onChangeCell, onCellFocus, selectedCell 
                 {blankCustomerColumns.map((_, index) => (
                   <td className="blank-cell" key={`blank-${day}-${index}`}></td>
                 ))}
-                <td className="daily-total">{dayTotal}</td>
               </tr>
             );
           })}
@@ -95,14 +90,13 @@ export function MonthTable({ monthData, onChangeCell, onCellFocus, selectedCell 
         <tfoot>
           <tr>
             <th scope="row">本月合计</th>
-            {monthData.stores.map((shop) => {
+            {displayedStores.map((shop) => {
               const total = roundMoney(days.reduce((sum, day) => sum + getCellTotal(monthData.cells[day]?.[shop]), 0));
               return <td key={shop}>{total}</td>;
             })}
             {blankCustomerColumns.map((_, index) => (
               <td className="blank-cell" key={`blank-total-${index}`}></td>
             ))}
-            <td className="daily-total">{monthTotal}</td>
           </tr>
         </tfoot>
       </table>

@@ -699,15 +699,8 @@ export default function App() {
       <section className="content" aria-label="当前月份金额统计">
         <header className="content-header">
           <h2>{activeView === "shopPayment" ? "店铺收款确认" : `${selectedYear}年${selectedMonth}月`}</h2>
-          {activeView !== "shopPayment" && (
-            <VoiceInputButton
-              selectedCell={selectedCell}
-              onChange={handleMonthCellChange}
-            />
-          )}
+          {notice && <span className="notice-text inline-notice">{notice}</span>}
         </header>
-
-        {notice && <p className="notice-text">{notice}</p>}
 
         {backupStatus.shouldRemind && !backupBannerDismissed && (
           <div className="backup-banner" role="status">

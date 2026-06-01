@@ -31,7 +31,7 @@ button {
 
 .dashboard {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-columns: 148px minmax(0, 1fr);
   min-height: 100vh;
   background: #f4f6f4;
 }
@@ -49,10 +49,11 @@ button {
 
 /* ========== 左侧头部 ========== */
 
+/* 标题在上,图标横排在下,垂直紧凑布局 */
 .brand-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
   margin-bottom: 10px;
 }
@@ -60,21 +61,24 @@ button {
 .brand-row h1 {
   margin: 0;
   color: #123c2b;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .brand-actions {
   display: flex;
-  gap: 8px;
+  flex-direction: row;
+  gap: 6px;
 }
 
 .icon-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   color: #25513f;
   background: #eef5f0;
   border: 1px solid #d5e2d8;
@@ -338,20 +342,22 @@ button {
 
 .month-table {
   width: 100%;
-  min-width: 920px;
+  min-width: 0;
   border-collapse: collapse;
   table-layout: fixed;
 }
 
 .month-table th,
 .month-table td {
-  height: 20px;
-  padding: 0 4px;
+  height: 23px;
+  padding: 0 2px;
   border-bottom: 1px solid #edf1ed;
   border-right: 1px solid #edf1ed;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.1;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .month-table th {
@@ -361,12 +367,13 @@ button {
 }
 
 .month-table thead th {
-  height: 22px;
+  height: 26px;
+  font-size: 13px;
 }
 
 .month-table th:first-child,
 .month-table td:first-child {
-  width: 48px;
+  width: 42px;
   text-align: center;
 }
 
@@ -1495,4 +1502,17 @@ button {
     flex-basis: 100%;
     max-width: none;
   }
+}
+
+/* 把 "已同步云端数据" 之类的提示文字放到标题旁边,不再单独一行 */
+.content-header {
+  align-items: baseline;
+  gap: 12px;
+}
+
+.notice-text.inline-notice {
+  margin: 0;
+  color: #688e7a;
+  font-size: 13px;
+  font-weight: 400;
 }

@@ -1,5 +1,5 @@
 import type { ChangeEvent, RefObject } from "react";
-import { BarChart3, Download, Plus, Search, Settings } from "lucide-react";
+import { Download, Plus, Search, Settings } from "lucide-react";
 import type { MonthData } from "../types/dashboard";
 import { years } from "../data/seedData";
 
@@ -13,17 +13,18 @@ interface SidebarProps {
   onSelectMonth: (year: number, month: number) => void;
   onSearchTextChange: (value: string) => void;
   onAddMonth: () => void;
-  onYearlyStats: () => void;
+  onYearlyStats?: () => void;  // 暂保留以兼容 App 调用,组件内不再使用
   onShopPayment: () => void;
   onExport: () => void;
-  fileInputRef: RefObject<HTMLInputElement>;
-  fileName: string | null;
-  onFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onStartScan: () => void;
   onOpenSettings: () => void;
-  scanning: boolean;
-  pendingCount: number;
-  getMonthTotal: (month: MonthData) => number;
+  // 以下扫描相关 prop 保留以兼容父组件,组件内已不再渲染
+  fileInputRef?: RefObject<HTMLInputElement>;
+  fileName?: string | null;
+  onFileChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onStartScan?: () => void;
+  scanning?: boolean;
+  pendingCount?: number;
+  getMonthTotal?: (month: MonthData) => number;
 }
 
 const monthSlots = Array.from({ length: 12 });
@@ -40,17 +41,9 @@ export function Sidebar({
   onSelectMonth,
   onSearchTextChange,
   onAddMonth,
-  onYearlyStats,
   onShopPayment,
   onExport,
-  fileInputRef,
-  fileName,
-  onFileChange,
-  onStartScan,
   onOpenSettings,
-  scanning,
-  pendingCount,
-  getMonthTotal,
 }: SidebarProps) {
   const normalizedSearch = searchText.trim();
   const visibleMonths = months
@@ -82,9 +75,6 @@ export function Sidebar({
             </button>
             <button className="icon-button" type="button" aria-label="导出数据" onClick={onExport}>
               <Download size={18} />
-            </button>
-            <button className="icon-button" type="button" aria-label="年度统计" onClick={onYearlyStats}>
-              <BarChart3 size={18} />
             </button>
             <button className="icon-button primary-icon" type="button" aria-label="增加月份" onClick={onAddMonth}>
               <Plus size={18} />
@@ -142,37 +132,13 @@ export function Sidebar({
                 onClick={() => onSelectMonth(month.year, month.month)}
               >
                 <span>{month.year}年{month.month}月</span>
-                <strong>￥{getMonthTotal(month).toLocaleString("zh-CN")}</strong>
               </button>
             );
           })}
         </div>
       </div>
 
-      <div className="scan-panel">
-        <div className="upload-row sidebar-upload-row">
-          <label className="upload-label">
-            选择图片
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={onFileChange}
-            />
-          </label>
-          <button
-            className="scan-button"
-            type="button"
-            onClick={onStartScan}
-            disabled={scanning}
-          >
-            {scanning ? "识别中…" : "开始扫描"}
-          </button>
-        </div>
-        {fileName && <span className="file-name sidebar-file-name">{fileName}</span>}
-        <p className="scan-hint">待补 {pendingCount}</p>
-      </div>
+      {/* 扫描区已按用户要求移除(本布局不再使用 OCR 扫描) */}
     </aside>
   );
 }
