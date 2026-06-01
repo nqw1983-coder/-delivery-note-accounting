@@ -234,19 +234,19 @@ Deno.serve(async (request: Request) => {
   const tryProviders: Array<"tencent" | "aliyun"> =
     primary === "aliyun" ? ["aliyun", "tencent"] : ["tencent", "aliyun"];
 
-  let lastError = "";
+  const errors: Record<string, string> = {};
   for (const provider of tryProviders) {
     try {
       let result: OcrResponse;
       if (provider === "tencent") {
         if (!tencentId || !tencentKey) {
-          lastError = "tencent credentials not set";
+          errors[provider] = "credentials not set";
           continue;
         }
         result = await callTencent(req, tencentId, tencentKey);
       } else {
         if (!aliyunKey) {
-          lastError = "aliyun credentials not set";
+          errors[provider] = "credentials not set";
           continue;
         }
         result = await callAliyun(req, aliyunKey);
@@ -256,12 +256,12 @@ Deno.serve(async (request: Request) => {
         headers: { "Content-Type": "application/json", ...CORS_HEADERS },
       });
     } catch (err) {
-      lastError = err instanceof Error ? err.message : String(err);
-      console.warn(`[ocr-proxy] ${provider} failed:`, lastError);
+      errors[provider] = err instanceof Error ? err.message : String(err);
+      console.warn(`[ocr-proxy] ${provider} failed:`, errors[provider]);
     }
   }
 
-  return new Response(JSON.stringify({ error: "All providers failed", detail: lastError }), {
+  return new Response(JSON.stringify({ error: "All providers failed", errors, tried: tryProviders }), {
     status: 502,
     headers: { "Content-Type": "application/json", ...CORS_HEADERS },
   });

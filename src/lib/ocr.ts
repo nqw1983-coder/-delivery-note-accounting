@@ -267,27 +267,39 @@ export async function testConnection(
   const model = normalizeModelName(settings.model || DEFAULT_MODELS[settings.provider]);
 
   // 生产模式:走 Edge Function 测试,验证真实路径
-  if (USE_EDGE_FUNCTION && supabase) {
-    const edgeEndpoint = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ocr-proxy`;
+  if (USE_EDGE_FUNCTION) {
+    const url = import.meta.env.VITE_SUPABASE_URL;
+    const sbKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+    const edgeEndpoint = `${url}/functions/v1/ocr-proxy`;
+    // 100x100 灰色 JPEG(满足阿里云 >= 10x10 限制)
+    const probeImage =
+      "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJSP/2wBDAQYGBgkICREJCREjGBQYIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyP/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKKACiiigD/2Q==";
     try {
-      const { data, error } = await supabase.functions.invoke("ocr-proxy", {
-        body: {
-          imageDataUrl:
-            "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJSP/2wBDAQYGBgkICREJCREjGBQYIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyP/wAARCAABAAEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKKAP/2Q==",
-          prompt: "测试连接,输出:OK",
-          model,
+      const resp = await fetch(edgeEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: sbKey,
+          Authorization: `Bearer ${sbKey}`,
         },
+        body: JSON.stringify({
+          imageDataUrl: probeImage,
+          prompt: "测试连接,只回复 OK 二字",
+          model,
+        }),
       });
-      if (error) {
-        return { ok: false, status: 0, message: `Edge Function 调用失败:${error.message}`, endpoint: edgeEndpoint };
+      if (!resp.ok) {
+        const txt = await resp.text().catch(() => "");
+        return { ok: false, status: resp.status, message: txt.slice(0, 400), endpoint: edgeEndpoint };
       }
-      const payload = data as { content?: string; error?: string; provider?: string };
+      const payload = (await resp.json()) as { content?: string; provider?: string; error?: string };
       if (payload?.error) {
         return { ok: false, status: 502, message: `OCR 失败:${payload.error}`, endpoint: edgeEndpoint };
       }
-      return { ok: true, model: `${model}(via ${payload?.provider ?? "edge"})`, endpoint: edgeEndpoint };
+      return { ok: true, model: `${model}(via Edge Function → ${payload?.provider ?? "?"})`, endpoint: edgeEndpoint };
     } catch (err) {
-      return { ok: false, status: 0, message: err instanceof Error ? err.message : String(err), endpoint: edgeEndpoint };
+      const msg = err instanceof Error ? err.message : String(err);
+      return { ok: false, status: 0, message: `网络层失败(浏览器拦截/防火墙/扩展):${msg}`, endpoint: edgeEndpoint };
     }
   }
 
@@ -424,16 +436,45 @@ function findBestMatchInKnownShops(
 }
 
 async function callOcrViaEdgeFunction(imageDataUrl: string, prompt: string, model: string): Promise<string> {
-  if (!supabase) throw new Error("Supabase 未配置,无法调 Edge Function");
-  const { data, error } = await supabase.functions.invoke("ocr-proxy", {
-    body: { imageDataUrl, prompt, model },
-  });
-  if (error) {
-    throw new Error(`Edge Function 调用失败:${error.message}`);
+  // 直接用 fetch 调 Edge Function,绕开 supabase-js(避免库内部对新版 sb_publishable_*
+  // key 的兼容性问题以及 fetch 包装层的不可见错误)。
+  const url = import.meta.env.VITE_SUPABASE_URL;
+  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) {
+    throw new Error("Supabase URL 或 Key 未配置");
   }
-  const payload = data as { content?: string; error?: string };
+  const endpoint = `${url}/functions/v1/ocr-proxy`;
+  let response: Response;
+  try {
+    response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // apikey 头:Supabase Edge Function 网关识别项目
+        apikey: key,
+        // Authorization:与 supabase-js 行为一致,部分网关策略需要
+        Authorization: `Bearer ${key}`,
+      },
+      body: JSON.stringify({ imageDataUrl, prompt, model }),
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    throw new Error(`Edge Function 网络请求失败:${msg}(检查网络/防火墙/浏览器扩展)`);
+  }
+
+  if (!response.ok) {
+    const txt = await response.text().catch(() => "");
+    throw new Error(`Edge Function ${response.status}:${txt.slice(0, 300)}`);
+  }
+
+  const payload = (await response.json()) as { content?: string; error?: string; errors?: Record<string, string> };
   if (payload?.error) {
-    throw new Error(`OCR 服务返回错误:${payload.error}`);
+    const detail = payload.errors
+      ? Object.entries(payload.errors)
+          .map(([k, v]) => `${k}: ${v}`)
+          .join(" | ")
+      : "";
+    throw new Error(`OCR 服务错误:${payload.error}${detail ? " | " + detail : ""}`);
   }
   if (!payload?.content) {
     throw new Error("Edge Function 返回为空");
