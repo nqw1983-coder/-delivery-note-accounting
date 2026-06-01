@@ -263,10 +263,36 @@ export function diagnoseKey(key: string): KeyDiagnostics {
 export async function testConnection(
   settings: OcrSettings
 ): Promise<{ ok: true; model: string; endpoint: string } | { ok: false; status: number; message: string; endpoint: string }> {
-  const endpoint = ENDPOINTS[settings.provider];
   const apiKey = sanitizeKey(settings.apiKey);
   const model = normalizeModelName(settings.model || DEFAULT_MODELS[settings.provider]);
 
+  // 生产模式:走 Edge Function 测试,验证真实路径
+  if (USE_EDGE_FUNCTION && supabase) {
+    const edgeEndpoint = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ocr-proxy`;
+    try {
+      const { data, error } = await supabase.functions.invoke("ocr-proxy", {
+        body: {
+          imageDataUrl:
+            "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJSP/2wBDAQYGBgkICREJCREjGBQYIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyP/wAARCAABAAEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKKAP/2Q==",
+          prompt: "测试连接,输出:OK",
+          model,
+        },
+      });
+      if (error) {
+        return { ok: false, status: 0, message: `Edge Function 调用失败:${error.message}`, endpoint: edgeEndpoint };
+      }
+      const payload = data as { content?: string; error?: string; provider?: string };
+      if (payload?.error) {
+        return { ok: false, status: 502, message: `OCR 失败:${payload.error}`, endpoint: edgeEndpoint };
+      }
+      return { ok: true, model: `${model}(via ${payload?.provider ?? "edge"})`, endpoint: edgeEndpoint };
+    } catch (err) {
+      return { ok: false, status: 0, message: err instanceof Error ? err.message : String(err), endpoint: edgeEndpoint };
+    }
+  }
+
+  // 开发模式:直连阿里云(走 vite 代理)
+  const endpoint = ENDPOINTS[settings.provider];
   try {
     const response = await fetch(endpoint, {
       method: "POST",
