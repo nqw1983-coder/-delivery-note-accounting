@@ -45,12 +45,21 @@ Supabase Edge Function (ocr-proxy)
 brew install supabase/tap/supabase
 
 # 在项目根目录,登录并关联项目
-supabase login
+supabase login   # 或 supabase login --token sbp_... (用 Personal Access Token)
 supabase link --project-ref <你的 project-ref>
 
-# 部署
-supabase functions deploy ocr-proxy
+# 部署(必须加 --no-verify-jwt,Supabase 2025+ 新版 publishable key 不被默认 JWT 网关接受)
+supabase functions deploy ocr-proxy --no-verify-jwt
 ```
+
+### 为什么用 `--no-verify-jwt`
+
+- 2025 起 Supabase 引入新的 `sb_publishable_*` key 格式,**不是 JWT**
+- 默认 Edge Function 网关要求 JWT 验证,publishable key 会被拒
+- 我们的认证模型:客户端密码门 + 应用级业务约束,不依赖 Function 网关 JWT
+- 风险:任何拿到 Function URL 的人都能调,可能消耗 OCR 额度
+  - 缓解:在阿里云控制台设置月度消费上限
+  - 缓解:Function URL 不公开,仅嵌入到受密码保护的前端
 
 ## 测试
 
