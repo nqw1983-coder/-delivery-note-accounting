@@ -43,6 +43,8 @@ export default defineConfig({
       manifest: false,
       workbox: {
         cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
         navigateFallback: "/",
         globPatterns: ["**/*.{js,css,html,ico,png,svg,json,woff2}"],
         runtimeCaching: [
