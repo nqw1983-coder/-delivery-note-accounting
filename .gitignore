@@ -8,3 +8,5 @@ dist/
 screenshots/
 .brv/
 .claude/
+supabase/.temp/
+supabase/.branches/
