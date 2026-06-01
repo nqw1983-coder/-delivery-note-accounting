@@ -879,30 +879,112 @@ button {
     grid-template-columns: 1fr;
   }
 
+  /* 侧栏压缩成顶部窄条:只显示年份选择 + 月份切换,搜索/状态全隐藏 */
   .sidebar {
     min-height: auto;
-    max-height: 50vh;
-    overflow-y: auto;
+    max-height: none;
+    padding: 8px 10px;
+    background: #ffffff;
     border-right: 0;
     border-bottom: 1px solid #dfe6df;
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 
+  /* 标题简化 */
+  .brand-row {
+    margin-bottom: 6px;
+  }
+
+  .brand-row h1 {
+    font-size: 17px;
+  }
+
+  /* 移动端隐藏搜索框、店铺收款按钮、状态提示等次要元素,优先突出主流程 */
+  .sidebar .search-box,
+  .sidebar .payment-entry-button,
+  .sidebar .scan-hint {
+    display: none;
+  }
+
+  /* 月份列表横向滚动,而不是 12 行竖排,大量节省高度 */
   .month-list {
-    grid-template-rows: repeat(12, 38px);
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
   }
 
+  .month-row {
+    flex: 0 0 auto;
+    min-width: 110px;
+    height: 40px;
+    padding: 4px 10px;
+    font-size: 13px;
+    scroll-snap-align: start;
+    border-radius: 8px;
+  }
+
+  .month-empty {
+    display: none;
+  }
+
+  /* 年份下拉变小 */
+  .year-select {
+    height: 32px;
+    font-size: 13px;
+  }
+
+  /* 主内容区 */
   .content {
-    padding: 12px 10px 14px;
+    padding: 12px 10px 100px; /* 底部留 100px,给悬浮按钮 */
   }
 
   .content-header h2 {
     font-size: 20px;
   }
 
+  /* 把上传/扫描区从侧栏移到悬浮按钮位置:固定右下角 */
+  .scan-panel {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    z-index: 20;
+    padding: 10px 12px;
+    background: #ffffff;
+    border: 1px solid #d5e2d8;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(20, 92, 60, 0.2);
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .sidebar-upload-row {
+    flex: 1;
+    display: flex;
+    gap: 8px;
+    margin: 0;
+  }
+
   .upload-label,
   .scan-button {
-    height: 44px;
+    flex: 1;
+    height: 48px;
     font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin: 0;
+  }
+
+  .sidebar-file-name {
+    display: none; /* 文件名不放底栏,避免拥挤 */
   }
 
   .table-shell {

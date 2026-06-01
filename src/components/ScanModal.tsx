@@ -1,5 +1,39 @@
 import { useEffect, useRef, useState } from "react";
 
+// 识别中带秒计时 + 进度条,让 3-7 秒不觉得长
+function RecognizingProgress() {
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    const start = Date.now();
+    const timer = setInterval(() => {
+      setElapsed(Math.floor((Date.now() - start) / 100) / 10);
+    }, 100);
+    return () => clearInterval(timer);
+  }, []);
+  // 进度条按预期 5 秒平滑推进到 90%,剩 10% 等返回填满
+  const pct = Math.min(90, (elapsed / 5) * 90);
+  return (
+    <div style={{ padding: "8px 12px 12px" }}>
+      <p style={{ textAlign: "center", color: "#145c3c", fontWeight: 600, margin: "0 0 8px" }}>
+        🔍 识别中… {elapsed.toFixed(1)} 秒
+      </p>
+      <div style={{ height: 6, background: "#e8efe9", borderRadius: 3, overflow: "hidden" }}>
+        <div
+          style={{
+            height: "100%",
+            width: `${pct}%`,
+            background: "linear-gradient(90deg, #2ea36b, #145c3c)",
+            transition: "width 0.1s linear",
+          }}
+        />
+      </div>
+      <p style={{ textAlign: "center", color: "#688e7a", fontSize: 12, margin: "6px 0 0" }}>
+        通常 3-6 秒,识别完成自动填入表单
+      </p>
+    </div>
+  );
+}
+
 export interface ScanFormData {
   shop: string;
   month: number;
@@ -123,9 +157,7 @@ export function ScanModal({
         )}
 
         {recognizing && !recognizeError && (
-          <p className="scan-hint" style={{ textAlign: "center", color: "#145c3c", fontWeight: 600 }}>
-            识别中…（识别完成后会自动填入表单）
-          </p>
+          <RecognizingProgress />
         )}
 
         {recognizeError && <p className="scan-error">识别失败：{recognizeError}（请人工补全）</p>}

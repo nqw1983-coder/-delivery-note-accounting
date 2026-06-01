@@ -24,8 +24,13 @@ export interface OcrResult {
 
 const STORAGE_KEY = "delivery-ocr-settings";
 
+// 模型选择权衡:
+//   qwen-vl-max:      最准但慢 (3-5s)
+//   qwen-vl-plus:     便宜+较快 (1-2s),印刷送货单足够
+//   qwen3-vl-plus:    新一代,准+快 (1-3s),推荐
+// 默认用 qwen3-vl-plus,既快又准。用户可在设置里改
 const DEFAULT_MODELS: Record<OcrProvider, string> = {
-  qwen: "qwen-vl-max",
+  qwen: "qwen3-vl-plus",
   doubao: "doubao-1.5-vision-pro-32k-250115",
 };
 
@@ -130,8 +135,10 @@ export async function fileToDataUrl(file: File): Promise<string> {
   }
 }
 
-const MAX_DIMENSION = 1280;
-const JPEG_QUALITY = 0.92;
+// 1024px + 88% JPEG:体积比 1280/92% 小约 40%,识别精度对印刷送货单几乎无差,
+// 但移动端上传时间 / 模型处理 token 数都更省,实测能省 0.5-1s
+const MAX_DIMENSION = 1024;
+const JPEG_QUALITY = 0.88;
 
 // 缩放图片到适合视觉模型的尺寸 + JPEG 高质量压缩，加速 API 处理。
 // 测试数据：1920×1080 PNG ~1800KB → 1280 JPEG ~200KB，体积 1/9，识别效果几乎无差。
