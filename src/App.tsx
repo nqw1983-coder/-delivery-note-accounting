@@ -6,7 +6,7 @@ import { SettingsModal } from "./components/SettingsModal";
 import { ShopPaymentModal } from "./components/ShopPaymentModal";
 import { YearlyStatsModal } from "./components/YearlyStatsModal";
 import { ExportModal } from "./components/ExportModal";
-import { VoiceInputButton } from "./components/VoiceInputButton";
+import { extractAmount } from "./lib/chineseNumber";
 import { createEmptyMonth, initialMonths, shops } from "./data/seedData";
 import { isAdminMode } from "./lib/adminMode";
 import { getBackupStatus, recordNewEntryForBackupReminder } from "./lib/exporter";
@@ -398,11 +398,18 @@ export default function App() {
 
   const handleMonthCellChange = (day: number, shop: string, value: string) => {
     const trimmedValue = value.trim();
-    const amount = trimmedValue === "" ? 0 : Number(trimmedValue);
-
-    if (!Number.isFinite(amount) || amount < 0) {
-      setNotice("请输入正确金额");
-      return false;
+    // 兼容三种输入:
+    //   - 阿拉伯数字 "238" / "66.5"
+    //   - iOS 听写出来的中文数字 "二百三十八" / "六十六点五"
+    //   - 带单位的口语 "238块" / "六十六块五" / "三十五块六毛"
+    let amount = 0;
+    if (trimmedValue !== "") {
+      const parsed = extractAmount(trimmedValue);
+      if (parsed === null || !Number.isFinite(parsed) || parsed < 0) {
+        setNotice("请输入正确金额(支持数字或中文,如 238 / 二百三十八 / 六十六块五)");
+        return false;
+      }
+      amount = parsed;
     }
 
     const targetMonth = findMonth(months, selectedYear, selectedMonth);
