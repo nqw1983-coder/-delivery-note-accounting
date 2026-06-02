@@ -1525,3 +1525,369 @@ button {
   font-size: 12px;
   border-top: 2px solid #d5e2d8;
 }
+
+/* ============================================================
+   iPhone 双屏 UI(< 760px 显示,iPad/桌面不受影响)
+   ============================================================ */
+
+.mobile-app {
+  min-height: 100vh;
+  background: #f4f6f4;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-page {
+  padding: 0 16px;
+  padding-top: env(safe-area-inset-top, 8px);
+}
+
+/* ========== 顶部 header ========== */
+
+.mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 10px;
+}
+
+.mobile-header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #123c2b;
+}
+
+.mobile-icons {
+  display: flex;
+  gap: 8px;
+}
+
+.mobile-icon {
+  width: 38px;
+  height: 38px;
+  background: #eef5f0;
+  border: 1px solid #d5e2d8;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #25513f;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mobile-icon.primary {
+  background: #145c3c;
+  color: #fff;
+  border-color: #145c3c;
+}
+
+.mobile-icon:active {
+  transform: scale(0.96);
+}
+
+.mobile-icon:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ========== 月份账本页 ========== */
+
+.mobile-payment-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: #fff;
+  border: 1px solid #dce4dc;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #20372c;
+  text-align: left;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.mobile-section-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+  margin-bottom: 6px;
+}
+
+.mobile-section-bar .label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #123c2b;
+}
+
+.mobile-section-bar .hint {
+  font-size: 12px;
+  color: #688e7a;
+}
+
+.mobile-month-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 90px; /* 给底部 pending-alert 留位 */
+}
+
+.mobile-month-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 16px;
+  background: #fff;
+  border: 1px solid #dce4dc;
+  border-radius: 10px;
+  min-height: 42px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.mobile-month-card .left {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.mobile-month-card .name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #16281f;
+}
+
+.mobile-month-card .sub {
+  font-size: 11px;
+  color: #97a89d;
+}
+
+.mobile-month-card .amt {
+  font-size: 17px;
+  font-weight: 800;
+  color: #145c3c;
+}
+
+.mobile-month-card.active {
+  background: #ecfdf5;
+  border-color: #f59e0b;
+  border-width: 2px;
+}
+
+.mobile-month-card.active .name {
+  color: #0a3d2a;
+}
+
+.mobile-month-card.zero .amt {
+  color: #97a89d;
+  font-weight: 400;
+}
+
+.mobile-pending-alert {
+  position: fixed;
+  bottom: max(12px, env(safe-area-inset-bottom, 12px));
+  left: 16px;
+  right: 16px;
+  padding: 10px 16px;
+  background: linear-gradient(120deg, #fff8e1, #fff3cf);
+  border: 1px solid #f5d680;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+}
+
+.mobile-pending-alert .label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #6d3700;
+}
+
+.mobile-pending-alert .sub {
+  font-size: 11px;
+  color: #92400e;
+  margin-top: 1px;
+}
+
+.mobile-pending-alert .count {
+  font-size: 22px;
+  font-weight: 800;
+  color: #d97706;
+}
+
+/* ========== 当日明细页 ========== */
+
+.mobile-detail-header {
+  display: grid;
+  grid-template-columns: 38px 1fr 38px;
+  align-items: center;
+  margin: 8px 0 10px;
+  gap: 8px;
+}
+
+.mobile-detail-header .center {
+  text-align: center;
+}
+
+.mobile-detail-header .title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #123c2b;
+}
+
+.mobile-detail-header .sub {
+  font-size: 11px;
+  color: #688e7a;
+  margin-top: 1px;
+}
+
+.mobile-date-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 22px;
+  background: #fff;
+  border: 1px solid #dce4dc;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.mobile-date-card .arrow {
+  width: 36px;
+  height: 36px;
+  background: #f0f5f1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #145c3c;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mobile-date-card .arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.mobile-date-card .center {
+  text-align: center;
+}
+
+.mobile-date-card .label {
+  font-size: 12px;
+  color: #688e7a;
+}
+
+.mobile-date-card .day {
+  font-size: 22px;
+  font-weight: 800;
+  color: #123c2b;
+  line-height: 1.1;
+  margin-top: 1px;
+}
+
+.mobile-date-card .total {
+  font-size: 12px;
+  color: #25513f;
+  margin-top: 2px;
+}
+
+.mobile-shop-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-bottom: env(safe-area-inset-bottom, 12px);
+}
+
+.mobile-shop-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: #fff;
+  border: 1px solid #dce4dc;
+  border-radius: 10px;
+  min-height: 44px;
+}
+
+.mobile-shop-row .name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 700;
+  color: #16281f;
+}
+
+.mobile-shop-row .amount {
+  width: 100px;
+  height: 34px;
+  background: #f7faf7;
+  border: 1px solid #d0ddd3;
+  border-radius: 7px;
+  text-align: right;
+  padding: 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #145c3c;
+  outline: 0;
+}
+
+.mobile-shop-row .amount.zero {
+  color: #aab7af;
+  font-weight: 400;
+}
+
+.mobile-shop-row .amount:focus {
+  background: #fff;
+  border-color: #f59e0b;
+  border-width: 2px;
+}
+
+.mobile-shop-row.has-value {
+  background: #ecfdf5;
+  border-color: #b6e5cf;
+}
+
+.mobile-shop-row .mic {
+  width: 34px;
+  height: 34px;
+  background: #145c3c;
+  color: #fff;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mobile-shop-row .mic.listening {
+  background: #ef4444;
+  animation: mobile-mic-pulse 1s ease-in-out infinite;
+}
+
+@keyframes mobile-mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55); }
+  50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+.mobile-shop-row.blank .name {
+  color: #c0cbc4;
+  font-weight: 400;
+}
+
+.mobile-shop-row.blank .amount {
+  background: #f7faf7;
+}
+
+.mobile-shop-row.blank .mic {
+  background: #d5e2d8;
+  color: #97a89d;
+  cursor: not-allowed;
+}

@@ -72,10 +72,16 @@ npx wrangler pages deploy dist \
 - **React 18 + Vite 6 + TypeScript**,SPA 单页
 - **PWA**:`vite-plugin-pwa` autoUpdate + skipWaiting + clientsClaim(SW 立即接管,避免缓存毒瘤)
 - **Offline-First**:写本地立即,后台异步上云,失败入 `localStorage["pending_sync"]` 队列
-- **侧栏 148px**(iPad 横屏紧凑布局),图标横排在标题下方
-- **表格固定 13 列**:11 家有名客户 + 2 空白预留,iPad 横屏一屏布满
-- **表格行高 22px**,31 天 + 顶部表头 + 重复表头 + 本月合计 一屏完整
+- **响应式双布局**(同一 URL,自动判断):
+  - iPad / 桌面(> 760px):`MonthTable` 2D 表格,侧栏 148px
+  - iPhone / 小屏(≤ 760px):`MobileMonthList` + `MobileDayDetail` 双屏列表
+  - 通过 `src/lib/useMobile.ts` 的 `useMobile(760)` hook 检测,基于 `window.matchMedia`
+  - **两端共享同一份 React state + Supabase 数据**,iPad 录 iPhone 立刻看到
+- **iPad 表格**:固定 13 列(11 家有名客户 + 2 空白),行高 22px,31 天 + 顶部表头 + 重复表头 + 本月合计 一屏完整
 - **重复表头行**(在本月合计上面):浅绿底加重字体,最后几天数据直接对照客户列
+- **iPhone 双屏**:
+  - 第一屏 `MobileMonthList`:最多 12 个月份卡片(年月/已同步/¥金额),底部固定"待补单据"橙黄横条
+  - 第二屏 `MobileDayDetail`:左右箭头切日期,11 家店 + 2 空白,每行带 🎤 麦克风(Web Speech API zh-CN)
 - **中文数字自动转换**:iOS 听写"二百三十八" → 238,通过 `extractAmount()` 在 handleMonthCellChange 兜底
 
 ### OCR(辅助,不主用)

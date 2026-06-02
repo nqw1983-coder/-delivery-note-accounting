@@ -6,6 +6,9 @@ import { SettingsModal } from "./components/SettingsModal";
 import { ShopPaymentModal } from "./components/ShopPaymentModal";
 import { YearlyStatsModal } from "./components/YearlyStatsModal";
 import { ExportModal } from "./components/ExportModal";
+import { MobileMonthList } from "./components/MobileMonthList";
+import { MobileDayDetail } from "./components/MobileDayDetail";
+import { useMobile } from "./lib/useMobile";
 import { extractAmount } from "./lib/chineseNumber";
 import { createEmptyMonth, initialMonths, shops } from "./data/seedData";
 import { isAdminMode } from "./lib/adminMode";
@@ -64,6 +67,10 @@ export default function App() {
   const [showYearlyStats, setShowYearlyStats] = useState(false);
   const [showExport, setShowExport] = useState(false);
   const [selectedCell, setSelectedCell] = useState<{ day: number; shop: string } | null>(null);
+  // 移动端:当前在月份列表还是当日明细;选中的日期
+  const isMobile = useMobile(760);
+  const [mobileView, setMobileView] = useState<"monthList" | "dayDetail">("monthList");
+  const [mobileSelectedDay, setMobileSelectedDay] = useState<number>(new Date().getDate());
   const [adminMode] = useState(() => isAdminMode());
   const [backupStatus, setBackupStatus] = useState(() => getBackupStatus());
   const [backupBannerDismissed, setBackupBannerDismissed] = useState(false);
@@ -611,6 +618,90 @@ export default function App() {
     }
   };
 
+  // ============ 移动端分支:iPhone 双屏 UI ============
+  if (isMobile) {
+    if (mobileView === "monthList" || !currentMonth) {
+      return (
+        <main className="mobile-app">
+          <MobileMonthList
+            months={months}
+            selectedYear={selectedYear}
+            selectedMonth={selectedMonth}
+            pendingCount={pendingCount}
+            getMonthTotal={getMonthTotal}
+            onSelectMonth={(year, month) => {
+              handleSelectMonth(year, month);
+              setMobileView("dayDetail");
+            }}
+            onShopPayment={() => {
+              handleShowShopPayment();
+            }}
+            onAddMonth={handleAddMonth}
+            onOpenSettings={() => setShowSettings(true)}
+            onExport={() => setShowExport(true)}
+          />
+          {showSettings && (
+            <SettingsModal
+              current={ocrSettings}
+              onSave={handleSaveSettings}
+              onClear={handleClearSettings}
+              onClose={() => setShowSettings(false)}
+            />
+          )}
+          {showExport && (
+            <ExportModal
+              months={months}
+              isAdmin={adminMode}
+              onClose={() => setShowExport(false)}
+              onRestore={handleRestoreFromJson}
+            />
+          )}
+        </main>
+      );
+    }
+    // mobileView === "dayDetail"
+    return (
+      <main className="mobile-app">
+        <MobileDayDetail
+          monthData={currentMonth}
+          selectedDay={mobileSelectedDay}
+          onChangeDay={setMobileSelectedDay}
+          onChangeCell={handleMonthCellChange}
+          onBack={() => setMobileView("monthList")}
+          onOpenScan={() => fileInputRef.current?.click()}
+        />
+        {/* 隐藏的文件 input,通过 fileInputRef 触发拍照/选图 */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          multiple
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+        />
+        {showScanModal && (
+          <ScanModal
+            key={batchIndex}
+            currentYear={selectedYear}
+            currentMonth={selectedMonth}
+            maxDay={new Date(selectedYear, selectedMonth, 0).getDate()}
+            existingShops={currentMonth.stores}
+            initialData={scanInitial}
+            imagePreview={imagePreview ?? undefined}
+            recognizeError={scanError || undefined}
+            recognizing={batchResults[batchIndex]?.status === "pending"}
+            batchPosition={batchFiles.length > 1 ? { index: batchIndex, total: batchFiles.length } : undefined}
+            onConfirm={handleScanConfirm}
+            onSkip={batchIndex + 1 < batchFiles.length || batchFiles.length > 1 ? handleSkipImage : undefined}
+            onClose={finishBatch}
+          />
+        )}
+      </main>
+    );
+  }
+
+  // ============ 桌面 / iPad 分支(原版) ============
   if (!currentMonth) {
     return (
       <main className="dashboard">
