@@ -5,11 +5,11 @@ import type { MonthData } from "../types/dashboard";
 export type ExportFormat = "xlsx" | "csv" | "json";
 
 export interface ExportFilters {
-  /** 起始日期 YYYY-MM-DD（含），不填则不限 */
+  /** 起始日期 YYYY-MM-DD(含),不填则不限 */
   startDate?: string;
-  /** 结束日期 YYYY-MM-DD（含），不填则不限 */
+  /** 结束日期 YYYY-MM-DD(含),不填则不限 */
   endDate?: string;
-  /** 限定店家，不填则全部 */
+  /** 限定店家,不填则全部 */
   shopName?: string;
 }
 
@@ -19,12 +19,15 @@ export interface ExportBundle {
   device: string;
   recordCount: number;
   deliveries: DeliveryRecord[];
-  /** 完整月份快照（含手动新增的客户和零金额单元格） */
+  /** 完整月份快照(含手动新增的客户和零金额单元格) */
   months: MonthData[];
 }
 
 const LAST_BACKUP_KEY = "delivery-last-backup-at";
 const NEW_RECORDS_SINCE_BACKUP_KEY = "delivery-new-records-since-backup";
+
+// 表格显示常数,跟 App MonthTable 保持一致
+const MAX_LABELED_STORES = 11;
 
 function filterDeliveries(deliveries: DeliveryRecord[], filters?: ExportFilters): DeliveryRecord[] {
   if (!filters) return deliveries;
@@ -56,75 +59,92 @@ function triggerDownload(blob: Blob, fileName: string) {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  // 给 Safari 一点时间触发下载,再释放 URL
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-/** 导出 Excel:每个月一个工作表(Sheet),底部 tab 按月份切换,适合给老板按月看 */
+/** 月份是否在筛选范围内(只看年月,粗筛) */
+function monthInRange(year: number, month: number, filters?: ExportFilters): boolean {
+  if (!filters) return true;
+  const ym = `${year}-${String(month).padStart(2, "0")}`;
+  if (filters.startDate && ym < filters.startDate.slice(0, 7)) return false;
+  if (filters.endDate && ym > filters.endDate.slice(0, 7)) return false;
+  return true;
+}
+
+/** 月内某日某店金额(parts 求和) */
+function cellAmount(month: MonthData, day: number, shop: string): number {
+  const cell = month.cells[day]?.[shop];
+  if (!cell) return 0;
+  return Math.round(cell.parts.reduce((s, p) => s + p.amount, 0) * 100) / 100;
+}
+
+const daysInMonth = (year: number, month: number) =>
+  new Date(year, month, 0).getDate();
+
+/** 导出 Excel:每个月一个二维表(日期 × 客户),跟 App 表格视觉一致 */
 export function exportExcel(months: MonthData[], filters?: ExportFilters): void {
-  const all = monthsToDeliveries(months);
-  const filtered = filterDeliveries(all, filters);
-
-  // 按 YYYY-MM 分组
-  const byMonth = new Map<string, typeof filtered>();
-  for (const d of filtered) {
-    const ym = d.delivery_date.slice(0, 7); // "2026-05"
-    if (!byMonth.has(ym)) byMonth.set(ym, []);
-    byMonth.get(ym)!.push(d);
-  }
-
-  // 按月份倒序(最新月在最前)
-  const sortedMonths = Array.from(byMonth.keys()).sort().reverse();
+  // 月份倒序(最新月在最前)
+  const sortedMonths = months
+    .filter((m) => monthInRange(m.year, m.month, filters))
+    .filter((m) => m.stores.length > 0)
+    .sort((a, b) => (b.year - a.year) * 100 + (b.month - a.month));
 
   const workbook = XLSX.utils.book_new();
-  const colWidths = [
-    { wch: 12 }, // 日期
-    { wch: 16 }, // 客户
-    { wch: 10 }, // 金额
-    { wch: 30 }, // 备注
-    { wch: 10 }, // 设备
-    { wch: 20 }, // 创建时间
-  ];
+  const filterByShop = filters?.shopName;
 
-  // 第 1 个 Sheet:全部数据汇总(便于跨月统计 / 筛选)
-  const allRows = filtered.map((d) => ({
-    日期: d.delivery_date,
-    客户: d.shop_name,
-    金额: d.amount ?? 0,
-    备注: d.raw_ocr_text ?? "",
-    录入设备: d.device ?? "",
-    创建时间: d.created_at,
-  }));
-  const allSheet = XLSX.utils.json_to_sheet(allRows);
-  allSheet["!cols"] = colWidths;
-  XLSX.utils.book_append_sheet(workbook, allSheet, "全部");
+  for (const month of sortedMonths) {
+    const sheetName = `${month.year}-${String(month.month).padStart(2, "0")}`;
+    const baseStores = month.stores.slice(0, MAX_LABELED_STORES);
+    const stores = filterByShop ? baseStores.filter((s) => s === filterByShop) : baseStores;
+    if (stores.length === 0) continue;
 
-  // 每个月一张 Sheet,按日期升序;Sheet 名 "2026-05" 格式
-  for (const ym of sortedMonths) {
-    const monthRows = byMonth.get(ym)!
-      .sort((a, b) => a.delivery_date.localeCompare(b.delivery_date))
-      .map((d) => ({
-        日期: d.delivery_date,
-        客户: d.shop_name,
-        金额: d.amount ?? 0,
-        备注: d.raw_ocr_text ?? "",
-        录入设备: d.device ?? "",
-        创建时间: d.created_at,
-      }));
-    // 加一行月小计在最末
-    const monthTotal = monthRows.reduce((sum, r) => sum + (Number(r.金额) || 0), 0);
-    monthRows.push({
-      日期: "本月合计",
-      客户: "",
-      金额: Math.round(monthTotal * 100) / 100,
-      备注: `共 ${monthRows.length} 条记录`,
-      录入设备: "",
-      创建时间: "",
-    });
+    const days = Array.from({ length: daysInMonth(month.year, month.month) }, (_, i) => i + 1);
 
-    const sheet = XLSX.utils.json_to_sheet(monthRows);
-    sheet["!cols"] = colWidths;
-    XLSX.utils.book_append_sheet(workbook, sheet, ym);
+    // 表头:日期 | 店1 | 店2 | ... | 当日合计
+    const data: (string | number)[][] = [["日期", ...stores, "当日合计"]];
+
+    // 每天一行
+    for (const day of days) {
+      const row: (string | number)[] = [`${day}日`];
+      let dayTotal = 0;
+      for (const shop of stores) {
+        const amt = cellAmount(month, day, shop);
+        row.push(amt);
+        dayTotal += amt;
+      }
+      row.push(Math.round(dayTotal * 100) / 100);
+      data.push(row);
+    }
+
+    // 本月合计行
+    const totalRow: (string | number)[] = ["本月合计"];
+    let grandTotal = 0;
+    for (const shop of stores) {
+      const shopTotal = days.reduce((s, day) => s + cellAmount(month, day, shop), 0);
+      totalRow.push(Math.round(shopTotal * 100) / 100);
+      grandTotal += shopTotal;
+    }
+    totalRow.push(Math.round(grandTotal * 100) / 100);
+    data.push(totalRow);
+
+    const sheet = XLSX.utils.aoa_to_sheet(data);
+    sheet["!cols"] = [
+      { wch: 8 },
+      ...stores.map(() => ({ wch: 10 })),
+      { wch: 12 },
+    ];
+    sheet["!rows"] = [{ hpx: 22 }];
+    XLSX.utils.book_append_sheet(workbook, sheet, sheetName);
+  }
+
+  if (workbook.SheetNames.length === 0) {
+    const emptySheet = XLSX.utils.aoa_to_sheet([
+      ["该筛选条件下没有数据"],
+      [filters?.startDate ? `起始日期: ${filters.startDate}` : ""],
+      [filters?.endDate ? `结束日期: ${filters.endDate}` : ""],
+      [filters?.shopName ? `客户: ${filters.shopName}` : ""],
+    ]);
+    XLSX.utils.book_append_sheet(workbook, emptySheet, "无数据");
   }
 
   const wbout = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
@@ -132,35 +152,69 @@ export function exportExcel(months: MonthData[], filters?: ExportFilters): void 
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });
   triggerDownload(blob, buildFileName("送货单", "xlsx", filters));
-  markBackup(filtered.length);
+  markBackup(monthsToDeliveries(months).length);
 }
 
-/** 导出 CSV:UTF-8 BOM 防 Excel 打开乱码 */
+/** 导出 CSV:跟 Excel 一致的二维表,但合并所有月份到一个文件,月之间空一行隔开 */
 export function exportCsv(months: MonthData[], filters?: ExportFilters): void {
-  const all = monthsToDeliveries(months);
-  const rows = filterDeliveries(all, filters);
-  const header = ["日期", "客户", "金额", "备注", "录入设备", "创建时间"];
-  const escape = (val: string | number | null | undefined) => {
-    const s = String(val ?? "");
-    if (/[",\n]/.test(s)) {
-      return `"${s.replace(/"/g, '""')}"`;
-    }
-    return s;
+  const sortedMonths = months
+    .filter((m) => monthInRange(m.year, m.month, filters))
+    .filter((m) => m.stores.length > 0)
+    .sort((a, b) => (b.year - a.year) * 100 + (b.month - a.month));
+
+  const filterByShop = filters?.shopName;
+  const escape = (v: string | number): string => {
+    const s = String(v ?? "");
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const body = rows
-    .map((d) =>
-      [d.delivery_date, d.shop_name, d.amount ?? 0, d.raw_ocr_text ?? "", d.device ?? "", d.created_at]
-        .map(escape)
-        .join(",")
-    )
-    .join("\n");
-  const csv = "﻿" + header.join(",") + "\n" + body;
+
+  const lines: string[] = [];
+  for (const month of sortedMonths) {
+    const baseStores = month.stores.slice(0, MAX_LABELED_STORES);
+    const stores = filterByShop ? baseStores.filter((s) => s === filterByShop) : baseStores;
+    if (stores.length === 0) continue;
+
+    const days = Array.from({ length: daysInMonth(month.year, month.month) }, (_, i) => i + 1);
+
+    lines.push(`${month.year}年${month.month}月`);
+    lines.push(["日期", ...stores, "当日合计"].map(escape).join(","));
+
+    let monthGrand = 0;
+    const shopTotals: Record<string, number> = {};
+    for (const shop of stores) shopTotals[shop] = 0;
+
+    for (const day of days) {
+      let dayTotal = 0;
+      const cells: (string | number)[] = [`${day}日`];
+      for (const shop of stores) {
+        const amt = cellAmount(month, day, shop);
+        cells.push(amt);
+        dayTotal += amt;
+        shopTotals[shop] += amt;
+      }
+      cells.push(Math.round(dayTotal * 100) / 100);
+      monthGrand += dayTotal;
+      lines.push(cells.map(escape).join(","));
+    }
+
+    const totalRow: (string | number)[] = ["本月合计"];
+    for (const shop of stores) totalRow.push(Math.round(shopTotals[shop] * 100) / 100);
+    totalRow.push(Math.round(monthGrand * 100) / 100);
+    lines.push(totalRow.map(escape).join(","));
+    lines.push(""); // 月之间空行隔开
+  }
+
+  if (lines.length === 0) {
+    lines.push("该筛选条件下没有数据");
+  }
+
+  const csv = "﻿" + lines.join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
   triggerDownload(blob, buildFileName("送货单", "csv", filters));
-  markBackup(rows.length);
+  markBackup(monthsToDeliveries(months).length);
 }
 
-/** 导出完整 JSON 快照:可用于灾难恢复(还原全部数据 + 月份结构) */
+/** 导出完整 JSON 快照:用于灾难恢复(保留完整结构,含 parts/createdAt 等元信息) */
 export function exportJson(months: MonthData[]): void {
   const deliveries = monthsToDeliveries(months);
   const bundle: ExportBundle = {
@@ -176,7 +230,6 @@ export function exportJson(months: MonthData[]): void {
   markBackup(deliveries.length);
 }
 
-/** 从 JSON 备份恢复数据(管理员功能)。返回还原的月份数组,调用方负责合并到现有状态。 */
 export async function importJson(file: File): Promise<ExportBundle> {
   const text = await file.text();
   const parsed = JSON.parse(text) as ExportBundle;
@@ -211,7 +264,6 @@ export interface BackupStatus {
   lastBackupAt: string | null;
   daysSinceBackup: number | null;
   newRecordsSinceBackup: number;
-  /** 是否应该提示用户备份 */
   shouldRemind: boolean;
   reason?: "never" | "stale" | "many_new";
 }
@@ -231,7 +283,7 @@ export function getBackupStatus(): BackupStatus {
       lastBackupAt: null,
       daysSinceBackup: null,
       newRecordsSinceBackup: newRecords,
-      shouldRemind: newRecords >= 20, // 第一次,攒了 20 条再提醒
+      shouldRemind: newRecords >= 20,
       reason: newRecords >= 20 ? "never" : undefined,
     };
   }
