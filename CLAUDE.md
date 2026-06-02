@@ -83,6 +83,8 @@ npx wrangler pages deploy dist \
   - 第一屏 `MobileMonthList`:最多 12 个月份卡片(年月/已同步/¥金额),底部固定"待补单据"橙黄横条
   - 第二屏 `MobileDayDetail`:左右箭头切日期,11 家店 + 2 空白,每行带 🎤 麦克风(Web Speech API zh-CN)
 - **中文数字自动转换**:iOS 听写"二百三十八" → 238,通过 `extractAmount()` 在 handleMonthCellChange 兜底
+- **手动云同步按钮(全平台)**:`handleManualSync()` 触发 `flushPendingSync()` + `fetchDeliveries()` + `mergeCloudDeliveries`,适合用户在 iPad/iPhone 都开着时,在一端录完点同步按钮立即让另一端拉到最新
+- **手机版日期选择器**:`<input type="date">` + `input.showPicker()`(iOS Safari 16.4+),老浏览器 fallback 到 `input.click()`
 
 ### OCR(辅助,不主用)
 - 默认模型 `qwen-vl-ocr-latest`(OCR 专项,~1.7s)

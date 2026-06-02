@@ -205,3 +205,4 @@ OCR Edge Function 环境变量(Supabase Dashboard):
 - **2026-06-02**: GitHub Actions 加两个定时任务:每天 18:00 保活 ping(防 Supabase 暂停)/ 18:05 自动备份到 backups/ 目录
 - **2026-06-02**: iOS 听写中文数字("二百三十八")自动转阿拉伯("238"),通过 extractAmount() 集成到 handleMonthCellChange
 - **2026-06-02**: 上线 iPhone 双屏 UI(`MobileMonthList` + `MobileDayDetail`)+ `useMobile()` hook(< 760px 自动切移动布局)。iPad 横屏保留 2D 表格不动,数据完全共享
+- **2026-06-02**: 三处 UX 改进:① 全平台手动同步按钮(`handleManualSync` = `flushPendingSync` + `fetchDeliveries` + 合并)② 手机版"店铺收款确认"接通(新增 `mobileView: shopPayment` 全屏视图)③ 手机版日期选择器(点中间区域触发 `<input type="date">.showPicker()`)
