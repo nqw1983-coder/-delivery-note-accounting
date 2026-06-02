@@ -349,7 +349,7 @@ button {
 
 .month-table th,
 .month-table td {
-  height: 23px;
+  height: 22px;
   padding: 0 2px;
   border-bottom: 1px solid #edf1ed;
   border-right: 1px solid #edf1ed;
@@ -1515,4 +1515,13 @@ button {
   color: #688e7a;
   font-size: 13px;
   font-weight: 400;
+}
+
+/* tfoot 里的"重复表头行"— 让最后几天数据能直接对照客户列,不用滚回顶部 */
+.month-table tfoot .repeated-header-row td {
+  background: #eef5f0;
+  color: #145c3c;
+  font-weight: 700;
+  font-size: 12px;
+  border-top: 2px solid #d5e2d8;
 }

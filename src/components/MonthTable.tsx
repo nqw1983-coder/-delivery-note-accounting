@@ -88,6 +88,16 @@ export function MonthTable({ monthData, onChangeCell, onCellFocus, selectedCell 
           })}
         </tbody>
         <tfoot>
+          {/* 重复表头行 — 让用户在表格底部直接对照客户列,不用滚回顶部 */}
+          <tr className="repeated-header-row">
+            <td>日期</td>
+            {displayedStores.map((shop) => (
+              <td key={`repeat-${shop}`}>{shop}</td>
+            ))}
+            {blankCustomerColumns.map((_, index) => (
+              <td className="blank-cell" key={`repeat-blank-${index}`}></td>
+            ))}
+          </tr>
           <tr>
             <th scope="row">本月合计</th>
             {displayedStores.map((shop) => {

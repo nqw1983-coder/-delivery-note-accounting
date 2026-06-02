@@ -74,6 +74,9 @@ npx wrangler pages deploy dist \
 - **Offline-First**:写本地立即,后台异步上云,失败入 `localStorage["pending_sync"]` 队列
 - **侧栏 148px**(iPad 横屏紧凑布局),图标横排在标题下方
 - **表格固定 13 列**:11 家有名客户 + 2 空白预留,iPad 横屏一屏布满
+- **表格行高 22px**,31 天 + 顶部表头 + 重复表头 + 本月合计 一屏完整
+- **重复表头行**(在本月合计上面):浅绿底加重字体,最后几天数据直接对照客户列
+- **中文数字自动转换**:iOS 听写"二百三十八" → 238,通过 `extractAmount()` 在 handleMonthCellChange 兜底
 
 ### OCR(辅助,不主用)
 - 默认模型 `qwen-vl-ocr-latest`(OCR 专项,~1.7s)
@@ -99,6 +102,18 @@ npx wrangler pages deploy dist \
 4. **Service Worker 缓存毒瘤**(2026-06):用户多次报"还看到旧版本"。修复:`skipWaiting + clientsClaim`,无痕窗口 / fresh profile 测试
 5. **测试图 1×1 像素阿里云 400**:OCR 模型要求 ≥ 10×10,curl smoke test 用 100×100 灰图
 6. **Cloudflare 部署 commit message 非 UTF-8**:中文 git commit message 让 wrangler 报 `Invalid commit message`。用 `--commit-message="english"` 显式传
+7. **iOS 听写中文 vs 阿拉伯**:iPhone 数字键盘 **没** 麦克风,iPad 数字键盘 **有**;iPad 听写出"二百三十八"中文字符,App 不转换 = NaN = "金额错误"。修复:`extractAmount()` 函数兜底所有中文/口语写法(2026-06-02)
+8. **macOS TCC 锁 Documents 子目录**:大量文件操作可能让 Claude Code 的 Terminal/sandbox 失去访问权,表现为 `ls Operation not permitted`。修复:重启 Terminal 即可恢复
+9. **GitHub Actions workflow_dispatch 在 inline heredoc 里失效**:把 Node 脚本嵌进 YAML 的 heredoc 让 trigger 解析失败。修复:提到独立 `scripts/*.mjs` 文件
+
+## 自动化定时任务(GitHub Actions)
+
+| 任务 | 时间 | 作用 | 文件 |
+|---|---|---|---|
+| **Keep Alive** | 每天 18:00 北京 | ping Supabase REST + Edge Function,防免费版 7 天暂停 | `.github/workflows/keep-alive.yml` |
+| **Daily Backup** | 每天 18:05 北京 | 拉 Supabase 数据 → 二维表 CSV(每月一个) + JSON 快照 → 提交到 `backups/` | `.github/workflows/daily-backup.yml` + `scripts/daily-backup.mjs` |
+
+两个任务完全跟 Claude / 本地电脑无关,GitHub 长期免费跑。手动触发:`gh workflow run "<name>" --ref master`
 
 ## 不能做的事
 
