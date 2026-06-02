@@ -40,8 +40,15 @@ function filterDeliveries(deliveries: DeliveryRecord[], filters?: ExportFilters)
 }
 
 function buildFileName(prefix: string, format: ExportFormat, filters?: ExportFilters): string {
-  const today = new Date().toISOString().slice(0, 10);
-  const parts = [prefix, today];
+  // 文件名带 "YYYY-MM-DD_HHMM" 时间戳:同一天多次导出绝不重名,不覆盖
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mi = String(now.getMinutes()).padStart(2, "0");
+  const stamp = `${yyyy}-${mm}-${dd}_${hh}${mi}`;
+  const parts = [prefix, stamp];
   if (filters?.startDate || filters?.endDate) {
     parts.push(`${filters.startDate ?? "起"}_${filters.endDate ?? "今"}`);
   }

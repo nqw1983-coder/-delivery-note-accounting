@@ -1,12 +1,6 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { MonthData } from "../types/dashboard";
-import {
-  exportCsv,
-  exportExcel,
-  exportJson,
-  importJson,
-  type ExportFilters,
-} from "../lib/exporter";
+import { exportCsv, exportExcel, exportJson, importJson } from "../lib/exporter";
 
 interface ExportModalProps {
   months: MonthData[];
@@ -17,33 +11,15 @@ interface ExportModalProps {
   onRestore?: (months: MonthData[]) => void;
 }
 
-const allShops = (months: MonthData[]): string[] => {
-  const set = new Set<string>();
-  months.forEach((m) => m.stores.forEach((s) => set.add(s)));
-  return Array.from(set).sort();
-};
-
 export function ExportModal({ months, isAdmin, onClose, onRestore }: ExportModalProps) {
-  const shops = useMemo(() => allShops(months), [months]);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [shopName, setShopName] = useState("");
   const [hint, setHint] = useState<string>("");
   const [importing, setImporting] = useState(false);
 
-  const filters: ExportFilters | undefined =
-    startDate || endDate || shopName
-      ? {
-          startDate: startDate || undefined,
-          endDate: endDate || undefined,
-          shopName: shopName || undefined,
-        }
-      : undefined;
-
+  // 默认导出全部数据 / 全部客户,不再提供筛选 UI
   const handleExcel = () => {
     try {
-      exportExcel(months, filters);
-      setHint('✅ Excel 已导出,iPad 上会弹"保存到"窗口,可存到文件 App 或分享到微信');
+      exportExcel(months);
+      setHint('✅ Excel 已导出,文件名含日期(如"送货单_2026-06-02.xlsx")。同一天多次导出会自动加序号,不覆盖之前的');
     } catch (err) {
       setHint(`❌ 导出失败:${err instanceof Error ? err.message : String(err)}`);
     }
@@ -51,7 +27,7 @@ export function ExportModal({ months, isAdmin, onClose, onRestore }: ExportModal
 
   const handleCsv = () => {
     try {
-      exportCsv(months, filters);
+      exportCsv(months);
       setHint("✅ CSV 已导出");
     } catch (err) {
       setHint(`❌ 导出失败:${err instanceof Error ? err.message : String(err)}`);
@@ -110,41 +86,12 @@ export function ExportModal({ months, isAdmin, onClose, onRestore }: ExportModal
 
         <div className="scan-form">
           <p className="scan-hint" style={{ margin: 0, lineHeight: 1.6 }}>
-            导出的文件可保存到 <strong>iPad/iPhone 的"文件" App</strong>、iCloud Drive、或直接分享到微信。
+            默认导出 <strong>所有月份 / 全部客户</strong>,文件名带当天日期。
             <br />
-            💡 建议每月至少导出一次完整备份(JSON),保护数据安全。
+            可保存到 iPad/iPhone 的 <strong>"文件" App</strong>、iCloud Drive、或分享到微信。
+            <br />
+            💡 建议每月至少导出一次完整备份(JSON)。
           </p>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            <label className="scan-field">
-              <span>起始日期(可选)</span>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-            </label>
-            <label className="scan-field">
-              <span>结束日期(可选)</span>
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-            </label>
-          </div>
-
-          <label className="scan-field">
-            <span>限定客户(可选)</span>
-            <select value={shopName} onChange={(e) => setShopName(e.target.value)}>
-              <option value="">全部客户</option>
-              {shops.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-          </label>
 
           {hint && (
             <pre
