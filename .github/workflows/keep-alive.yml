@@ -1,0 +1,53 @@
+# 每天晚上 18:00 (北京时间) ping Supabase,防止免费版 7 天不活跃自动暂停
+#
+# 为什么:Supabase 免费版规则
+# - 项目 7 天没有任何 API 请求 → 自动暂停
+# - 暂停后:数据完好,但 API 不能读写,要去 Dashboard 手动 Resume
+# - 每天 ping 一次 → 永不进入暂停状态
+#
+# 这个 workflow 跑在 GitHub Actions 上:
+# - 不依赖本地电脑
+# - 不依赖 Claude 账号(只要 GitHub 仓库还在就一直跑)
+# - 不依赖 Cloudflare(GitHub 自己有 cron 引擎)
+# - 完全免费(GitHub 免费版每月 2000 分钟,这个 workflow 每天 < 1 分钟)
+#
+# 手动跑:GitHub → Actions → Keep Alive Supabase → Run workflow
+
+name: Keep Alive Supabase
+
+on:
+  schedule:
+    # cron 用 UTC 时间,北京 18:00 = UTC 10:00
+    - cron: "0 10 * * *"
+  # 允许在 GitHub 网页手动触发,方便调试
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST (读 deliveries 表)
+        run: |
+          set -e
+          response=$(curl -sf -w "\n%{http_code}" \
+            "https://zaqeboyaltepwpavmvkf.supabase.co/rest/v1/deliveries?select=id&limit=1" \
+            -H "apikey: sb_publishable_sTUT0KON9Sgt2UZHWESKQQ_ed8dHX4_" \
+            -H "Authorization: Bearer sb_publishable_sTUT0KON9Sgt2UZHWESKQQ_ed8dHX4_")
+          echo "Supabase REST 响应:"
+          echo "$response"
+
+      - name: Ping Supabase Edge Function (CORS preflight)
+        run: |
+          set -e
+          status=$(curl -s -o /dev/null -w "%{http_code}" -X OPTIONS \
+            "https://zaqeboyaltepwpavmvkf.supabase.co/functions/v1/ocr-proxy" \
+            -H "Origin: https://delivery-note.pages.dev" \
+            -H "Access-Control-Request-Method: POST")
+          echo "Edge Function OPTIONS 状态码: $status"
+          if [ "$status" != "200" ] && [ "$status" != "204" ]; then
+            echo "::warning::Edge Function 响应异常: $status"
+          fi
+
+      - name: 报告
+        run: |
+          echo "✅ Supabase 保活 ping 完成 ($(date '+%Y-%m-%d %H:%M:%S %Z'))"
