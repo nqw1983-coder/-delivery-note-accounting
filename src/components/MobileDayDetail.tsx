@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Camera, Mic, Plus, Calendar } from "lucide-react";
+import { ChevronLeft, ChevronRight, Mic, Plus, CalendarDays } from "lucide-react";
 import type { MonthData, ShopName } from "../types/dashboard";
 import { extractAmount } from "../lib/chineseNumber";
 
@@ -9,7 +9,8 @@ interface MobileDayDetailProps {
   onChangeDay: (day: number) => void;
   onChangeCell: (day: number, shop: ShopName, value: string) => boolean;
   onBack: () => void;
-  onOpenScan: () => void;
+  /** 点顶部某店铺名 → 跳转到该店本月明细 */
+  onSelectStoreMonth: (shop: string) => void;
 }
 
 const MAX_LABELED_STORES = 11;
@@ -51,7 +52,7 @@ export function MobileDayDetail({
   onChangeDay,
   onChangeCell,
   onBack,
-  onOpenScan,
+  onSelectStoreMonth,
 }: MobileDayDetailProps) {
   const totalDays = daysInMonth(monthData.year, monthData.month);
   // 限制到 11 家显示 + 补足 2 空白 = 13 行
@@ -66,22 +67,8 @@ export function MobileDayDetail({
   const goPrevDay = () => onChangeDay(Math.max(1, selectedDay - 1));
   const goNextDay = () => onChangeDay(Math.min(totalDays, selectedDay + 1));
 
-  // 日期选择器:用 native input type=date 触发 iOS 原生日期选择
+  // 日期选择器:label 包 input,iOS 点 label 自动触发原生 picker
   const datePickerRef = useRef<HTMLInputElement>(null);
-  const openDatePicker = () => {
-    const input = datePickerRef.current;
-    if (!input) return;
-    // 现代浏览器支持 showPicker(),iOS Safari 16.4+ 支持
-    if (typeof input.showPicker === "function") {
-      try {
-        input.showPicker();
-        return;
-      } catch {
-        // fall through to click
-      }
-    }
-    input.click();
-  };
   const onDateInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value; // "YYYY-MM-DD"
     if (!val) return;
@@ -148,56 +135,76 @@ export function MobileDayDetail({
     }
   };
 
+  // 顶部 12 家店铺(11 个有名 + 1 空白)
+  const topStores = displayedStores.slice(0, MAX_LABELED_STORES);
+  const topBlankCount = Math.max(12 - topStores.length, 1);
+
   return (
     <div className="mobile-page mobile-daydetail">
-      <header className="mobile-detail-header">
+      {/* 顶部:返回 + 12 店铺按钮(2排×6,点击跳店铺月度明细) */}
+      <header className="mobile-shop-grid-header">
         <button className="mobile-icon" onClick={onBack} aria-label="返回">
           <ChevronLeft size={20} />
         </button>
-        <div className="center">
-          <div className="title">
-            {monthData.year}年{monthData.month}月
-          </div>
-          <div className="sub">
-            {selectedDay}日已入账 ¥{Math.round(dayTotal * 100) / 100}
-          </div>
+        <div className="mobile-shop-grid">
+          {topStores.map((shop) => (
+            <button
+              key={shop}
+              type="button"
+              className="mobile-shop-chip"
+              onClick={() => onSelectStoreMonth(shop)}
+              aria-label={`查看 ${shop} 本月明细`}
+            >
+              {shop}
+            </button>
+          ))}
+          {Array.from({ length: topBlankCount }).map((_, idx) => (
+            <button
+              key={`top-blank-${idx}`}
+              type="button"
+              className="mobile-shop-chip blank"
+              disabled
+            >
+              空白
+            </button>
+          ))}
         </div>
-        <button className="mobile-icon primary" onClick={onOpenScan} aria-label="拍照识别">
-          <Camera size={18} />
-        </button>
       </header>
 
       <div className="mobile-date-card">
         <button className="arrow" onClick={goPrevDay} aria-label="前一天" disabled={selectedDay <= 1}>
           <ChevronLeft size={20} />
         </button>
-        <button
-          className="center mobile-date-center-btn"
-          onClick={openDatePicker}
-          type="button"
-          aria-label="选择日期"
-        >
-          <div className="label">
-            {monthData.year}年{monthData.month}月 <Calendar size={11} style={{ display: "inline", verticalAlign: "middle", marginLeft: 2 }} />
+        <div className="center">
+          <div className="day-block">
+            <div className="label">{monthData.year}年{monthData.month}月</div>
+            <div className="day">{selectedDay} 日</div>
+            <div className="total">合计 ¥{Math.round(dayTotal * 100) / 100}</div>
           </div>
-          <div className="day">{selectedDay} 日</div>
-          <div className="total">合计 ¥{Math.round(dayTotal * 100) / 100}</div>
-        </button>
+          {/* 用 <label> 包 <input type="date"> — iOS 原生触发日期选择器,不依赖 showPicker() */}
+          <label
+            className="cal-btn"
+            aria-label="选择日期"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <CalendarDays size={22} />
+            <input
+              ref={datePickerRef}
+              type="date"
+              value={dateValue}
+              min={minDate}
+              max={maxDate}
+              onChange={onDateInputChange}
+              className="cal-btn-input"
+              aria-hidden="true"
+            />
+          </label>
+        </div>
         <button className="arrow" onClick={goNextDay} aria-label="后一天" disabled={selectedDay >= totalDays}>
           <ChevronRight size={20} />
         </button>
-        {/* 隐藏的 native date input,点中心按钮触发它的 picker */}
-        <input
-          ref={datePickerRef}
-          type="date"
-          value={dateValue}
-          min={minDate}
-          max={maxDate}
-          onChange={onDateInputChange}
-          style={{ position: "absolute", opacity: 0, pointerEvents: "none", left: -9999 }}
-          aria-hidden="true"
-          tabIndex={-1}
-        />
       </div>
 
       <div className="mobile-shop-list">

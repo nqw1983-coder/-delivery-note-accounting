@@ -1952,3 +1952,173 @@ button {
 .mobile-date-card {
   position: relative; /* 给隐藏的 date input 定位用 */
 }
+
+/* ============================================================
+   iPhone 当日明细 v3:顶部 12 店铺按钮(2×6 网格)+ 大日历按钮
+   ============================================================ */
+
+.mobile-shop-grid-header {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 10px;
+}
+
+.mobile-shop-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+}
+
+.mobile-shop-chip {
+  padding: 7px 4px;
+  background: #fff;
+  border: 1px solid #dce4dc;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #16281f;
+  min-height: 30px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-shop-chip:active {
+  background: #ecfdf5;
+  border-color: #b6e5cf;
+}
+
+.mobile-shop-chip.blank {
+  background: #f7faf7;
+  color: #c0cbc4;
+  font-weight: 400;
+  cursor: not-allowed;
+}
+
+/* 日期卡:中间区域 day-block,大日历按钮 cal-btn */
+.mobile-date-card .center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.mobile-date-card .day-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mobile-date-card .cal-btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background: #145c3c;
+  color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(20, 92, 60, 0.25);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* 透明 date input 覆盖在 label 上,iOS Safari 自动弹原生 picker */
+.mobile-date-card .cal-btn-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  /* iOS 上 input[type=date] 默认有内边距,清除 */
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  -webkit-appearance: none;
+}
+
+.mobile-date-card .cal-btn:active {
+  background: #0a3d2a;
+}
+
+/* ============================================================
+   iPhone 店铺月度明细页(点顶部店铺名后跳转)
+   ============================================================ */
+
+.mobile-store-month {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+
+.mobile-store-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 14px 18px;
+  background: linear-gradient(120deg, #145c3c, #1f7a52);
+  color: #fff;
+  border-radius: 14px;
+  margin-bottom: 12px;
+}
+
+.mobile-store-summary .label {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.mobile-store-summary .value {
+  font-size: 22px;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.mobile-store-day-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding-bottom: 12px;
+}
+
+.mobile-store-day-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid #dce4dc;
+  border-radius: 10px;
+  min-height: 44px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-store-day-row .day {
+  font-size: 14px;
+  color: #16281f;
+  font-weight: 600;
+}
+
+.mobile-store-day-row .amt {
+  font-size: 16px;
+  font-weight: 800;
+  color: #145c3c;
+}
+
+.mobile-store-day-row .amt.zero {
+  color: #c0cbc4;
+  font-weight: 400;
+}
+
+.mobile-store-day-row.has-value {
+  background: #ecfdf5;
+  border-color: #b6e5cf;
+}
+
+.mobile-store-day-row:active {
+  background: #d4f0e0;
+}

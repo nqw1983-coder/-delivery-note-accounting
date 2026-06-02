@@ -84,7 +84,12 @@ npx wrangler pages deploy dist \
   - 第二屏 `MobileDayDetail`:左右箭头切日期,11 家店 + 2 空白,每行带 🎤 麦克风(Web Speech API zh-CN)
 - **中文数字自动转换**:iOS 听写"二百三十八" → 238,通过 `extractAmount()` 在 handleMonthCellChange 兜底
 - **手动云同步按钮(全平台)**:`handleManualSync()` 触发 `flushPendingSync()` + `fetchDeliveries()` + `mergeCloudDeliveries`,适合用户在 iPad/iPhone 都开着时,在一端录完点同步按钮立即让另一端拉到最新
-- **手机版日期选择器**:`<input type="date">` + `input.showPicker()`(iOS Safari 16.4+),老浏览器 fallback 到 `input.click()`
+- **手机版日期选择器**:`<label>` 包 `<input type="date">` + 透明覆盖,iOS 原生触发 picker,不依赖 `showPicker()`
+- **手机当日明细页 3 个视图分层**:
+  - 顶部:返回 + 12 个店铺按钮(2×6 网格)
+  - 中间:日期切换卡(箭头 + 大日历按钮 44×44)
+  - 下方:11 家店铺录入行 + 2 空白
+- **手机店铺月度明细页**(`MobileStoreMonthDetail`):点顶部店铺名跳转;顶部绿色卡显示本月合计 + 有送货天数;2 列网格列 31 天每天金额;有金额浅绿底;点任意一天回到当日明细
 
 ### OCR(辅助,不主用)
 - 默认模型 `qwen-vl-ocr-latest`(OCR 专项,~1.7s)

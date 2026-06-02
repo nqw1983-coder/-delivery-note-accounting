@@ -8,6 +8,7 @@ import { YearlyStatsModal } from "./components/YearlyStatsModal";
 import { ExportModal } from "./components/ExportModal";
 import { MobileMonthList } from "./components/MobileMonthList";
 import { MobileDayDetail } from "./components/MobileDayDetail";
+import { MobileStoreMonthDetail } from "./components/MobileStoreMonthDetail";
 import { useMobile } from "./lib/useMobile";
 import { extractAmount } from "./lib/chineseNumber";
 import { createEmptyMonth, initialMonths, shops } from "./data/seedData";
@@ -69,8 +70,9 @@ export default function App() {
   const [selectedCell, setSelectedCell] = useState<{ day: number; shop: string } | null>(null);
   // 移动端:当前在月份列表还是当日明细;选中的日期
   const isMobile = useMobile(760);
-  const [mobileView, setMobileView] = useState<"monthList" | "dayDetail" | "shopPayment">("monthList");
+  const [mobileView, setMobileView] = useState<"monthList" | "dayDetail" | "shopPayment" | "storeMonth">("monthList");
   const [mobileSelectedDay, setMobileSelectedDay] = useState<number>(new Date().getDate());
+  const [mobileSelectedStore, setMobileSelectedStore] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
   const [adminMode] = useState(() => isAdminMode());
   const [backupStatus, setBackupStatus] = useState(() => getBackupStatus());
@@ -716,6 +718,24 @@ export default function App() {
         </main>
       );
     }
+    // mobileView === "storeMonth" 店铺当月每天明细
+    if (mobileView === "storeMonth" && mobileSelectedStore) {
+      return (
+        <main className="mobile-app">
+          <MobileStoreMonthDetail
+            monthData={currentMonth}
+            shop={mobileSelectedStore}
+            onBack={() => setMobileView("dayDetail")}
+            onChangeCell={handleMonthCellChange}
+            onSelectDay={(day) => {
+              setMobileSelectedDay(day);
+              setMobileView("dayDetail");
+            }}
+          />
+        </main>
+      );
+    }
+
     // mobileView === "dayDetail"
     return (
       <main className="mobile-app">
@@ -725,7 +745,10 @@ export default function App() {
           onChangeDay={setMobileSelectedDay}
           onChangeCell={handleMonthCellChange}
           onBack={() => setMobileView("monthList")}
-          onOpenScan={() => fileInputRef.current?.click()}
+          onSelectStoreMonth={(shop) => {
+            setMobileSelectedStore(shop);
+            setMobileView("storeMonth");
+          }}
         />
         {/* 隐藏的文件 input,通过 fileInputRef 触发拍照/选图 */}
         <input
