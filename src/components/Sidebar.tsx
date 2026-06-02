@@ -1,5 +1,5 @@
 import type { ChangeEvent, RefObject } from "react";
-import { Download, Plus, Search, Settings } from "lucide-react";
+import { Download, Plus, RefreshCw, Search, Settings } from "lucide-react";
 import type { MonthData } from "../types/dashboard";
 import { years } from "../data/seedData";
 
@@ -17,6 +17,8 @@ interface SidebarProps {
   onShopPayment: () => void;
   onExport: () => void;
   onOpenSettings: () => void;
+  onSync?: () => void;
+  syncing?: boolean;
   // 以下扫描相关 prop 保留以兼容父组件,组件内已不再渲染
   fileInputRef?: RefObject<HTMLInputElement>;
   fileName?: string | null;
@@ -44,6 +46,8 @@ export function Sidebar({
   onShopPayment,
   onExport,
   onOpenSettings,
+  onSync,
+  syncing,
 }: SidebarProps) {
   const normalizedSearch = searchText.trim();
   const visibleMonths = months
@@ -72,6 +76,16 @@ export function Sidebar({
           <div className="brand-actions">
             <button className="icon-button" type="button" aria-label="识别服务设置" onClick={onOpenSettings}>
               <Settings size={18} />
+            </button>
+            <button
+              className={`icon-button ${syncing ? "icon-spinning" : ""}`}
+              type="button"
+              aria-label="云端同步"
+              onClick={onSync}
+              disabled={syncing}
+              title="拉取云端最新数据 + 上传待同步本地数据"
+            >
+              <RefreshCw size={18} />
             </button>
             <button className="icon-button" type="button" aria-label="导出数据" onClick={onExport}>
               <Download size={18} />

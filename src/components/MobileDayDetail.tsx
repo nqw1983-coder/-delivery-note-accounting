@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Camera, Mic, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Camera, Mic, Plus, Calendar } from "lucide-react";
 import type { MonthData, ShopName } from "../types/dashboard";
 import { extractAmount } from "../lib/chineseNumber";
 
@@ -65,6 +65,35 @@ export function MobileDayDetail({
 
   const goPrevDay = () => onChangeDay(Math.max(1, selectedDay - 1));
   const goNextDay = () => onChangeDay(Math.min(totalDays, selectedDay + 1));
+
+  // 日期选择器:用 native input type=date 触发 iOS 原生日期选择
+  const datePickerRef = useRef<HTMLInputElement>(null);
+  const openDatePicker = () => {
+    const input = datePickerRef.current;
+    if (!input) return;
+    // 现代浏览器支持 showPicker(),iOS Safari 16.4+ 支持
+    if (typeof input.showPicker === "function") {
+      try {
+        input.showPicker();
+        return;
+      } catch {
+        // fall through to click
+      }
+    }
+    input.click();
+  };
+  const onDateInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value; // "YYYY-MM-DD"
+    if (!val) return;
+    const parts = val.split("-").map(Number);
+    if (parts.length === 3 && parts[0] === monthData.year && parts[1] === monthData.month) {
+      const d = parts[2];
+      if (d >= 1 && d <= totalDays) onChangeDay(d);
+    }
+  };
+  const dateValue = `${monthData.year}-${String(monthData.month).padStart(2, "0")}-${String(selectedDay).padStart(2, "0")}`;
+  const minDate = `${monthData.year}-${String(monthData.month).padStart(2, "0")}-01`;
+  const maxDate = `${monthData.year}-${String(monthData.month).padStart(2, "0")}-${String(totalDays).padStart(2, "0")}`;
 
   // 语音输入相关状态
   const [listeningShop, setListeningShop] = useState<string | null>(null);
@@ -142,16 +171,33 @@ export function MobileDayDetail({
         <button className="arrow" onClick={goPrevDay} aria-label="前一天" disabled={selectedDay <= 1}>
           <ChevronLeft size={20} />
         </button>
-        <div className="center">
+        <button
+          className="center mobile-date-center-btn"
+          onClick={openDatePicker}
+          type="button"
+          aria-label="选择日期"
+        >
           <div className="label">
-            {monthData.year}年{monthData.month}月
+            {monthData.year}年{monthData.month}月 <Calendar size={11} style={{ display: "inline", verticalAlign: "middle", marginLeft: 2 }} />
           </div>
           <div className="day">{selectedDay} 日</div>
           <div className="total">合计 ¥{Math.round(dayTotal * 100) / 100}</div>
-        </div>
+        </button>
         <button className="arrow" onClick={goNextDay} aria-label="后一天" disabled={selectedDay >= totalDays}>
           <ChevronRight size={20} />
         </button>
+        {/* 隐藏的 native date input,点中心按钮触发它的 picker */}
+        <input
+          ref={datePickerRef}
+          type="date"
+          value={dateValue}
+          min={minDate}
+          max={maxDate}
+          onChange={onDateInputChange}
+          style={{ position: "absolute", opacity: 0, pointerEvents: "none", left: -9999 }}
+          aria-hidden="true"
+          tabIndex={-1}
+        />
       </div>
 
       <div className="mobile-shop-list">

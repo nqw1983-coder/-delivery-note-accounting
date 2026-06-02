@@ -1,4 +1,4 @@
-import { Settings, Download, Plus } from "lucide-react";
+import { Settings, Download, Plus, RefreshCw } from "lucide-react";
 import type { MonthData } from "../types/dashboard";
 
 interface MobileMonthListProps {
@@ -12,6 +12,8 @@ interface MobileMonthListProps {
   onAddMonth: () => void;
   onOpenSettings: () => void;
   onExport: () => void;
+  onSync: () => void;
+  syncing: boolean;
 }
 
 const formatYM = (year: number, month: number) => `${year}年${month}月`;
@@ -28,6 +30,8 @@ export function MobileMonthList({
   onAddMonth,
   onOpenSettings,
   onExport,
+  onSync,
+  syncing,
 }: MobileMonthListProps) {
   // 取当前年的所有月份,按 month desc(最近月份在最前),最多 12 个
   const sortedMonths = [...months]
@@ -42,6 +46,15 @@ export function MobileMonthList({
         <div className="mobile-icons">
           <button className="mobile-icon" aria-label="设置" onClick={onOpenSettings}>
             <Settings size={18} />
+          </button>
+          <button
+            className={`mobile-icon ${syncing ? "icon-spinning" : ""}`}
+            aria-label="云端同步"
+            onClick={onSync}
+            disabled={syncing}
+            title="拉云端最新 + 上传待同步"
+          >
+            <RefreshCw size={18} />
           </button>
           <button className="mobile-icon" aria-label="导出" onClick={onExport}>
             <Download size={18} />

@@ -69,8 +69,9 @@ export default function App() {
   const [selectedCell, setSelectedCell] = useState<{ day: number; shop: string } | null>(null);
   // 移动端:当前在月份列表还是当日明细;选中的日期
   const isMobile = useMobile(760);
-  const [mobileView, setMobileView] = useState<"monthList" | "dayDetail">("monthList");
+  const [mobileView, setMobileView] = useState<"monthList" | "dayDetail" | "shopPayment">("monthList");
   const [mobileSelectedDay, setMobileSelectedDay] = useState<number>(new Date().getDate());
+  const [syncing, setSyncing] = useState(false);
   const [adminMode] = useState(() => isAdminMode());
   const [backupStatus, setBackupStatus] = useState(() => getBackupStatus());
   const [backupBannerDismissed, setBackupBannerDismissed] = useState(false);
@@ -198,6 +199,32 @@ export default function App() {
       cancelled = true;
     };
   }, []);
+
+  // 手动云同步:把待同步队列发出去 + 拉云端最新合并到本地
+  const handleManualSync = async () => {
+    if (syncing) return;
+    setSyncing(true);
+    setNotice("正在同步云端…");
+    try {
+      const pushed = await flushPendingSync();
+      const cloudDeliveries = await fetchDeliveries();
+      setMonths((current) => {
+        const merged = mergeCloudDeliveries(current, cloudDeliveries);
+        saveStoredMonths(merged);
+        return merged;
+      });
+      const parts: string[] = [];
+      if (pushed > 0) parts.push(`上传 ${pushed} 条`);
+      parts.push(`拉取 ${cloudDeliveries.length} 条`);
+      setNotice(`✓ 同步完成(${parts.join(",")})`);
+    } catch (err) {
+      setNotice(`同步失败:${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setSyncing(false);
+      // 3 秒后清提示
+      setTimeout(() => setNotice((cur) => (cur.startsWith("✓ 同步完成") || cur.startsWith("同步失败") ? "" : cur)), 3000);
+    }
+  };
 
   const handleSelectYear = (year: number) => {
     const yearMonths = months.filter((item) => item.year === year).sort((a, b) => b.month - a.month);
@@ -620,6 +647,33 @@ export default function App() {
 
   // ============ 移动端分支:iPhone 双屏 UI ============
   if (isMobile) {
+    // 移动端"店铺收款确认"页(用 ShopPaymentModal 撑满整屏)
+    if (mobileView === "shopPayment") {
+      return (
+        <main className="mobile-app mobile-shoppayment-page">
+          <header className="mobile-detail-header">
+            <button className="mobile-icon" onClick={() => setMobileView("monthList")} aria-label="返回">
+              <span style={{ fontSize: 20 }}>‹</span>
+            </button>
+            <div className="center">
+              <div className="title">店铺收款确认</div>
+              <div className="sub">{selectedYear} 年</div>
+            </div>
+            <div style={{ width: 38 }} />
+          </header>
+          <div className="mobile-shoppayment-shell">
+            <ShopPaymentModal
+              year={selectedYear}
+              months={months}
+              shops={shops}
+              edits={shopPaymentEdits}
+              onEdit={handleShopPaymentEdit}
+            />
+          </div>
+        </main>
+      );
+    }
+
     if (mobileView === "monthList" || !currentMonth) {
       return (
         <main className="mobile-app">
@@ -634,12 +688,15 @@ export default function App() {
               setMobileView("dayDetail");
             }}
             onShopPayment={() => {
-              handleShowShopPayment();
+              setMobileView("shopPayment");
             }}
             onAddMonth={handleAddMonth}
             onOpenSettings={() => setShowSettings(true)}
             onExport={() => setShowExport(true)}
+            onSync={handleManualSync}
+            syncing={syncing}
           />
+          {notice && <div className="mobile-toast">{notice}</div>}
           {showSettings && (
             <SettingsModal
               current={ocrSettings}
@@ -723,6 +780,8 @@ export default function App() {
           onFileChange={handleFileChange}
           onStartScan={handleStartScan}
           onOpenSettings={() => setShowSettings(true)}
+          onSync={handleManualSync}
+          syncing={syncing}
           scanning={scanning}
           pendingCount={pendingCount}
           getMonthTotal={getMonthTotal}
@@ -789,6 +848,8 @@ export default function App() {
         onFileChange={handleFileChange}
         onStartScan={handleStartScan}
         onOpenSettings={() => setShowSettings(true)}
+        onSync={handleManualSync}
+        syncing={syncing}
         scanning={scanning}
         pendingCount={pendingCount}
         getMonthTotal={getMonthTotal}

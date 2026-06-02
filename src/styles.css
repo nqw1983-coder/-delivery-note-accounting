@@ -1891,3 +1891,64 @@ button {
   color: #97a89d;
   cursor: not-allowed;
 }
+
+/* 同步按钮旋转动画(syncing 状态时) */
+.icon-spinning svg { animation: icon-spin 1s linear infinite; }
+@keyframes icon-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 移动端临时提示(同步反馈等) */
+.mobile-toast {
+  position: fixed;
+  top: max(60px, env(safe-area-inset-top, 60px));
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 90vw;
+  padding: 8px 16px;
+  background: rgba(20, 92, 60, 0.92);
+  color: #fff;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  z-index: 9999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 移动端"店铺收款确认"页:用全屏滚动容器装下复杂表格(横向可滚) */
+.mobile-shoppayment-page .mobile-detail-header {
+  margin-bottom: 6px;
+}
+.mobile-shoppayment-shell {
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px env(safe-area-inset-bottom, 16px);
+}
+.mobile-shoppayment-shell .payment-table-shell {
+  border: 1px solid #dce4dc;
+  border-radius: 10px;
+  background: #fff;
+  overflow-x: auto;
+}
+
+/* 移动端日期切换按钮(整个 center 区域可点) */
+.mobile-date-card .mobile-date-center-btn {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.mobile-date-card .mobile-date-center-btn:active {
+  opacity: 0.8;
+}
+.mobile-date-card {
+  position: relative; /* 给隐藏的 date input 定位用 */
+}
