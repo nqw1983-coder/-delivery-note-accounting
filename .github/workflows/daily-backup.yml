@@ -1,26 +1,20 @@
-# 每天 18:00(北京时间)自动备份 Supabase 数据到仓库的 backups/ 目录
+# 每天 18:05(北京时间)自动备份 Supabase 数据到仓库 backups/ 目录
 #
-# 工作机制:
-# 1. 从 Supabase 拉所有 deliveries 数据(JSON)
-# 2. 按月份分组生成 CSV(每月一个文件,覆盖式更新)
-# 3. 生成完整 JSON 快照
-# 4. git commit 提交回仓库
+# 详见 scripts/daily-backup.mjs 的注释和 backups/README.md
 #
 # 设计要点:
-# - 每月文件覆盖式更新(不是每天一个文件),repo 不会膨胀
-# - git 历史天然记录每天的变化,要看某天的状态用 git log
-# - 数据量小:一年也就 < 1MB
-#
-# 灾难恢复:从任何一次 commit 的 backups/*.csv 或 snapshot.json 都能完整恢复
+# - 每月一个 CSV 文件,覆盖式更新(repo 不膨胀)
+# - git 历史天然记录每天变化(用 git log backups/2026-05.csv 看)
+# - 数据量小,一年也就 < 1MB
+# - 跟保活任务错开 5 分钟(保活 18:00,备份 18:05)
 
-name: Daily Backup Supabase Data
+name: Daily Backup
 
 on:
   schedule:
-    - cron: "5 10 * * *"  # UTC 10:05 = 北京 18:05(在保活任务后 5 分钟)
+    - cron: "5 10 * * *"
   workflow_dispatch:
 
-# 允许 workflow 推 commit 回当前仓库
 permissions:
   contents: write
 
@@ -28,113 +22,25 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: "20"
 
-      - name: Fetch Supabase data and write backups
-        run: |
-          set -e
-          mkdir -p backups
-
-          SUPABASE_URL="https://zaqeboyaltepwpavmvkf.supabase.co"
-          KEY="sb_publishable_sTUT0KON9Sgt2UZHWESKQQ_ed8dHX4_"
-
-          # 拉全部数据(REST,按日期排序)
-          curl -sf -X GET \
-            "$SUPABASE_URL/rest/v1/deliveries?select=*&order=delivery_date.asc" \
-            -H "apikey: $KEY" \
-            -H "Authorization: Bearer $KEY" \
-            > backups/_raw.json
-
-          COUNT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('backups/_raw.json','utf8')).length)")
-          echo "拉取到 $COUNT 条记录"
-
-          # 用 Node 脚本切分到按月 CSV + 完整 JSON
-          node << 'NODE_EOF'
-          const fs = require('fs');
-          const raw = JSON.parse(fs.readFileSync('backups/_raw.json', 'utf8'));
-
-          // 按 YYYY-MM 分组
-          const byMonth = {};
-          for (const d of raw) {
-            const ym = (d.delivery_date || '').slice(0, 7);
-            if (!ym) continue;
-            (byMonth[ym] = byMonth[ym] || []).push(d);
-          }
-
-          // 每月一个 CSV(覆盖写)
-          const escape = (v) => {
-            const s = String(v ?? '');
-            return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-          };
-          const header = '日期,客户,金额,备注,录入设备,创建时间,更新时间';
-          for (const [ym, rows] of Object.entries(byMonth)) {
-            const sorted = rows.sort((a, b) => a.delivery_date.localeCompare(b.delivery_date));
-            const body = sorted.map(d => [
-              d.delivery_date, d.shop_name, d.amount ?? 0,
-              d.raw_ocr_text ?? '', d.device ?? '',
-              d.created_at, d.updated_at,
-            ].map(escape).join(',')).join('\n');
-            const total = sorted.reduce((s, r) => s + (Number(r.amount) || 0), 0);
-            const footer = `本月合计,,${Math.round(total * 100) / 100},共 ${sorted.length} 条,,,`;
-            fs.writeFileSync(`backups/${ym}.csv`, '﻿' + header + '\n' + body + '\n' + footer + '\n');
-            console.log(`  写入 backups/${ym}.csv (${sorted.length} 条)`);
-          }
-
-          // 完整 JSON 快照(一份,覆盖)
-          const snapshot = {
-            version: 1,
-            exportedAt: new Date().toISOString(),
-            source: 'github-actions-daily-backup',
-            recordCount: raw.length,
-            deliveries: raw,
-          };
-          fs.writeFileSync('backups/snapshot.json', JSON.stringify(snapshot, null, 2));
-          console.log(`  写入 backups/snapshot.json (${raw.length} 条)`);
-
-          // 写一个 README 让 backups 目录可读
-          const readme = `# 自动备份目录
-
-每天北京时间 18:05 由 \`.github/workflows/daily-backup.yml\` 自动更新。
-
-## 文件说明
-
-- \`YYYY-MM.csv\` — 按月份的 CSV(UTF-8 BOM,Excel 直接打开不乱码)
-- \`snapshot.json\` — 完整 JSON 快照(可用于灾难恢复)
-- \`_raw.json\` — Supabase REST 原始返回(调试用)
-
-## 回到任何一天的数据
-
-\`\`\`bash
-# 看 2026-06-01 的 5 月 CSV
-git show \`git rev-list -n 1 --before=2026-06-01 master\`:backups/2026-05.csv
-
-# 或者直接在 GitHub 网页上,进入 backups 文件夹,点 History 按钮
-\`\`\`
-
-## 最后一次备份
-
-文件修改时间就是最后备份时间。点任意 CSV 看 Git 历史(右上角 "History")可以看每一天的差异。
-`;
-          fs.writeFileSync('backups/README.md', readme);
-          NODE_EOF
-
-          # 删除临时 raw 文件(不进 commit)
-          rm -f backups/_raw.json
+      - name: Run backup script
+        run: node scripts/daily-backup.mjs
 
       - name: Commit and push if changed
         run: |
-          set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add backups/
           if git diff --cached --quiet; then
-            echo "没有新数据,跳过 commit"
+            echo "数据没变化,跳过 commit"
             exit 0
           fi
           STAMP=$(date -u +"%Y-%m-%d %H:%MZ")
-          git commit -m "backup: daily snapshot $STAMP"
+          git commit -m "backup: $STAMP"
           git push
-          echo "✅ 备份提交完成"
+          echo "✅ 已 commit + push"
