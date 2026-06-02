@@ -60,21 +60,24 @@ function triggerDownload(blob: Blob, fileName: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-/** 导出 Excel:一张工作表,中文列名,适合给老板看 */
+/** 导出 Excel:每个月一个工作表(Sheet),底部 tab 按月份切换,适合给老板按月看 */
 export function exportExcel(months: MonthData[], filters?: ExportFilters): void {
   const all = monthsToDeliveries(months);
-  const rows = filterDeliveries(all, filters).map((d) => ({
-    日期: d.delivery_date,
-    客户: d.shop_name,
-    金额: d.amount ?? 0,
-    备注: d.raw_ocr_text ?? "",
-    录入设备: d.device ?? "",
-    创建时间: d.created_at,
-  }));
+  const filtered = filterDeliveries(all, filters);
 
-  const worksheet = XLSX.utils.json_to_sheet(rows);
-  // 列宽
-  worksheet["!cols"] = [
+  // 按 YYYY-MM 分组
+  const byMonth = new Map<string, typeof filtered>();
+  for (const d of filtered) {
+    const ym = d.delivery_date.slice(0, 7); // "2026-05"
+    if (!byMonth.has(ym)) byMonth.set(ym, []);
+    byMonth.get(ym)!.push(d);
+  }
+
+  // 按月份倒序(最新月在最前)
+  const sortedMonths = Array.from(byMonth.keys()).sort().reverse();
+
+  const workbook = XLSX.utils.book_new();
+  const colWidths = [
     { wch: 12 }, // 日期
     { wch: 16 }, // 客户
     { wch: 10 }, // 金额
@@ -83,15 +86,53 @@ export function exportExcel(months: MonthData[], filters?: ExportFilters): void 
     { wch: 20 }, // 创建时间
   ];
 
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "送货单");
+  // 第 1 个 Sheet:全部数据汇总(便于跨月统计 / 筛选)
+  const allRows = filtered.map((d) => ({
+    日期: d.delivery_date,
+    客户: d.shop_name,
+    金额: d.amount ?? 0,
+    备注: d.raw_ocr_text ?? "",
+    录入设备: d.device ?? "",
+    创建时间: d.created_at,
+  }));
+  const allSheet = XLSX.utils.json_to_sheet(allRows);
+  allSheet["!cols"] = colWidths;
+  XLSX.utils.book_append_sheet(workbook, allSheet, "全部");
+
+  // 每个月一张 Sheet,按日期升序;Sheet 名 "2026-05" 格式
+  for (const ym of sortedMonths) {
+    const monthRows = byMonth.get(ym)!
+      .sort((a, b) => a.delivery_date.localeCompare(b.delivery_date))
+      .map((d) => ({
+        日期: d.delivery_date,
+        客户: d.shop_name,
+        金额: d.amount ?? 0,
+        备注: d.raw_ocr_text ?? "",
+        录入设备: d.device ?? "",
+        创建时间: d.created_at,
+      }));
+    // 加一行月小计在最末
+    const monthTotal = monthRows.reduce((sum, r) => sum + (Number(r.金额) || 0), 0);
+    monthRows.push({
+      日期: "本月合计",
+      客户: "",
+      金额: Math.round(monthTotal * 100) / 100,
+      备注: `共 ${monthRows.length} 条记录`,
+      录入设备: "",
+      创建时间: "",
+    });
+
+    const sheet = XLSX.utils.json_to_sheet(monthRows);
+    sheet["!cols"] = colWidths;
+    XLSX.utils.book_append_sheet(workbook, sheet, ym);
+  }
 
   const wbout = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
   const blob = new Blob([wbout], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });
   triggerDownload(blob, buildFileName("送货单", "xlsx", filters));
-  markBackup(rows.length);
+  markBackup(filtered.length);
 }
 
 /** 导出 CSV:UTF-8 BOM 防 Excel 打开乱码 */
