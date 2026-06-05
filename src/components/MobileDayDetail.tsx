@@ -13,7 +13,7 @@ interface MobileDayDetailProps {
   onSelectStoreMonth: (shop: string) => void;
 }
 
-const MAX_LABELED_STORES = 11;
+const MAX_LABELED_STORES = 12;
 const TOTAL_STORE_SLOTS = 13;
 const daysInMonth = (year: number, month: number) => new Date(year, month, 0).getDate();
 
@@ -55,7 +55,7 @@ export function MobileDayDetail({
   onSelectStoreMonth,
 }: MobileDayDetailProps) {
   const totalDays = daysInMonth(monthData.year, monthData.month);
-  // 限制到 11 家显示 + 补足 2 空白 = 13 行
+  // 限制到 12 家显示 + 补足 1 空白 = 13 行
   const displayedStores = monthData.stores.slice(0, MAX_LABELED_STORES);
   const blankSlots = Math.max(TOTAL_STORE_SLOTS - displayedStores.length, 0);
 
@@ -135,9 +135,9 @@ export function MobileDayDetail({
     }
   };
 
-  // 顶部 12 家店铺(11 个有名 + 1 空白)
+  // 顶部最多 12 家店铺
   const topStores = displayedStores.slice(0, MAX_LABELED_STORES);
-  const topBlankCount = Math.max(12 - topStores.length, 1);
+  const topBlankCount = Math.max(12 - topStores.length, 0);
 
   return (
     <div className="mobile-page mobile-daydetail">

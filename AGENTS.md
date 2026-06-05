@@ -74,7 +74,7 @@
 ### 侧栏(左)— 148px 窄列
 
 - 标题"送货单记账"(22px 字号,一行显示)
-- 3 个图标横排:**⚙ 设置 / ⬇ 导出 / + 加月份**(柱状统计图标已删,扫描按钮已删)
+- 4 个图标横排:**⚙ 设置 / 保存并同步 / ⬇ 导出 / + 加月份**(保存并同步用软盘图标;柱状统计图标已删,扫描按钮已删)
 - 年份下拉
 - 店铺收款确认入口
 - 搜索月份
@@ -206,4 +206,5 @@ OCR Edge Function 环境变量(Supabase Dashboard):
 - **2026-06-02**: iOS 听写中文数字("二百三十八")自动转阿拉伯("238"),通过 extractAmount() 集成到 handleMonthCellChange
 - **2026-06-02**: 上线 iPhone 双屏 UI(`MobileMonthList` + `MobileDayDetail`)+ `useMobile()` hook(< 760px 自动切移动布局)。iPad 横屏保留 2D 表格不动,数据完全共享
 - **2026-06-02**: 三处 UX 改进:① 全平台手动同步按钮(`handleManualSync` = `flushPendingSync` + `fetchDeliveries` + 合并)② 手机版"店铺收款确认"接通(新增 `mobileView: shopPayment` 全屏视图)③ 手机版日期选择器(点中间区域触发 `<input type="date">.showPicker()`)
+- **2026-06-03**: iPad/桌面左侧同步入口改成更直观的"保存并同步"软盘图标;手机端同步按钮保留在顶部,无论手机还是 iPad,点它都会先上传本地待保存数据,再拉取云端最新数据。
 - **2026-06-02**: 手机当日明细页大改:① 顶部去掉标题栏 + 拍照按钮,改为 12 个店铺按钮(2排×6,纯店名)② 日历图标加大成 44×44 绿色按钮 + `<label>` 包 `<input type="date">` 方案(100% 触发 iOS 原生 picker)③ 新增 `MobileStoreMonthDetail` 页:点顶部店铺名 → 进该店本月每天明细(2 列网格 + 顶部合计卡)

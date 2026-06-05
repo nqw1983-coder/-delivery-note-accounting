@@ -1,4 +1,4 @@
-import { createEmptyMonth, initialMonths } from "../data/seedData";
+import { createEmptyMonth, initialMonths, shops } from "../data/seedData";
 import type { AmountCell, AmountPart, MonthData } from "../types/dashboard";
 
 export interface DeliveryRecord {
@@ -29,12 +29,19 @@ const parseDateString = (value: string) => {
 export function loadStoredMonths(): MonthData[] {
   try {
     const raw = localStorage.getItem(MONTHS_STORAGE_KEY);
-    if (!raw) return initialMonths;
+    if (!raw) return normalizeMonthStores(initialMonths);
     const parsed = JSON.parse(raw) as MonthData[];
-    return Array.isArray(parsed) && parsed.length ? parsed : initialMonths;
+    return Array.isArray(parsed) && parsed.length ? normalizeMonthStores(parsed) : normalizeMonthStores(initialMonths);
   } catch {
-    return initialMonths;
+    return normalizeMonthStores(initialMonths);
   }
+}
+
+function normalizeMonthStores(months: MonthData[]): MonthData[] {
+  return months.map((month) => ({
+    ...month,
+    stores: [...shops, ...month.stores.filter((shop) => !shops.includes(shop))],
+  }));
 }
 
 export function saveStoredMonths(months: MonthData[]): void {

@@ -1,0 +1,11 @@
+import puppeteer from "puppeteer-core";
+const CHROME = "/Users/nqw1983163.com/.cache/puppeteer/chrome/mac_arm-149.0.7827.22/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing";
+const IPAD_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15";
+const browser = await puppeteer.launch({ executablePath: CHROME, headless: "new", args: ["--no-sandbox"] });
+const page = await browser.newPage();
+await page.setUserAgent(IPAD_UA);
+await page.setViewport({ width: 1112, height: 834, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+await page.goto("http://localhost:5173/", { waitUntil: "domcontentloaded" });
+const info = await page.evaluate(() => ({ maxTouchPoints: navigator.maxTouchPoints, ua: navigator.userAgent, ontouchstart: "ontouchstart" in window }));
+console.log(JSON.stringify(info, null, 2));
+await browser.close();

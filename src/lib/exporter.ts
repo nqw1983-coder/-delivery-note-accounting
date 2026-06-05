@@ -27,7 +27,7 @@ const LAST_BACKUP_KEY = "delivery-last-backup-at";
 const NEW_RECORDS_SINCE_BACKUP_KEY = "delivery-new-records-since-backup";
 
 // 表格显示常数,跟 App MonthTable 保持一致
-const MAX_LABELED_STORES = 11;
+const MAX_LABELED_STORES = 12;
 
 function filterDeliveries(deliveries: DeliveryRecord[], filters?: ExportFilters): DeliveryRecord[] {
   if (!filters) return deliveries;

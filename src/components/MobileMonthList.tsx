@@ -49,10 +49,10 @@ export function MobileMonthList({
           </button>
           <button
             className={`mobile-icon ${syncing ? "icon-spinning" : ""}`}
-            aria-label="云端同步"
+            aria-label="保存并同步云端"
             onClick={onSync}
             disabled={syncing}
-            title="拉云端最新 + 上传待同步"
+            title="保存并同步"
           >
             <RefreshCw size={18} />
           </button>

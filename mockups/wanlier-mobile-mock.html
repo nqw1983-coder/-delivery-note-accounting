@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>万李二手机页面 mock</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+        color: #16281f;
+        background: #eef2ef;
+      }
+
+      .stage {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 28px;
+      }
+
+      .phone {
+        width: 390px;
+        min-height: 844px;
+        padding: 42px 14px 18px;
+        background: #f6f8f6;
+        border: 1px solid #dce4dc;
+        border-radius: 26px;
+        box-shadow: 0 18px 42px rgba(24, 51, 41, 0.14);
+      }
+
+      .status {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 20px 28px;
+        color: #050807;
+        font-size: 26px;
+        font-weight: 800;
+      }
+
+      .header-grid {
+        display: grid;
+        grid-template-columns: 40px 1fr;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .icon-btn {
+        width: 38px;
+        height: 38px;
+        border: 1px solid #d8e3da;
+        border-radius: 10px;
+        color: #145c3c;
+        background: #f0f7f2;
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .store-chips {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 5px;
+      }
+
+      .chip {
+        min-height: 34px;
+        padding: 6px 2px;
+        color: #15261f;
+        background: #ffffff;
+        border: 1px solid #dce4dc;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 800;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .chip.blank {
+        color: #c6d0ca;
+        background: #f8faf8;
+        font-weight: 500;
+      }
+
+      .date-card {
+        display: grid;
+        grid-template-columns: 44px 1fr 44px;
+        align-items: center;
+        gap: 8px;
+        min-height: 86px;
+        margin-bottom: 12px;
+        padding: 12px;
+        background: #ffffff;
+        border: 1px solid #dce4dc;
+        border-radius: 12px;
+      }
+
+      .arrow {
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 999px;
+        color: #145c3c;
+        background: #f0f5f1;
+        font-size: 28px;
+      }
+
+      .date-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        text-align: center;
+      }
+
+      .date-label {
+        color: #81918a;
+        font-size: 14px;
+      }
+
+      .day {
+        color: #0f4d36;
+        font-size: 34px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .total {
+        color: #425f52;
+        font-size: 14px;
+      }
+
+      .calendar {
+        display: grid;
+        place-items: center;
+        width: 46px;
+        height: 46px;
+        color: #ffffff;
+        background: #145c3c;
+        border-radius: 10px;
+        font-size: 25px;
+      }
+
+      .shop-list {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .shop-row {
+        display: grid;
+        grid-template-columns: minmax(72px, 1fr) 104px 36px;
+        align-items: center;
+        gap: 6px;
+        min-height: 48px;
+        padding: 6px 12px;
+        background: #ffffff;
+        border: 1px solid #dce4dc;
+        border-radius: 10px;
+      }
+
+      .shop-row strong {
+        font-size: 18px;
+      }
+
+      .amount {
+        height: 34px;
+        padding: 0 10px;
+        color: #145c3c;
+        background: #f7faf7;
+        border: 1px solid #d0ddd3;
+        border-radius: 7px;
+        font-size: 17px;
+        font-weight: 800;
+        text-align: right;
+      }
+
+      .amount.zero {
+        color: #aab7af;
+        font-weight: 400;
+      }
+
+      .mic {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        color: #ffffff;
+        background: #145c3c;
+        border-radius: 7px;
+        font-size: 18px;
+      }
+
+      .blank-row strong {
+        color: #c6d0ca;
+        font-weight: 500;
+      }
+
+      .blank-row .mic {
+        color: #97a89d;
+        background: #d5e2d8;
+      }
+
+      .payment-title {
+        display: grid;
+        grid-template-columns: 40px 1fr 40px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+
+      .payment-title h1 {
+        margin: 0;
+        color: #0f4d36;
+        font-size: 24px;
+        line-height: 1.15;
+        text-align: center;
+      }
+
+      .payment-title span {
+        display: block;
+        margin-top: 4px;
+        color: #82928b;
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .payment-shell {
+        overflow-x: auto;
+        border: 1px solid #dce4dc;
+        border-radius: 12px;
+        background: #ffffff;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .payment-table {
+        width: max-content;
+        min-width: 760px;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      .payment-table th,
+      .payment-table td {
+        height: 52px;
+        border-right: 1px solid #edf1ed;
+        border-bottom: 1px solid #edf1ed;
+        color: #1d3128;
+        text-align: center;
+      }
+
+      .payment-table th {
+        color: #335748;
+        background: #f7faf7;
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      .payment-table .name-col {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        width: 86px;
+        background: #f7faf7;
+      }
+
+      .payment-table .month-col {
+        width: 56px;
+      }
+
+      .pay-value {
+        display: block;
+        width: 100%;
+        padding: 0 4px;
+        overflow: hidden;
+        color: #1d3128;
+        font-size: clamp(11px, 3.2vw, 15px);
+        line-height: 1.1;
+        text-align: center;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .hint {
+        margin: 10px 2px 0;
+        color: #6d8177;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      @media (max-width: 860px) {
+        .stage {
+          flex-direction: column;
+          align-items: center;
+          padding: 12px;
+        }
+
+        .phone {
+          width: min(390px, 100%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stage">
+      <section class="phone" aria-label="图1新版 mock">
+        <div class="status"><span>19:37</span><span>▮▮▮ WiFi 9</span></div>
+        <div class="header-grid">
+          <button class="icon-btn">‹</button>
+          <div class="store-chips">
+            <div class="chip">万醉</div>
+            <div class="chip">万杨</div>
+            <div class="chip">万李二</div>
+            <div class="chip">吾湘</div>
+            <div class="chip">吾黄</div>
+            <div class="chip">吾醉</div>
+            <div class="chip">萍姐</div>
+            <div class="chip">柳</div>
+            <div class="chip">保黄</div>
+            <div class="chip">保4楼</div>
+            <div class="chip">五洲</div>
+            <div class="chip">至尊</div>
+          </div>
+        </div>
+
+        <div class="date-card">
+          <button class="arrow">‹</button>
+          <div class="date-center">
+            <div>
+              <div class="date-label">2026年6月</div>
+              <div class="day">5 日</div>
+              <div class="total">合计 ¥0</div>
+            </div>
+            <div class="calendar">▣</div>
+          </div>
+          <button class="arrow">›</button>
+        </div>
+
+        <div class="shop-list">
+          <div class="shop-row"><strong>万醉</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>万杨</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>万李二</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>吾湘</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>吾黄</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>吾醉</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>萍姐</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>柳</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>保黄</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>保4楼</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>五洲</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row"><strong>至尊</strong><div class="amount zero">0</div><div class="mic">♬</div></div>
+          <div class="shop-row blank-row"><strong>空白</strong><div class="amount"></div><div class="mic">＋</div></div>
+        </div>
+      </section>
+
+      <section class="phone" aria-label="图2新版 mock">
+        <div class="status"><span>19:57</span><span>▮▮▮ WiFi 49</span></div>
+        <div class="payment-title">
+          <button class="icon-btn">‹</button>
+          <h1>店铺收款确认<span>2026 年</span></h1>
+          <div></div>
+        </div>
+        <div class="payment-shell">
+          <table class="payment-table">
+            <thead>
+              <tr>
+                <th class="name-col">店铺</th>
+                <th class="month-col">1月</th>
+                <th class="month-col">2月</th>
+                <th class="month-col">3月</th>
+                <th class="month-col">4月</th>
+                <th class="month-col">5月</th>
+                <th class="month-col">6月</th>
+                <th class="month-col">7月</th>
+                <th class="month-col">8月</th>
+                <th class="month-col">9月</th>
+                <th class="month-col">10月</th>
+                <th class="month-col">11月</th>
+                <th class="month-col">12月</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th class="name-col">万醉</th><td></td><td></td><td></td><td></td><td><span class="pay-value">3588</span></td><td><span class="pay-value">1216</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">万杨</th><td></td><td></td><td></td><td></td><td><span class="pay-value">104</span></td><td><span class="pay-value">615</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">万李二</th><td></td><td></td><td></td><td></td><td><span class="pay-value">0</span></td><td><span class="pay-value">0</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">吾湘</th><td></td><td></td><td></td><td></td><td><span class="pay-value">385</span></td><td><span class="pay-value">293</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">吾黄</th><td></td><td></td><td></td><td></td><td><span class="pay-value">230</span></td><td><span class="pay-value">105</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">吾醉</th><td></td><td></td><td></td><td></td><td><span class="pay-value">339</span></td><td><span class="pay-value">1331</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">萍姐</th><td></td><td></td><td></td><td></td><td><span class="pay-value">486</span></td><td><span class="pay-value">532</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">柳</th><td></td><td></td><td></td><td></td><td><span class="pay-value">1040</span></td><td><span class="pay-value">434</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">保黄</th><td></td><td></td><td></td><td></td><td><span class="pay-value">482</span></td><td><span class="pay-value">180</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">保4楼</th><td></td><td></td><td></td><td></td><td><span class="pay-value">922</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">五洲</th><td></td><td></td><td></td><td></td><td><span class="pay-value">68</span></td><td><span class="pay-value">360</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr><th class="name-col">至尊</th><td></td><td></td><td></td><td></td><td><span class="pay-value">45.6</span></td><td><span class="pay-value">498</span></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="hint">付款表可左右滑动，店铺名固定在左侧，数字不会再压到隔壁月份。</p>
+      </section>
+    </main>
+  </body>
+</html>

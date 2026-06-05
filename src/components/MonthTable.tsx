@@ -10,8 +10,8 @@ interface MonthTableProps {
 }
 
 const daysInMonth = (year: number, month: number) => new Date(year, month, 0).getDate();
-// 表格固定显示 13 列:最多 11 家有名店铺 + 2 个空白预留列
-const MAX_LABELED_STORES = 11;
+// 表格固定显示 13 列:最多 12 家有名店铺 + 1 个空白预留列
+const MAX_LABELED_STORES = 12;
 const TOTAL_STORE_COLUMNS = 13;
 const roundMoney = (value: number) => Math.round(value * 100) / 100;
 
@@ -25,7 +25,7 @@ export const getCellTotal = (cell?: AmountCell) => {
 
 export function MonthTable({ monthData, onChangeCell, onCellFocus, selectedCell }: MonthTableProps) {
   const days = Array.from({ length: daysInMonth(monthData.year, monthData.month) }, (_, index) => index + 1);
-  // 限制显示前 11 家有名店铺;额外的数据保留在 DB,只是不在表格里以标签形式出现
+  // 限制显示前 12 家有名店铺;额外的数据保留在 DB,只是不在表格里以标签形式出现
   const displayedStores = monthData.stores.slice(0, MAX_LABELED_STORES);
   // 总固定 13 列,labeled 之后补足空白
   const blankCustomerColumns = Array.from({

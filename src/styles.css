@@ -1936,6 +1936,40 @@ button {
   overflow-x: auto;
 }
 
+.mobile-shoppayment-shell .payment-table {
+  width: max-content;
+  min-width: 698px;
+  height: auto;
+}
+
+.mobile-shoppayment-shell .payment-table th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  width: 74px;
+  min-width: 74px;
+  background: #f7faf7;
+}
+
+.mobile-shoppayment-shell .payment-table thead th:first-child {
+  z-index: 3;
+}
+
+.mobile-shoppayment-shell .payment-table th:not(:first-child),
+.mobile-shoppayment-shell .payment-table td {
+  width: 52px;
+  min-width: 52px;
+}
+
+.mobile-shoppayment-shell .payment-cell-button {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: clamp(10px, 3vw, 14px);
+  line-height: 1.1;
+}
+
 /* 移动端日期切换按钮(整个 center 区域可点) */
 .mobile-date-card .mobile-date-center-btn {
   background: transparent;

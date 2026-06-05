@@ -2,7 +2,7 @@ import type { AmountCell, MonthData, ShopName } from "../types/dashboard";
 
 export const years = [2026, 2027, 2028];
 
-export const shops: ShopName[] = ["万醉", "万杨", "吾湘", "吾黄", "吾醉", "萍姐", "柳", "保黄", "保4楼", "五洲", "至尊"];
+export const shops: ShopName[] = ["万醉", "万杨", "万李二", "吾湘", "吾黄", "吾醉", "萍姐", "柳", "保黄", "保4楼", "五洲", "至尊"];
 
 const now = "2026-05-29T00:00:00.000Z";
 

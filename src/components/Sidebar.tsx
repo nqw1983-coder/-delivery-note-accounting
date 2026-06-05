@@ -1,5 +1,5 @@
 import type { ChangeEvent, RefObject } from "react";
-import { Download, Plus, RefreshCw, Search, Settings } from "lucide-react";
+import { Download, Plus, RefreshCw, Save, Search, Settings } from "lucide-react";
 import type { MonthData } from "../types/dashboard";
 import { years } from "../data/seedData";
 
@@ -80,12 +80,12 @@ export function Sidebar({
             <button
               className={`icon-button ${syncing ? "icon-spinning" : ""}`}
               type="button"
-              aria-label="云端同步"
+              aria-label="保存并同步云端"
               onClick={onSync}
               disabled={syncing}
-              title="拉取云端最新数据 + 上传待同步本地数据"
+              title="保存并同步:上传本地待保存数据,再拉取云端最新数据"
             >
-              <RefreshCw size={18} />
+              {syncing ? <RefreshCw size={18} /> : <Save size={18} />}
             </button>
             <button className="icon-button" type="button" aria-label="导出数据" onClick={onExport}>
               <Download size={18} />
