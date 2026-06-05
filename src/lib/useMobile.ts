@@ -14,16 +14,17 @@ function isAppleTouchDevice(): boolean {
 }
 
 /**
- * 检测当前是否使用手机版(双屏/多屏)界面。
- * iPhone / iPad / 小屏(<= maxWidth)= true,Mac 桌面普通浏览器 = false。
+ * 全平台统一使用手机版(双屏/多屏)界面。
+ * 按用户要求,Mac 桌面 / iPad / iPhone 一律返回 true,不再显示桌面二维表格。
+ * 仍保留 isAppleTouchDevice / matchMedia 逻辑供将来按需恢复分流。
  *
  * 用 matchMedia 监听屏幕大小变化(用户旋转设备 / 调整窗口大小时自动切换)。
  */
 export function useMobile(maxWidth = 760): boolean {
+  void isAppleTouchDevice;
   const computeIsMobile = () => {
-    if (typeof window === "undefined") return false;
-    if (isAppleTouchDevice()) return true;
-    return window.matchMedia(`(max-width: ${maxWidth}px)`).matches;
+    // 全平台强制手机界面
+    return true;
   };
 
   const [isMobile, setIsMobile] = useState(computeIsMobile);
