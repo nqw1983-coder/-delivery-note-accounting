@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-05T17:28:57.040Z",
+  "exportedAt": "2026-06-06T15:00:56.088Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 62,
+  "recordCount": 68,
   "deliveries": [
     {
       "id": "44b9cd4d-2791-51b7-9c42-bb0d92a6c936",
@@ -685,6 +685,72 @@
       "device": "iPad",
       "created_at": "2026-06-05T12:01:09.156+00:00",
       "updated_at": "2026-06-05T12:01:09.156+00:00"
+    },
+    {
+      "id": "ea6158cf-e071-5be4-832e-189da2af670f",
+      "delivery_date": "2026-06-06",
+      "shop_name": "吾黄",
+      "order_no": "manual-2026-6-6-吾黄",
+      "amount": 35,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-06T14:38:55.702+00:00",
+      "updated_at": "2026-06-06T14:38:55.702+00:00"
+    },
+    {
+      "id": "cab0665e-ce85-56c8-a190-f87fb758db4d",
+      "delivery_date": "2026-06-06",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-6-6-至尊",
+      "amount": 174,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-06T14:38:46.539+00:00",
+      "updated_at": "2026-06-06T14:38:46.539+00:00"
+    },
+    {
+      "id": "04765fb3-b561-56b8-8fd7-01c7be8e27ec",
+      "delivery_date": "2026-06-06",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-6-6-萍姐",
+      "amount": 481,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-06T14:38:23.573+00:00",
+      "updated_at": "2026-06-06T14:38:23.573+00:00"
+    },
+    {
+      "id": "1d5bf79e-166f-5075-85f8-ddf0e38c8d8b",
+      "delivery_date": "2026-06-06",
+      "shop_name": "柳",
+      "order_no": "manual-2026-6-6-柳",
+      "amount": 316,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-06T14:38:10.807+00:00",
+      "updated_at": "2026-06-06T14:38:10.807+00:00"
+    },
+    {
+      "id": "04e747c3-4807-5dfe-a264-f55bb78f7d26",
+      "delivery_date": "2026-06-06",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-6-6-万杨",
+      "amount": 576,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-06T14:37:58.868+00:00",
+      "updated_at": "2026-06-06T14:37:58.868+00:00"
+    },
+    {
+      "id": "55177fcf-fd65-5461-9489-06805ca13628",
+      "delivery_date": "2026-06-06",
+      "shop_name": "保黄",
+      "order_no": "manual-2026-6-6-保黄",
+      "amount": 25,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-06T14:37:34.856+00:00",
+      "updated_at": "2026-06-06T14:37:34.856+00:00"
     }
   ]
 }
