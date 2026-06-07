@@ -1,9 +1,20 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-06T15:00:56.088Z",
+  "exportedAt": "2026-06-07T15:15:08.995Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 68,
+  "recordCount": 74,
   "deliveries": [
+    {
+      "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
+      "delivery_date": "2026-02-04",
+      "shop_name": "吾黄",
+      "order_no": "manual-2026-2-4-吾黄",
+      "amount": 32,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-06T15:41:31.295+00:00",
+      "updated_at": "2026-06-06T15:41:31.295+00:00"
+    },
     {
       "id": "44b9cd4d-2791-51b7-9c42-bb0d92a6c936",
       "delivery_date": "2026-05-01",
@@ -751,6 +762,61 @@
       "device": "iPad",
       "created_at": "2026-06-06T14:37:34.856+00:00",
       "updated_at": "2026-06-06T14:37:34.856+00:00"
+    },
+    {
+      "id": "56223abb-3582-5b0f-b7e8-7e48114ae81b",
+      "delivery_date": "2026-06-07",
+      "shop_name": "万醉",
+      "order_no": "manual-2026-6-7-万醉",
+      "amount": 205,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-07T11:31:35.167+00:00",
+      "updated_at": "2026-06-07T11:31:35.167+00:00"
+    },
+    {
+      "id": "223b2394-841b-50e3-8dad-6227dbb846ce",
+      "delivery_date": "2026-06-07",
+      "shop_name": "万李二",
+      "order_no": "manual-2026-6-7-万李二",
+      "amount": 223,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-07T11:31:23.052+00:00",
+      "updated_at": "2026-06-07T11:31:23.052+00:00"
+    },
+    {
+      "id": "f146c9e3-ea07-523f-93e7-ed1b29b0dda0",
+      "delivery_date": "2026-06-07",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-6-7-萍姐",
+      "amount": 25,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-07T11:30:59.822+00:00",
+      "updated_at": "2026-06-07T11:30:59.822+00:00"
+    },
+    {
+      "id": "0743903b-cd56-5bf6-8767-a62e173ba457",
+      "delivery_date": "2026-06-07",
+      "shop_name": "五洲",
+      "order_no": "manual-2026-6-7-五洲",
+      "amount": 137,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-07T11:30:47.058+00:00",
+      "updated_at": "2026-06-07T11:30:47.058+00:00"
+    },
+    {
+      "id": "61163ad0-7442-5f5a-8571-b5a1d9a1483e",
+      "delivery_date": "2026-06-07",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-6-7-万杨",
+      "amount": 222,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-07T11:30:31.676+00:00",
+      "updated_at": "2026-06-07T11:30:31.676+00:00"
     }
   ]
 }
