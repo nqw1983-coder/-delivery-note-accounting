@@ -113,9 +113,24 @@ export function ShopPaymentModal({ year, months, shops, edits, onEdit }: ShopPay
               <button type="button" onClick={() => setSelectedPaymentCell(null)}>关闭</button>
             </header>
 
-            <div className="sum-line">
-              {selectedPaymentCell.amount || "0"}
-              {edits[paidKey(year, selectedPaymentCell.rowId, selectedPaymentCell.month)] === "paid" ? " 🌹" : ""}
+            <div className="payment-amount-edit">
+              <label htmlFor="payment-amount-field">金额(可修改)</label>
+              <div className="payment-amount-row">
+                <input
+                  id="payment-amount-field"
+                  className="payment-amount-input"
+                  type="text"
+                  inputMode="decimal"
+                  placeholder="金额"
+                  value={edits[amountKey(year, selectedPaymentCell.rowId, selectedPaymentCell.month)] ?? selectedPaymentCell.amount}
+                  onChange={(event) =>
+                    onEdit(amountKey(year, selectedPaymentCell.rowId, selectedPaymentCell.month), event.target.value)
+                  }
+                />
+                {edits[paidKey(year, selectedPaymentCell.rowId, selectedPaymentCell.month)] === "paid" ? (
+                  <span className="payment-amount-rose" aria-label="已付款">🌹</span>
+                ) : null}
+              </div>
             </div>
 
             <div className="payment-status-actions" aria-label="付款状态">

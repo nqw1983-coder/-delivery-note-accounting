@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Mic, Plus, CalendarDays } from "lucide-react";
+import { ChevronLeft, ChevronRight, Mic, Plus, CalendarDays, RefreshCw } from "lucide-react";
 import type { MonthData, ShopName } from "../types/dashboard";
 import { extractAmount } from "../lib/chineseNumber";
 
@@ -11,6 +11,9 @@ interface MobileDayDetailProps {
   onBack: () => void;
   /** 点顶部某店铺名 → 跳转到该店本月明细 */
   onSelectStoreMonth: (shop: string) => void;
+  /** 手动同步云端 */
+  onSync: () => void;
+  syncing: boolean;
 }
 
 const MAX_LABELED_STORES = 12;
@@ -53,6 +56,8 @@ export function MobileDayDetail({
   onChangeCell,
   onBack,
   onSelectStoreMonth,
+  onSync,
+  syncing,
 }: MobileDayDetailProps) {
   const totalDays = daysInMonth(monthData.year, monthData.month);
   // 限制到 12 家显示 + 补足 1 空白 = 13 行
@@ -143,9 +148,20 @@ export function MobileDayDetail({
     <div className="mobile-page mobile-daydetail">
       {/* 顶部:返回 + 12 店铺按钮(2排×6,点击跳店铺月度明细) */}
       <header className="mobile-shop-grid-header">
-        <button className="mobile-icon" onClick={onBack} aria-label="返回">
-          <ChevronLeft size={20} />
-        </button>
+        <div className="mobile-header-left">
+          <button className="mobile-icon" onClick={onBack} aria-label="返回">
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            className={`mobile-sync-btn ${syncing ? "icon-spinning" : ""}`}
+            onClick={onSync}
+            disabled={syncing}
+            aria-label="同步保存"
+          >
+            <RefreshCw size={15} />
+            {syncing ? "同步中" : "同步"}
+          </button>
+        </div>
         <div className="mobile-shop-grid">
           {topStores.map((shop) => (
             <button

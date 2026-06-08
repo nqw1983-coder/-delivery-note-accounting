@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { RefreshCw } from "lucide-react";
 import { Sidebar } from "./components/Sidebar";
 import { MonthTable, getCellTotal } from "./components/MonthTable";
 import { ScanModal } from "./components/ScanModal";
@@ -13,7 +14,7 @@ import { useMobile } from "./lib/useMobile";
 import { extractAmount } from "./lib/chineseNumber";
 import { createEmptyMonth, initialMonths, shops } from "./data/seedData";
 import { isAdminMode } from "./lib/adminMode";
-import { getBackupStatus, recordNewEntryForBackupReminder } from "./lib/exporter";
+import { exportExcel, getBackupStatus, recordNewEntryForBackupReminder } from "./lib/exporter";
 import {
   clearOcrSettings,
   fileToDataUrl,
@@ -77,7 +78,27 @@ export default function App() {
   const [adminMode] = useState(() => isAdminMode());
   const [backupStatus, setBackupStatus] = useState(() => getBackupStatus());
   const [backupBannerDismissed, setBackupBannerDismissed] = useState(false);
-  const [shopPaymentEdits, setShopPaymentEdits] = useState<Record<string, string>>({});
+  const [shopPaymentEdits, setShopPaymentEdits] = useState<Record<string, string>>(() => {
+    try {
+      const raw = localStorage.getItem("delivery-shop-payment-edits-v1");
+      const parsed = raw ? (JSON.parse(raw) as Record<string, string>) : {};
+      return parsed && typeof parsed === "object" ? parsed : {};
+    } catch {
+      return {};
+    }
+  });
+  // 店铺本月明细"核算确认"状态。key = `${year}:${month}:${shop}`,值为 "1" 表示已核对。本地存储,不上云。
+  const [storeReconcile, setStoreReconcile] = useState<Record<string, string>>(() => {
+    try {
+      const raw = localStorage.getItem("delivery-store-reconcile-v1");
+      const parsed = raw ? (JSON.parse(raw) as Record<string, string>) : {};
+      return parsed && typeof parsed === "object" ? parsed : {};
+    } catch {
+      return {};
+    }
+  });
+  // 每周本机 Excel 备份提醒:记录上次在本机保存的日期(ISO),启动时若超 7 天则弹提示
+  const [localBackupDue, setLocalBackupDue] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
   const [batchFiles, setBatchFiles] = useState<File[]>([]);
   const [batchIndex, setBatchIndex] = useState(-1);
@@ -227,6 +248,36 @@ export default function App() {
       setTimeout(() => setNotice((cur) => (cur.startsWith("✓ 同步完成") || cur.startsWith("同步失败") ? "" : cur)), 3000);
     }
   };
+
+  // 启动时检查:距上次"本机 Excel 备份"是否已超 7 天,是则弹提示
+  useEffect(() => {
+    try {
+      const last = localStorage.getItem("delivery-local-excel-backup-v1");
+      const sevenDays = 7 * 24 * 60 * 60 * 1000;
+      if (!last || Date.now() - new Date(last).getTime() >= sevenDays) {
+        setLocalBackupDue(true);
+      }
+    } catch {
+      // localStorage 不可用时不弹,不阻塞主流程
+    }
+  }, []);
+
+  // 点"立即保存":在用户手势内导出 Excel(iOS 才允许下载),并记下今天
+  const handleSaveLocalBackup = () => {
+    try {
+      exportExcel(months);
+      localStorage.setItem("delivery-local-excel-backup-v1", new Date().toISOString());
+      setNotice("✓ 已保存 Excel 备份到本机");
+      setTimeout(() => setNotice((cur) => (cur.startsWith("✓ 已保存 Excel") ? "" : cur)), 3000);
+    } catch (err) {
+      setNotice(`导出失败:${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setLocalBackupDue(false);
+    }
+  };
+
+  // 点"稍后":本次启动不再提示(不写日期,下次启动若仍超 7 天会再提示)
+  const handleSnoozeLocalBackup = () => setLocalBackupDue(false);
 
   const handleSelectYear = (year: number) => {
     const yearMonths = months.filter((item) => item.year === year).sort((a, b) => b.month - a.month);
@@ -421,15 +472,39 @@ export default function App() {
   };
 
   const handleShopPaymentEdit = (key: string, value: string) => {
-    setShopPaymentEdits((current) => ({
-      ...current,
-      [key]: value,
-    }));
+    setShopPaymentEdits((current) => {
+      const next = { ...current, [key]: value };
+      try {
+        localStorage.setItem("delivery-shop-payment-edits-v1", JSON.stringify(next));
+      } catch {
+        // localStorage 不可用时忽略,内存态仍生效
+      }
+      return next;
+    });
   };
 
   const handleShowShopPayment = () => {
     setActiveView("shopPayment");
     setNotice("");
+  };
+
+  // 切换某店铺当月的"核算确认"状态(本地存储)
+  const handleToggleReconcile = (year: number, month: number, shop: string) => {
+    const key = `${year}:${month}:${shop}`;
+    setStoreReconcile((current) => {
+      const next = { ...current };
+      if (next[key] === "1") {
+        delete next[key];
+      } else {
+        next[key] = "1";
+      }
+      try {
+        localStorage.setItem("delivery-store-reconcile-v1", JSON.stringify(next));
+      } catch {
+        // localStorage 不可用时忽略,内存态仍生效
+      }
+      return next;
+    });
   };
 
   const handleMonthCellChange = (day: number, shop: string, value: string) => {
@@ -654,9 +729,20 @@ export default function App() {
       return (
         <main className="mobile-app mobile-shoppayment-page">
           <header className="mobile-detail-header">
-            <button className="mobile-icon" onClick={() => setMobileView("monthList")} aria-label="返回">
-              <span style={{ fontSize: 20 }}>‹</span>
-            </button>
+            <div className="mobile-header-left">
+              <button className="mobile-icon" onClick={() => setMobileView("monthList")} aria-label="返回">
+                <span style={{ fontSize: 20 }}>‹</span>
+              </button>
+              <button
+                className={`mobile-sync-btn ${syncing ? "icon-spinning" : ""}`}
+                onClick={handleManualSync}
+                disabled={syncing}
+                aria-label="同步保存"
+              >
+                <RefreshCw size={15} />
+                {syncing ? "同步中" : "同步"}
+              </button>
+            </div>
             <div className="center">
               <div className="title">店铺收款确认</div>
               <div className="sub">{selectedYear} 年</div>
@@ -699,6 +785,32 @@ export default function App() {
             syncing={syncing}
           />
           {notice && <div className="mobile-toast">{notice}</div>}
+          {localBackupDue && (
+            <div className="modal-backdrop" role="presentation" onClick={handleSnoozeLocalBackup}>
+              <section
+                className="detail-modal local-backup-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-label="每周本机备份提醒"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <header>
+                  <h3>每周本机备份</h3>
+                </header>
+                <p className="local-backup-text">
+                  距上次在本机保存 Excel 已超过 7 天。建议现在存一份到本设备(iPad / 手机),云端之外多一重保险。
+                </p>
+                <div className="local-backup-actions">
+                  <button type="button" className="snooze" onClick={handleSnoozeLocalBackup}>
+                    稍后
+                  </button>
+                  <button type="button" className="save" onClick={handleSaveLocalBackup}>
+                    立即保存
+                  </button>
+                </div>
+              </section>
+            </div>
+          )}
           {showSettings && (
             <SettingsModal
               current={ocrSettings}
@@ -731,6 +843,10 @@ export default function App() {
               setMobileSelectedDay(day);
               setMobileView("dayDetail");
             }}
+            confirmed={storeReconcile[`${selectedYear}:${selectedMonth}:${mobileSelectedStore}`] === "1"}
+            onToggleConfirm={() => handleToggleReconcile(selectedYear, selectedMonth, mobileSelectedStore)}
+            onSync={handleManualSync}
+            syncing={syncing}
           />
         </main>
       );
@@ -749,6 +865,8 @@ export default function App() {
             setMobileSelectedStore(shop);
             setMobileView("storeMonth");
           }}
+          onSync={handleManualSync}
+          syncing={syncing}
         />
         {/* 隐藏的文件 input,通过 fileInputRef 触发拍照/选图 */}
         <input

@@ -857,6 +857,48 @@ button {
   width: min(560px, 100%);
 }
 
+.payment-amount-edit {
+  margin-bottom: 12px;
+}
+
+.payment-amount-edit label {
+  display: block;
+  margin-bottom: 6px;
+  color: #4a6357;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.payment-amount-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.payment-amount-input {
+  flex: 1;
+  height: 52px;
+  padding: 0 14px;
+  color: #123c2b;
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+  background: #eef6f0;
+  border: 1px solid #d4e0d6;
+  border-radius: 8px;
+  outline: 0;
+}
+
+.payment-amount-input:focus {
+  background: #ffffff;
+  border-color: #f59e0b;
+  border-width: 2px;
+}
+
+.payment-amount-rose {
+  font-size: 22px;
+}
+
 .payment-status-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1749,17 +1791,18 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 22px;
+  padding: 12px 14px;
   background: #fff;
   border: 1px solid #dce4dc;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 14px rgba(21, 70, 45, 0.06);
 }
 
 .mobile-date-card .arrow {
-  width: 36px;
-  height: 36px;
-  background: #f0f5f1;
+  width: 38px;
+  height: 38px;
+  background: #eef6f0;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1781,11 +1824,11 @@ button {
 
 .mobile-date-card .label {
   font-size: 12px;
-  color: #688e7a;
+  color: #6f8a7a;
 }
 
 .mobile-date-card .day {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 800;
   color: #123c2b;
   line-height: 1.1;
@@ -1793,7 +1836,8 @@ button {
 }
 
 .mobile-date-card .total {
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 700;
   color: #25513f;
   margin-top: 2px;
 }
@@ -1801,34 +1845,36 @@ button {
 .mobile-shop-list {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 7px;
   padding-bottom: env(safe-area-inset-bottom, 12px);
 }
 
 .mobile-shop-row {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px 8px 14px;
   background: #fff;
   border: 1px solid #dce4dc;
-  border-radius: 10px;
-  min-height: 44px;
+  border-radius: 12px;
+  min-height: 52px;
 }
 
 .mobile-shop-row .name {
-  flex: 1;
-  font-size: 15px;
+  flex: 0 0 68px;
+  font-size: 16px;
   font-weight: 700;
   color: #16281f;
+  text-align: right;
 }
 
 .mobile-shop-row .amount {
-  width: 100px;
-  height: 34px;
-  background: #f7faf7;
+  width: 84px;
+  height: 38px;
+  background: #f8fbf8;
   border: 1px solid #d0ddd3;
-  border-radius: 7px;
+  border-radius: 9px;
   text-align: right;
   padding: 0 12px;
   font-size: 16px;
@@ -1849,16 +1895,17 @@ button {
 }
 
 .mobile-shop-row.has-value {
-  background: #ecfdf5;
-  border-color: #b6e5cf;
+  background: #ecfbf3;
+  border-color: #9bdabf;
+  box-shadow: inset 3px 0 0 #1b7a50;
 }
 
 .mobile-shop-row .mic {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   background: #145c3c;
   color: #fff;
-  border-radius: 7px;
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1993,30 +2040,31 @@ button {
 
 .mobile-shop-grid-header {
   display: grid;
-  grid-template-columns: 38px 1fr;
+  grid-template-columns: 42px 1fr;
   align-items: center;
-  gap: 8px;
-  margin: 6px 0 10px;
+  gap: 10px;
+  margin: 4px 0 12px;
 }
 
 .mobile-shop-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
+  gap: 6px;
 }
 
 .mobile-shop-chip {
-  padding: 7px 4px;
-  background: #fff;
+  padding: 6px 4px;
+  background: #fbfdfb;
   border: 1px solid #dce4dc;
-  border-radius: 8px;
+  border-radius: 9px;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: #16281f;
-  min-height: 30px;
+  min-height: 32px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 1px 2px rgba(21, 70, 45, 0.04);
 }
 
 .mobile-shop-chip:active {
@@ -2037,22 +2085,24 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
+  min-width: 0;
 }
 
 .mobile-date-card .day-block {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 86px;
 }
 
 .mobile-date-card .cal-btn {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   background: #145c3c;
   color: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2155,4 +2205,142 @@ button {
 
 .mobile-store-day-row:active {
   background: #d4f0e0;
+}
+
+/* ===== 同步按钮 / 核算确认 / 可编辑天明细(本轮新增) ===== */
+
+/* 详情页头部左侧:返回 + 同步 两个按钮一组,左列改为自适应宽度 */
+.mobile-detail-header {
+  grid-template-columns: auto 1fr 38px;
+}
+
+.mobile-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mobile-sync-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #145c3c;
+  background: #eafaf1;
+  border: 1px solid #b6e5cf;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.mobile-sync-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* 店铺名 + 核算确认 一行居中 */
+.mobile-detail-header .title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.reconcile-btn {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #cdb86a;
+  background: #fff7e6;
+  color: #9a7b1f;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.reconcile-btn.done {
+  background: #fff0f3;
+  border-color: #f2b8c6;
+  color: #c0395e;
+}
+
+/* 店铺本月明细:每天金额可直接编辑 */
+.mobile-store-day-row {
+  cursor: default;
+}
+
+.mobile-store-day-row .day-nav {
+  background: transparent;
+  border: 0;
+  font-size: 14px;
+  color: #16281f;
+  font-weight: 600;
+  padding: 4px 2px;
+  cursor: pointer;
+}
+
+.mobile-store-day-row .amt-input {
+  width: 78px;
+  height: 30px;
+  text-align: right;
+  border: 1px solid #d0ddd3;
+  border-radius: 7px;
+  background: #f8fbf8;
+  font-size: 15px;
+  font-weight: 800;
+  color: #145c3c;
+  padding: 0 8px;
+  outline: 0;
+}
+
+.mobile-store-day-row .amt-input.zero {
+  color: #c0cbc4;
+  font-weight: 400;
+}
+
+.mobile-store-day-row .amt-input:focus {
+  background: #fff;
+  border-color: #f59e0b;
+  border-width: 2px;
+}
+
+/* 每周本机 Excel 备份提醒弹窗 */
+.local-backup-modal {
+  width: min(420px, 92vw);
+}
+
+.local-backup-text {
+  margin: 4px 0 18px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #2f4a3c;
+}
+
+.local-backup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 12px;
+}
+
+.local-backup-actions button {
+  height: 46px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.local-backup-actions .snooze {
+  color: #5a6b61;
+  background: #f1f5f2;
+  border: 1px solid #d4e0d6;
+}
+
+.local-backup-actions .save {
+  color: #fff;
+  background: #145c3c;
+  border: 1px solid #145c3c;
 }

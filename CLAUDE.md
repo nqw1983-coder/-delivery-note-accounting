@@ -72,24 +72,23 @@ npx wrangler pages deploy dist \
 - **React 18 + Vite 6 + TypeScript**,SPA 单页
 - **PWA**:`vite-plugin-pwa` autoUpdate + skipWaiting + clientsClaim(SW 立即接管,避免缓存毒瘤)
 - **Offline-First**:写本地立即,后台异步上云,失败入 `localStorage["pending_sync"]` 队列
-- **响应式双布局**(同一 URL,自动判断):
-  - iPad / 桌面(> 760px):`MonthTable` 2D 表格,侧栏 148px
-  - iPhone / 小屏(≤ 760px):`MobileMonthList` + `MobileDayDetail` 双屏列表
-  - 通过 `src/lib/useMobile.ts` 的 `useMobile(760)` hook 检测,基于 `window.matchMedia`
-  - **两端共享同一份 React state + Supabase 数据**,iPad 录 iPhone 立刻看到
-- **iPad 表格**:固定 13 列(11 家有名客户 + 2 空白),行高 22px,31 天 + 顶部表头 + 重复表头 + 本月合计 一屏完整
-- **重复表头行**(在本月合计上面):浅绿底加重字体,最后几天数据直接对照客户列
-- **iPhone 双屏**:
+- **全平台手机 UI(2026-06-05 起)**:`src/lib/useMobile.ts` 的 `useMobile()` 现**恒返回 true**,iPhone / iPad / Mac 桌面**一律使用手机版(双屏/多屏)界面**。桌面 2D 表格 `MonthTable` 代码保留(导出、`shopPayment` 仍引用其工具函数),但**不再作为运行界面**。`isAppleTouchDevice()` / `matchMedia` 逻辑保留,供日后按需恢复分流。
+  - **全端共享同一份 React state + Supabase 数据**,一端录另一端同步看到
+- **店铺名单(2026-06-05 起)**:12 家有名 + 1 空白 = 13。顺序:万醉 / 万杨 / **万李二** / 吾湘 / 吾黄 / 吾醉 / 萍姐 / 柳 / 保黄 / 保4楼 / 五洲 / 至尊。旧月份缺"万李二"时,`dashboardStore.ts` 的 `normalizeMonthStores()` 启动自动补齐。
+- **桌面 2D 表格(保留未启用)**:`MonthTable` 固定 13 列(12 家有名 + 1 空白),行高 22px,31 天 + 顶部表头 + 重复表头 + 本月合计 一屏完整
+- **iPhone/iPad 多屏**:
   - 第一屏 `MobileMonthList`:最多 12 个月份卡片(年月/已同步/¥金额),底部固定"待补单据"橙黄横条
-  - 第二屏 `MobileDayDetail`:左右箭头切日期,11 家店 + 2 空白,每行带 🎤 麦克风(Web Speech API zh-CN)
+  - 第二屏 `MobileDayDetail`:左右箭头切日期,12 家店 + 1 空白,每行"店名(右对齐)+ 金额框(84px,够 5 位)+ 🎤"三件一组**整体居中**(2026-06-05 布局调整)
 - **中文数字自动转换**:iOS 听写"二百三十八" → 238,通过 `extractAmount()` 在 handleMonthCellChange 兜底
 - **手动云同步按钮(全平台)**:`handleManualSync()` 触发 `flushPendingSync()` + `fetchDeliveries()` + `mergeCloudDeliveries`,适合用户在 iPad/iPhone 都开着时,在一端录完点同步按钮立即让另一端拉到最新
 - **手机版日期选择器**:`<label>` 包 `<input type="date">` + 透明覆盖,iOS 原生触发 picker,不依赖 `showPicker()`
 - **手机当日明细页 3 个视图分层**:
-  - 顶部:返回 + 12 个店铺按钮(2×6 网格)
+  - 顶部:返回 + **同步按钮** + 12 个店铺按钮(2×6 网格)
   - 中间:日期切换卡(箭头 + 大日历按钮 44×44)
-  - 下方:11 家店铺录入行 + 2 空白
-- **手机店铺月度明细页**(`MobileStoreMonthDetail`):点顶部店铺名跳转;顶部绿色卡显示本月合计 + 有送货天数;2 列网格列 31 天每天金额;有金额浅绿底;点任意一天回到当日明细
+  - 下方:12 家店铺录入行 + 1 空白
+- **手机店铺月度明细页**(`MobileStoreMonthDetail`):点顶部店铺名跳转;顶部左侧返回 + **同步按钮**,店名右侧 **"核算确认"按钮(确认后显示 🌹,再点取消;状态存 `localStorage["delivery-store-reconcile-v1"]`)**;顶部绿色卡显示本月合计 + 有送货天数;2 列网格 31 天,**每天金额改为可直接编辑的输入框**——改某天即走 `handleMonthCellChange` **回写真实 cell + 云端**,当日明细页同步更新(老板每月在此核对送货单,发现错直接改);点"X日"标签仍可跳回当日明细
+- **店铺收款确认金额可改(2026-06-05)**:`ShopPaymentModal` 点单元格弹窗里多了"金额(可修改)"输入框,改 `edits[amountKey]`(覆盖层,存 `localStorage["delivery-shop-payment-edits-v1"]`);默认仍按每月数据自动生成,不改就用自动值。**注意**:这是收款确认的覆盖层,不回写 deliveries;要回写真实送货数据请用上面的"店铺本月明细"可编辑表格
+- **各页同步按钮(2026-06-05)**:当日明细 / 店铺本月明细 / 店铺收款确认 三页左上角都加了"同步"按钮(= `handleManualSync`),首页本就有不重复加
 
 ### OCR(辅助,不主用)
 - 默认模型 `qwen-vl-ocr-latest`(OCR 专项,~1.7s)
@@ -106,6 +105,19 @@ npx wrangler pages deploy dist \
 ### 认证
 - SHA-256 密码门,`src/lib/auth.ts`
 - 改密码:`node scripts/hash-password.js <新密码>` → 哈希粘到 `PASSWORD_HASH`
+
+## 近期变更(2026-06-05 ~ 06-08)
+
+1. **新增店铺"万李二"**(在"万杨"下面),全端 12 家有名 + 1 空白 = 13。改了 `src/data/seedData.ts`;`dashboardStore.ts` 加 `normalizeMonthStores()` 给旧月份自动补"万李二";`MonthTable.tsx` / `exporter.ts` 的 `MAX_LABELED_STORES` 11→12(桌面表/导出同步)。
+2. **全平台改用手机 UI**:`useMobile()` 恒 true,iPad / Mac 桌面都走 iPhone 那套多屏界面,桌面 2D 表格停用(代码保留)。
+3. **当日明细行居中布局**:店名右对齐(`flex:0 0 68px`)+ 金额框 84px(够 5 位)+ 🎤 紧挨,三件一组整体居中。
+4. **店铺收款确认金额可手动改**:`ShopPaymentModal` 单元格弹窗加"金额(可修改)"输入框(覆盖层,不回写 deliveries)。
+5. **店铺本月明细(图1)按天表格可编辑 + 回写**:每天金额改为输入框,改→`handleMonthCellChange` 回写真实 cell + 云端 + 当日明细;店名右侧加"核算确认"按钮(🌹,本地存储);左上加同步按钮。
+6. **三页加同步按钮**:当日明细 / 店铺本月明细 / 店铺收款确认。
+7. **每周本机 Excel 备份提醒(06-08)**:启动时检查 `localStorage["delivery-local-excel-backup-v1"]`,距上次本机保存超 7 天(或从没存过)则在首页弹"每周本机备份"弹窗;点「立即保存」**在手势内** `exportExcel(months)` 下载全月 Excel(带日期时分名,不覆盖)+ 记下今天;点「稍后」本次启动不再弹。⚠️ iOS Safari 只允许手势内触发下载,所以导出必须由按钮点击直接触发,不能放在 await 之后。**改成每周提醒之前曾短暂做过"每次同步都自动导出",已撤销。**
+8. **店铺收款确认空白行可用(06-08,无需改代码,本就支持)**:`ShopPaymentModal` 20 行 = 12 家有名 + 8 空白。空白行最左"店铺"格是可编辑输入(`payment-name-input`,手动填店名);空白行任意月份格点开即弹"金额(可修改)+ 付款/未付款"弹窗(整格 `width/height:100%` 可点)。**注意:收款确认页的店名/金额/付款状态都只存本地 `delivery-shop-payment-edits-v1`,不上云、不写 deliveries、不跨设备**。
+9. 新增本地存储 key:`delivery-store-reconcile-v1`(核算确认)、`delivery-shop-payment-edits-v1`(收款确认覆盖:店名/金额/付款)、`delivery-local-excel-backup-v1`(上次本机 Excel 备份日期)。均**不上云、不改 Supabase schema**。
+10. ⚠️ 验证教训:headless 写测试与线上**共用同一 Supabase**,误写会污染真实 `deliveries`(曾误写 2026-05-05 万醉 777)。**以后写入类验证只用空数据/测试日期,且测完按用户许可清理**。另:测 React 交互时点击后必须 `sleep` 等重渲染再断言,否则同 tick 读取会假性失败。
 
 ## 已踩过的坑(血泪记忆)
 
@@ -133,7 +145,8 @@ npx wrangler pages deploy dist \
 - 把 `shopMemory.ts` 已有条目改/删 — 这是用户长期积累
 - 把 OCR / 语音 / 扫描重新塞回主流程(用户已要求删)
 - 在 sidebar 加新入口
-- 表格里加新列(已固定 13 列)
+- 表格里加新列(已固定 13 列 = 12 家有名 + 1 空白)
+- 删除/改名已有店铺(只能像"万李二"那样追加)
 - 在 git 提交中暴露任何 Key / 凭据(.env.local 已 gitignore)
 
 ## 故障排查铁律(沿用全局 ~/.claude/CLAUDE.md 总则)

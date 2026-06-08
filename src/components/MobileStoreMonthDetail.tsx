@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, RefreshCw } from "lucide-react";
 import type { MonthData, ShopName } from "../types/dashboard";
 
 interface MobileStoreMonthDetailProps {
@@ -7,8 +7,15 @@ interface MobileStoreMonthDetailProps {
   shop: string;
   onBack: () => void;
   onChangeCell: (day: number, shop: ShopName, value: string) => boolean;
-  /** 点某天 → 跳回当日明细页(并切到该日期) */
+  /** 点某天的"日"标签 → 跳回当日明细页(并切到该日期) */
   onSelectDay: (day: number) => void;
+  /** 本月该店是否已核算确认 */
+  confirmed: boolean;
+  /** 切换核算确认状态 */
+  onToggleConfirm: () => void;
+  /** 手动同步云端 */
+  onSync: () => void;
+  syncing: boolean;
 }
 
 const daysInMonth = (year: number, month: number) => new Date(year, month, 0).getDate();
@@ -23,7 +30,12 @@ export function MobileStoreMonthDetail({
   monthData,
   shop,
   onBack,
+  onChangeCell,
   onSelectDay,
+  confirmed,
+  onToggleConfirm,
+  onSync,
+  syncing,
 }: MobileStoreMonthDetailProps) {
   const totalDays = daysInMonth(monthData.year, monthData.month);
   const days = useMemo(
@@ -43,11 +55,32 @@ export function MobileStoreMonthDetail({
   return (
     <div className="mobile-page mobile-store-month">
       <header className="mobile-detail-header">
-        <button className="mobile-icon" onClick={onBack} aria-label="返回当日明细">
-          <ChevronLeft size={20} />
-        </button>
+        <div className="mobile-header-left">
+          <button className="mobile-icon" onClick={onBack} aria-label="返回当日明细">
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            className={`mobile-sync-btn ${syncing ? "icon-spinning" : ""}`}
+            onClick={onSync}
+            disabled={syncing}
+            aria-label="同步保存"
+          >
+            <RefreshCw size={15} />
+            {syncing ? "同步中" : "同步"}
+          </button>
+        </div>
         <div className="center">
-          <div className="title">{shop}</div>
+          <div className="title-row">
+            <span className="title">{shop}</span>
+            <button
+              type="button"
+              className={`reconcile-btn ${confirmed ? "done" : ""}`}
+              onClick={onToggleConfirm}
+              aria-pressed={confirmed}
+            >
+              核算确认{confirmed ? " 🌹" : ""}
+            </button>
+          </div>
           <div className="sub">
             {monthData.year}年{monthData.month}月 · 共 ¥{totalDisplay.toLocaleString("zh-CN")}
           </div>
@@ -70,17 +103,34 @@ export function MobileStoreMonthDetail({
         {days.map((d) => {
           const amount = getAmount(monthData, d, shop);
           return (
-            <button
+            <div
               key={d}
-              type="button"
               className={`mobile-store-day-row ${amount > 0 ? "has-value" : "zero"}`}
-              onClick={() => onSelectDay(d)}
             >
-              <span className="day">{d}日</span>
-              <span className={`amt ${amount > 0 ? "" : "zero"}`}>
-                {amount > 0 ? amount.toLocaleString("zh-CN") : "0"}
-              </span>
-            </button>
+              <button
+                type="button"
+                className="day-nav"
+                onClick={() => onSelectDay(d)}
+                aria-label={`查看 ${d} 日当日明细`}
+              >
+                {d}日
+              </button>
+              <input
+                className={`amt-input ${amount > 0 ? "" : "zero"}`}
+                type="text"
+                inputMode="decimal"
+                defaultValue={amount > 0 ? amount : ""}
+                placeholder="0"
+                key={`${monthData.year}-${monthData.month}-${shop}-${d}-${amount}`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") e.currentTarget.blur();
+                }}
+                onBlur={(e) => {
+                  const ok = onChangeCell(d, shop as ShopName, e.currentTarget.value);
+                  if (!ok) e.currentTarget.value = amount > 0 ? String(amount) : "";
+                }}
+              />
+            </div>
           );
         })}
       </div>
