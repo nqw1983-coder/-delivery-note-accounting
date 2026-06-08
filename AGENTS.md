@@ -97,7 +97,8 @@
 
 | 层 | 位置 |
 |---|---|
-| 主存储 | Supabase Postgres(`deliveries` / `shop_aliases` / `known_shops` 三张表) |
+| 主存储 | Supabase Postgres(`deliveries` / `shop_aliases` / `known_shops` / `payment_state` 四张表) |
+| 收款确认/核算确认同步 | `payment_state` 表(key/value/updated_at),2026-06-08 新增,跨 iPhone/iPad/云端 |
 | 本地缓存 | `localStorage` Offline-First,启动时合并 |
 | 待同步队列 | `localStorage["pending_sync"]` 网络恢复自动补传 |
 | 字典硬层 | [src/data/shopMemory.ts](src/data/shopMemory.ts) — git 永久保存 |
@@ -217,5 +218,6 @@ OCR Edge Function 环境变量(Supabase Dashboard):
 - **2026-06-05**: 店铺本月明细(图1)按天表格改为可编辑,改某天 → `handleMonthCellChange` 回写真实 cell + 云端 + 当日明细;店名右侧加"核算确认"按钮(🌹,存 `localStorage["delivery-store-reconcile-v1"]`);当日明细 / 店铺本月明细 / 收款确认 三页左上加同步按钮
 - **2026-06-07**: 教训 — headless 写入测试与线上共用同一 Supabase,误写会污染真实 `deliveries`(曾误写 2026-05-05 万醉 777)。写入类验证只用空数据/测试日期,测完按用户许可清理
 - **2026-06-08**: 每周本机 Excel 备份提醒 — 启动查 `localStorage["delivery-local-excel-backup-v1"]`,超 7 天首页弹窗,点「立即保存」手势内 `exportExcel(months)` 下载(带日期名,不覆盖)。⚠️ iOS 只允许手势内下载,导出须由按钮点击直接触发
-- **2026-06-08**: 确认店铺收款确认空白行本就可用(空白行店名可填、空白格点开弹"金额可修改 + 付款/未付款")。收款确认页的店名/金额/付款只存本地 `delivery-shop-payment-edits-v1`,不上云、不写 deliveries、不跨设备
+- **2026-06-08**: 确认店铺收款确认空白行本就可用(空白行店名可填、空白格点开弹"金额可修改 + 付款/未付款")
+- **2026-06-08**: 店铺收款确认 + 核算确认**跨设备同步**(经用户同意新建 `payment_state` 表)。编辑即时上云(去抖 500ms 防逐字符竞态)+ 启动/同步拉取合并,云端权威、本地独有键补传。**作废之前"收款确认只存本地、不跨设备"的记录**
 - **2026-06-08**: 测试教训 — 测 React 交互点击后必须 `sleep` 等重渲染再断言,同 tick 读取会假性失败(空白格弹窗、表格回写都曾因此误判为"坏了")

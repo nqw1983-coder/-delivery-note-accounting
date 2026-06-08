@@ -100,7 +100,8 @@ npx wrangler pages deploy dist \
 - URL: `https://zaqeboyaltepwpavmvkf.supabase.co`
 - Publishable key 在客户端环境变量(可公开),service_role 严禁出现
 - Edge Function 部署用 `--no-verify-jwt`(新版 `sb_publishable_*` 不被默认 JWT 网关接受)
-- 三张表:`deliveries`(主) / `shop_aliases` / `known_shops`
+- 四张表:`deliveries`(主) / `shop_aliases` / `known_shops` / `payment_state`(收款确认+核算确认跨设备同步,2026-06-08 新增)
+- `payment_state` 结构:`key text primary key, value text, updated_at timestamptz`。key 前缀 `pe:`=收款确认编辑(店名/金额/付款)、`rc:`=核算确认。RLS 开放策略 `for all using(true) with check(true)` + grant anon
 
 ### 认证
 - SHA-256 密码门,`src/lib/auth.ts`
@@ -115,9 +116,10 @@ npx wrangler pages deploy dist \
 5. **店铺本月明细(图1)按天表格可编辑 + 回写**:每天金额改为输入框,改→`handleMonthCellChange` 回写真实 cell + 云端 + 当日明细;店名右侧加"核算确认"按钮(🌹,本地存储);左上加同步按钮。
 6. **三页加同步按钮**:当日明细 / 店铺本月明细 / 店铺收款确认。
 7. **每周本机 Excel 备份提醒(06-08)**:启动时检查 `localStorage["delivery-local-excel-backup-v1"]`,距上次本机保存超 7 天(或从没存过)则在首页弹"每周本机备份"弹窗;点「立即保存」**在手势内** `exportExcel(months)` 下载全月 Excel(带日期时分名,不覆盖)+ 记下今天;点「稍后」本次启动不再弹。⚠️ iOS Safari 只允许手势内触发下载,所以导出必须由按钮点击直接触发,不能放在 await 之后。**改成每周提醒之前曾短暂做过"每次同步都自动导出",已撤销。**
-8. **店铺收款确认空白行可用(06-08,无需改代码,本就支持)**:`ShopPaymentModal` 20 行 = 12 家有名 + 8 空白。空白行最左"店铺"格是可编辑输入(`payment-name-input`,手动填店名);空白行任意月份格点开即弹"金额(可修改)+ 付款/未付款"弹窗(整格 `width/height:100%` 可点)。**注意:收款确认页的店名/金额/付款状态都只存本地 `delivery-shop-payment-edits-v1`,不上云、不写 deliveries、不跨设备**。
-9. 新增本地存储 key:`delivery-store-reconcile-v1`(核算确认)、`delivery-shop-payment-edits-v1`(收款确认覆盖:店名/金额/付款)、`delivery-local-excel-backup-v1`(上次本机 Excel 备份日期)。均**不上云、不改 Supabase schema**。
-10. ⚠️ 验证教训:headless 写测试与线上**共用同一 Supabase**,误写会污染真实 `deliveries`(曾误写 2026-05-05 万醉 777)。**以后写入类验证只用空数据/测试日期,且测完按用户许可清理**。另:测 React 交互时点击后必须 `sleep` 等重渲染再断言,否则同 tick 读取会假性失败。
+8. **店铺收款确认空白行可用(06-08,无需改代码,本就支持)**:`ShopPaymentModal` 20 行 = 12 家有名 + 8 空白。空白行最左"店铺"格是可编辑输入(`payment-name-input`,手动填店名);空白行任意月份格点开即弹"金额(可修改)+ 付款/未付款"弹窗(整格 `width/height:100%` 可点)。
+9. **店铺收款确认 / 核算确认跨设备同步(06-08,改了 Supabase)**:新增 `payment_state` 表,收款确认编辑(店名/金额/付款)与核算确认 🌹 现在**实时上云 + 启动/点同步时拉取合并**,iPhone/iPad/云端三方一致。`handleShopPaymentEdit` 走 `scheduleCloudUpsert`(500ms 去抖,避免逐字符竞态),`handleToggleReconcile` 即时上云;`syncPaymentState` 先 `flushCloudUpserts` 再拉取(云端权威,本地独有键补传)。**⚠️ 之前"收款确认只存本地、不跨设备"的说法已作废。**
+10. 本地存储 key:`delivery-store-reconcile-v1`(核算确认)、`delivery-shop-payment-edits-v1`(收款确认覆盖)、`delivery-local-excel-backup-v1`(上次本机 Excel 备份日期)。前两者现**同时镜像到云端 `payment_state`**;第三个仅本地。
+11. ⚠️ 验证教训:headless 写测试与线上**共用同一 Supabase**,误写会污染真实 `deliveries`(曾误写 2026-05-05 万醉 777)。写入类验证只用空数据/测试日期,测完按用户许可清理。另:测 React 交互点击后必须 `sleep` 等重渲染再断言;逐字符 onChange 直接上云会竞态(`13579` 曾被中间态 `1357` 覆盖)→ 用去抖。
 
 ## 已踩过的坑(血泪记忆)
 

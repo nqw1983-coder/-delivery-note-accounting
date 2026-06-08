@@ -27,6 +27,44 @@ function enqueue(operation: PendingOperation) {
   writeQueue([...readQueue(), operation]);
 }
 
+// ===== 店铺收款确认 / 核算确认 的跨设备同步(payment_state 表) =====
+// 表结构: key text primary key, value text, updated_at timestamptz
+// key 前缀: "pe:" = 收款确认编辑(店名/金额/付款), "rc:" = 核算确认
+export interface PaymentStateRow {
+  key: string;
+  value: string;
+  updated_at: string;
+}
+
+export async function fetchPaymentState(): Promise<PaymentStateRow[]> {
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase.from("payment_state").select("key,value,updated_at");
+    if (error) {
+      console.warn("[cloud] fetchPaymentState failed", error.message);
+      return [];
+    }
+    return (data ?? []) as PaymentStateRow[];
+  } catch (error) {
+    console.warn("[cloud] fetchPaymentState failed", error);
+    return [];
+  }
+}
+
+export async function upsertPaymentState(key: string, value: string): Promise<boolean> {
+  if (!supabase) return true;
+  try {
+    const { error } = await supabase
+      .from("payment_state")
+      .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: "key" });
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.warn("[cloud] upsertPaymentState failed", error);
+    return false;
+  }
+}
+
 export async function fetchDeliveries(): Promise<DeliveryRecord[]> {
   if (!supabase) return [];
   try {

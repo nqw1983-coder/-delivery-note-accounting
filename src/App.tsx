@@ -33,6 +33,8 @@ import {
   flushPendingSync,
   upsertDelivery,
   deleteDelivery,
+  fetchPaymentState,
+  upsertPaymentState,
 } from "./lib/cloudStore";
 import {
   getDeliveryForPart,
@@ -236,6 +238,8 @@ export default function App() {
         saveStoredMonths(merged);
         return merged;
       });
+      // 同步收款确认/核算确认状态(跨设备)
+      await syncPaymentState(shopPaymentEdits, storeReconcile);
       const parts: string[] = [];
       if (pushed > 0) parts.push(`上传 ${pushed} 条`);
       parts.push(`拉取 ${cloudDeliveries.length} 条`);
@@ -260,6 +264,13 @@ export default function App() {
     } catch {
       // localStorage 不可用时不弹,不阻塞主流程
     }
+  }, []);
+
+  // 启动时拉取云端收款确认/核算确认状态并合并(跨 iPhone/iPad 同步)
+  useEffect(() => {
+    syncPaymentState(shopPaymentEdits, storeReconcile);
+    // 仅启动跑一次
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 点"立即保存":在用户手势内导出 Excel(iOS 才允许下载),并记下今天
@@ -471,6 +482,32 @@ export default function App() {
     setNotice("识别服务设置已清除");
   };
 
+  // 待上云的 payment_state 写入(去抖):key=云端键(pe:/rc:),避免逐字符上云竞态
+  const pendingCloudUpserts = useRef(new Map<string, { value: string; timer: ReturnType<typeof setTimeout> }>());
+
+  const scheduleCloudUpsert = (cloudKey: string, value: string, delayMs: number) => {
+    const map = pendingCloudUpserts.current;
+    const existing = map.get(cloudKey);
+    if (existing) clearTimeout(existing.timer);
+    const timer = setTimeout(() => {
+      map.delete(cloudKey);
+      void upsertPaymentState(cloudKey, value);
+    }, delayMs);
+    map.set(cloudKey, { value, timer });
+  };
+
+  // 把所有待上云的写入立刻发出去(在拉取云端之前调用,防止云端旧值覆盖本地未上传的新值)
+  const flushCloudUpserts = async () => {
+    const map = pendingCloudUpserts.current;
+    const pushes: Promise<boolean>[] = [];
+    for (const [cloudKey, { value, timer }] of map.entries()) {
+      clearTimeout(timer);
+      pushes.push(upsertPaymentState(cloudKey, value));
+    }
+    map.clear();
+    if (pushes.length) await Promise.allSettled(pushes);
+  };
+
   const handleShopPaymentEdit = (key: string, value: string) => {
     setShopPaymentEdits((current) => {
       const next = { ...current, [key]: value };
@@ -481,6 +518,8 @@ export default function App() {
       }
       return next;
     });
+    // 去抖上云(前缀 pe:):打字停顿 500ms 后只传最后一次,避免逐字符竞态
+    scheduleCloudUpsert(`pe:${key}`, value, 500);
   };
 
   const handleShowShopPayment = () => {
@@ -488,23 +527,45 @@ export default function App() {
     setNotice("");
   };
 
-  // 切换某店铺当月的"核算确认"状态(本地存储)
+  // 切换某店铺当月的"核算确认"状态:本地 + 上云("1"=已确认 / "0"=取消)
   const handleToggleReconcile = (year: number, month: number, shop: string) => {
     const key = `${year}:${month}:${shop}`;
-    setStoreReconcile((current) => {
-      const next = { ...current };
-      if (next[key] === "1") {
-        delete next[key];
-      } else {
-        next[key] = "1";
-      }
-      try {
-        localStorage.setItem("delivery-store-reconcile-v1", JSON.stringify(next));
-      } catch {
-        // localStorage 不可用时忽略,内存态仍生效
-      }
-      return next;
-    });
+    const nextVal = storeReconcile[key] === "1" ? "0" : "1";
+    const next = { ...storeReconcile, [key]: nextVal };
+    setStoreReconcile(next);
+    try {
+      localStorage.setItem("delivery-store-reconcile-v1", JSON.stringify(next));
+    } catch {
+      // localStorage 不可用时忽略,内存态仍生效
+    }
+    // 单击操作,几乎立即上云(仍走待发队列,以便同步前能 flush)
+    scheduleCloudUpsert(`rc:${key}`, nextVal, 0);
+  };
+
+  // 同步收款确认/核算确认状态:先把本地待上云写入 flush,再拉云端 → 云端权威(共有键云端覆盖),本地独有键补传
+  const syncPaymentState = async (localPe: Record<string, string>, localRc: Record<string, string>) => {
+    await flushCloudUpserts();
+    const rows = await fetchPaymentState();
+    const cloudPe: Record<string, string> = {};
+    const cloudRc: Record<string, string> = {};
+    for (const r of rows) {
+      if (r.key.startsWith("pe:")) cloudPe[r.key.slice(3)] = r.value;
+      else if (r.key.startsWith("rc:")) cloudRc[r.key.slice(3)] = r.value;
+    }
+    const pushes: Promise<boolean>[] = [];
+    for (const [k, v] of Object.entries(localPe)) if (!(k in cloudPe)) pushes.push(upsertPaymentState(`pe:${k}`, v));
+    for (const [k, v] of Object.entries(localRc)) if (!(k in cloudRc)) pushes.push(upsertPaymentState(`rc:${k}`, v));
+    if (pushes.length) await Promise.allSettled(pushes);
+    const mergedPe = { ...localPe, ...cloudPe };
+    const mergedRc = { ...localRc, ...cloudRc };
+    setShopPaymentEdits(mergedPe);
+    setStoreReconcile(mergedRc);
+    try {
+      localStorage.setItem("delivery-shop-payment-edits-v1", JSON.stringify(mergedPe));
+      localStorage.setItem("delivery-store-reconcile-v1", JSON.stringify(mergedRc));
+    } catch {
+      // ignore
+    }
   };
 
   const handleMonthCellChange = (day: number, shop: string, value: string) => {
