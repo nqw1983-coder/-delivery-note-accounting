@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-08T18:41:44.392Z",
+  "exportedAt": "2026-06-09T17:35:32.741Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 82,
+  "recordCount": 86,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -905,6 +905,50 @@
       "device": "iPad",
       "created_at": "2026-06-08T06:56:26.741+00:00",
       "updated_at": "2026-06-08T06:56:26.741+00:00"
+    },
+    {
+      "id": "ddba67a8-b840-5276-9a97-a32b49cb841f",
+      "delivery_date": "2026-06-09",
+      "shop_name": "吾黄",
+      "order_no": "manual-2026-6-9-吾黄",
+      "amount": 53,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-09T11:48:55.976+00:00",
+      "updated_at": "2026-06-09T11:48:55.976+00:00"
+    },
+    {
+      "id": "e023c173-a71d-530a-b4cd-4db603d49d72",
+      "delivery_date": "2026-06-09",
+      "shop_name": "五洲",
+      "order_no": "manual-2026-6-9-五洲",
+      "amount": 93,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-09T11:48:27.115+00:00",
+      "updated_at": "2026-06-09T11:48:27.115+00:00"
+    },
+    {
+      "id": "51bbd961-6c98-53aa-930d-827b9d2e0d13",
+      "delivery_date": "2026-06-09",
+      "shop_name": "柳",
+      "order_no": "manual-2026-6-9-柳",
+      "amount": 143,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-09T11:48:14.461+00:00",
+      "updated_at": "2026-06-09T11:48:14.461+00:00"
+    },
+    {
+      "id": "f04a0d1a-b60c-532b-ae90-484fa20530d2",
+      "delivery_date": "2026-06-09",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-6-9-萍姐",
+      "amount": 256,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-06-09T11:48:05.737+00:00",
+      "updated_at": "2026-06-09T11:48:05.737+00:00"
     }
   ]
 }
