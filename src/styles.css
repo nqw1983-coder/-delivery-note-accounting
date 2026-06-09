@@ -2344,3 +2344,12 @@ button {
   background: #145c3c;
   border: 1px solid #145c3c;
 }
+
+/* 版本号(用于确认手机上是否最新版) */
+.mobile-build-id {
+  text-align: center;
+  font-size: 11px;
+  color: #9bb0a4;
+  padding: 10px 0 4px;
+  letter-spacing: 0.5px;
+}

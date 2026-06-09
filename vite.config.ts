@@ -33,7 +33,15 @@ function fixupProxyReq(proxyReq: ClientRequest, req: IncomingMessage) {
   proxyReq.setHeader("user-agent", "okhttp/4.9.0");
 }
 
+// 构建时间戳(北京时间 MMDD-HHMM),注入到前端用于"用户一眼确认是不是最新版"
+const __bjNow = new Date(Date.now() + 8 * 3600 * 1000);
+const __pad = (n: number) => String(n).padStart(2, "0");
+const BUILD_ID = `${__pad(__bjNow.getUTCMonth() + 1)}${__pad(__bjNow.getUTCDate())}-${__pad(__bjNow.getUTCHours())}${__pad(__bjNow.getUTCMinutes())}`;
+
 export default defineConfig({
+  define: {
+    __BUILD_ID__: JSON.stringify(BUILD_ID),
+  },
   plugins: [
     react(),
     VitePWA({

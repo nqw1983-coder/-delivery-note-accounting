@@ -109,6 +109,8 @@ export function MobileMonthList({
         </div>
         <span className="count">{pendingCount}</span>
       </div>
+
+      <div className="mobile-build-id">版本 {__BUILD_ID__}</div>
     </div>
   );
 }
