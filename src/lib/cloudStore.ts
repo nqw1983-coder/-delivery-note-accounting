@@ -36,18 +36,20 @@ export interface PaymentStateRow {
   updated_at: string;
 }
 
-export async function fetchPaymentState(): Promise<PaymentStateRow[]> {
-  if (!supabase) return [];
+// 成功返回数组(可能为空);失败/无云端返回 null。
+// ⚠️ 关键:调用方拿到 null 时绝不能用空数据覆盖本地,否则会把刚同步好的覆盖层抹掉(导致"显示一下又变回原样")。
+export async function fetchPaymentState(): Promise<PaymentStateRow[] | null> {
+  if (!supabase) return null;
   try {
     const { data, error } = await supabase.from("payment_state").select("key,value,updated_at");
     if (error) {
       console.warn("[cloud] fetchPaymentState failed", error.message);
-      return [];
+      return null;
     }
     return (data ?? []) as PaymentStateRow[];
   } catch (error) {
     console.warn("[cloud] fetchPaymentState failed", error);
-    return [];
+    return null;
   }
 }
 

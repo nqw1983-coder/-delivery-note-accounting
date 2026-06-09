@@ -612,10 +612,18 @@ export default function App() {
 
   // 同步 payment_state:先 flush 待上云 → 拉云端 → 按 updated_at last-write-wins 逐键合并
   // 本地更新(或云端没有)→ 推上去(自动重传失败的);云端更新 → 拉下来。彻底防回退、防丢失。
+  const syncingPaymentRef = useRef(false);
   const syncPaymentStateRef = useRef<() => Promise<void>>(async () => {});
   syncPaymentStateRef.current = async () => {
+    // 互斥:同一时刻只允许一个同步在跑,避免并发互相覆盖(打开页面时启动/focus/轮询会同时触发)
+    if (syncingPaymentRef.current) return;
+    syncingPaymentRef.current = true;
+    try {
     await flushCloudUpserts();
     const rows = await fetchPaymentState();
+    // ⚠️ 拉取失败(返回 null)→ 直接退出,绝不用空数据覆盖本地。
+    // 这正是"显示一下又变回原样"的根因:并发的某次拉取失败,拿空云端覆盖了刚拉对的值。
+    if (rows === null) return;
     const cloud = new Map<string, { value: string; ts: string }>();
     for (const r of rows) cloud.set(r.key, { value: r.value, ts: r.updated_at });
 
@@ -667,6 +675,9 @@ export default function App() {
       localStorage.setItem("delivery-payment-ts-v1", JSON.stringify(mergedTs));
     } catch {
       /* ignore */
+    }
+    } finally {
+      syncingPaymentRef.current = false;
     }
   };
   const syncPaymentState = () => syncPaymentStateRef.current();
