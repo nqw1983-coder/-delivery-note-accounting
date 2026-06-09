@@ -110,7 +110,18 @@ export function MobileMonthList({
         <span className="count">{pendingCount}</span>
       </div>
 
-      <div className="mobile-build-id">版本 {__BUILD_ID__}</div>
+      <button
+        type="button"
+        className="mobile-build-id"
+        onClick={() => {
+          const fn = (window as unknown as { __forceUpdate?: () => void }).__forceUpdate;
+          if (fn) fn();
+          else window.location.reload();
+        }}
+        aria-label="检查并更新到最新版本"
+      >
+        版本 {__BUILD_ID__} · 点此更新
+      </button>
     </div>
   );
 }

@@ -2360,11 +2360,18 @@ button {
   border: 1px solid #145c3c;
 }
 
-/* 版本号(用于确认手机上是否最新版) */
+/* 版本号 + 一键更新(点击清缓存重载到最新版) */
 .mobile-build-id {
+  display: block;
+  width: 100%;
   text-align: center;
-  font-size: 11px;
-  color: #9bb0a4;
-  padding: 10px 0 4px;
+  font-size: 12px;
+  color: #5b8a72;
+  background: transparent;
+  border: 0;
+  padding: 12px 0 6px;
   letter-spacing: 0.5px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  -webkit-tap-highlight-color: transparent;
 }

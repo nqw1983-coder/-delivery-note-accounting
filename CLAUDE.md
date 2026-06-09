@@ -176,6 +176,12 @@ npx wrangler pages deploy dist \
 
 ---
 
+## 缓存/更新机制(2026-06-09 新增,解决"手机一直跑旧版本")
+
+- **自动更新**(`src/main.tsx`):`navigator.serviceWorker.ready` 后每 60 秒 `reg.update()` 查新版;监听 `controllerchange`,新 SW 接管即自动 `location.reload()`(焦点在输入框时跳过,不打断打字)。⇒ 部署后用户端 1~2 分钟内自动更新,无需手动操作。
+- **一键强制更新**:首页底部"版本 MMDD-HHMM · 点此更新"是个按钮,点它调用 `window.__forceUpdate`(注销所有 SW + 清所有 caches + reload),一键到最新版,免删主屏图标。
+- ⚠️ **鸡生蛋**:以上是新代码,只有用户**先到含此功能的版本**(≥`0609-2203`)之后才生效。首次切到该版本仍需一次手动清缓存(删图标重装 / 清 Safari 数据 / 连开两次)。之后所有更新自动或一键。
+
 ## 故障排查铁律(沿用全局 ~/.claude/CLAUDE.md 总则)
 
 1. **报错先复现** — 不复现不下结论
