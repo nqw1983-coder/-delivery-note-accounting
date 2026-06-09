@@ -120,7 +120,8 @@ npx wrangler pages deploy dist \
 9. **店铺收款确认 / 核算确认跨设备同步(06-08,改了 Supabase)**:新增 `payment_state` 表,收款确认编辑(店名/金额/付款)与核算确认 🌹 实时上云 + 拉取合并,iPhone/iPad/云端三方一致。**⚠️ 之前"收款确认只存本地、不跨设备"的说法已作废。**
    - **(06-08 修复间歇性不同步)** 根因有 5 个:①合并是"云端永远覆盖本地",失败/未上传的本地编辑会被旧云端值回退 ②没时间戳无法 last-write-wins ③upsert 失败静默不重传 ④去抖 timer 切后台丢失 ⑤**只有启动/手点才拉云端,iOS PWA 后台切回不 remount → 不自动拉**。
    - 修法:`payment_state` 加 `updated_at`,本地存每键时间戳(`delivery-payment-ts-v1`),`syncPaymentState` 改为**逐键 last-write-wins**(`new Date(ts).getTime()` 比较):本地新→推上去(自动重传失败的)、云端新→拉下来,**彻底防回退防丢失**;用 `peRef/rcRef/tsRef` 避免闭包过期。
-   - 新增 **`visibilitychange` + `focus` 自动同步**:App 切回前台即静默拉取 payment_state + deliveries,**不用手点同步**。这是修复"有时同步有时不同步"的关键。
+   - 新增 **`visibilitychange` + `focus` 自动同步**:App 切回前台即静默拉取 payment_state + deliveries,**不用手点同步**。
+   - **(06-08 再补:前台 8 秒轮询)** 用户场景是"两台都开着摆一起、改 A 盯 B 等它自己变"——只靠 visibilitychange 不够(两台都一直前台,不触发)。加 `setInterval(autoPull, 8000)`:前台时每 8 秒静默拉一次 payment_state + deliveries,**两台都开着也能在 ~8 秒内自动同步**。`autoPull` 有保护:页面隐藏 / 焦点在输入框时本轮跳过(不打断打字)。
 10. 本地存储 key:`delivery-store-reconcile-v1`(核算确认)、`delivery-shop-payment-edits-v1`(收款确认覆盖)、`delivery-local-excel-backup-v1`(上次本机 Excel 备份日期)。前两者现**同时镜像到云端 `payment_state`**;第三个仅本地。
 11. ⚠️ 验证教训:headless 写测试与线上**共用同一 Supabase**,误写会污染真实 `deliveries`(曾误写 2026-05-05 万醉 777)。写入类验证只用空数据/测试日期,测完按用户许可清理。另:测 React 交互点击后必须 `sleep` 等重渲染再断言;逐字符 onChange 直接上云会竞态(`13579` 曾被中间态 `1357` 覆盖)→ 用去抖。
 

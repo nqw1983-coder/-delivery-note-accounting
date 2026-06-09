@@ -220,5 +220,6 @@ OCR Edge Function 环境变量(Supabase Dashboard):
 - **2026-06-08**: 每周本机 Excel 备份提醒 — 启动查 `localStorage["delivery-local-excel-backup-v1"]`,超 7 天首页弹窗,点「立即保存」手势内 `exportExcel(months)` 下载(带日期名,不覆盖)。⚠️ iOS 只允许手势内下载,导出须由按钮点击直接触发
 - **2026-06-08**: 确认店铺收款确认空白行本就可用(空白行店名可填、空白格点开弹"金额可修改 + 付款/未付款")
 - **2026-06-08**: 店铺收款确认 + 核算确认**跨设备同步**(经用户同意新建 `payment_state` 表)。**作废之前"收款确认只存本地、不跨设备"的记录**
-- **2026-06-08(修复间歇性不同步)**: 根因 = ①云端永远覆盖本地(回退未上传的编辑)②无时间戳 ③upsert 失败不重传 ④去抖 timer 切后台丢失 ⑤只有启动/手点才拉、iOS PWA 后台切回不 remount。修法:`payment_state` 加 `updated_at` + 本地时间戳(`delivery-payment-ts-v1`),`syncPaymentState` 改逐键 **last-write-wins**(本地新→推、云端新→拉,自动重传);新增 **`visibilitychange`/`focus` 自动同步**(切回前台静默拉 payment_state + deliveries,免手点)。这是修"有时同步有时不"的关键
+- **2026-06-08(修复间歇性不同步)**: 根因 = ①云端永远覆盖本地(回退未上传的编辑)②无时间戳 ③upsert 失败不重传 ④去抖 timer 切后台丢失 ⑤只有启动/手点才拉、iOS PWA 后台切回不 remount。修法:`payment_state` 加 `updated_at` + 本地时间戳(`delivery-payment-ts-v1`),`syncPaymentState` 改逐键 **last-write-wins**(本地新→推、云端新→拉,自动重传);新增 **`visibilitychange`/`focus` 自动同步**(切回前台静默拉 payment_state + deliveries,免手点)
+- **2026-06-08(再补:前台 8 秒轮询)**: 用户实际用法="两台都开着摆一起、改 A 盯 B 等自己变",visibilitychange 不触发。加 `setInterval(autoPull, 8000)`:前台每 8 秒静默拉一次,两台都开也能 ~8 秒内同步;`autoPull` 在页面隐藏 / 焦点在输入框时跳过本轮(不打断打字)。**教训:"同步"要先问清用户怎么用(两台都开 vs 切换),否则方案覆盖不到**
 - **2026-06-08**: 测试教训 — 测 React 交互点击后必须 `sleep` 等重渲染再断言,同 tick 读取会假性失败(空白格弹窗、表格回写都曾因此误判为"坏了")

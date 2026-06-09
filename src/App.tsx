@@ -283,29 +283,36 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // App 从后台切回前台 / 重新获得焦点时自动拉取(iOS PWA 不会重新 mount,必须靠这个)
-  // 同时静默刷新送货数据,实现"另一端改了,这端切回来就看到",无需手点同步
+  // 自动拉取:收款确认/核算确认 + 送货数据。静默(无提示),失败忽略。
+  const autoPull = () => {
+    if (typeof document !== "undefined" && document.visibilityState !== "visible") return;
+    // 正在输入(焦点在输入框)时本轮跳过,避免轮询打断打字/重置输入框
+    const ae = typeof document !== "undefined" ? document.activeElement : null;
+    if (ae && (ae.tagName === "INPUT" || ae.tagName === "TEXTAREA")) return;
+    void syncPaymentState();
+    fetchDeliveries()
+      .then((cloud) =>
+        setMonths((current) => {
+          const merged = mergeCloudDeliveries(current, cloud);
+          saveStoredMonths(merged);
+          return merged;
+        })
+      )
+      .catch(() => {
+        /* 网络失败忽略,下次再试 */
+      });
+  };
+
+  // ① 切回前台 / 获得焦点时立即拉(iOS PWA 不会重新 mount)
+  // ② 前台时每 8 秒轮询一次 —— 这样"两台都开着摆在一起"也能自动同步(无需切屏/点同步)
   useEffect(() => {
-    const autoSync = () => {
-      if (typeof document !== "undefined" && document.visibilityState !== "visible") return;
-      void syncPaymentState();
-      fetchDeliveries()
-        .then((cloud) =>
-          setMonths((current) => {
-            const merged = mergeCloudDeliveries(current, cloud);
-            saveStoredMonths(merged);
-            return merged;
-          })
-        )
-        .catch(() => {
-          /* 网络失败忽略,下次切回再试 */
-        });
-    };
-    document.addEventListener("visibilitychange", autoSync);
-    window.addEventListener("focus", autoSync);
+    document.addEventListener("visibilitychange", autoPull);
+    window.addEventListener("focus", autoPull);
+    const interval = setInterval(autoPull, 8000);
     return () => {
-      document.removeEventListener("visibilitychange", autoSync);
-      window.removeEventListener("focus", autoSync);
+      document.removeEventListener("visibilitychange", autoPull);
+      window.removeEventListener("focus", autoPull);
+      clearInterval(interval);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
