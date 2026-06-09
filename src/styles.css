@@ -2009,12 +2009,27 @@ button {
 }
 
 .mobile-shoppayment-shell .payment-cell-button {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 关键:空单元格也要有实打实的可点高度。height:100% 在自动高度的格子里会塌成 0,
+     导致空格子手指点不中(headless 用程序点能中,所以一直没测出来)。改用 min-height。 */
+  min-height: 42px;
+  width: 100%;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
   font-size: clamp(10px, 3vw, 14px);
   line-height: 1.1;
+}
+
+/* 店名输入框同样保证最小可点高度 */
+.mobile-shoppayment-shell .payment-name-input {
+  min-height: 42px;
+}
+
+/* 空白格给一点点底色 + placeholder,让用户看得出"这里能点能填" */
+.mobile-shoppayment-shell .payment-name-input::placeholder {
+  color: #b6c3ba;
 }
 
 /* 移动端日期切换按钮(整个 center 区域可点) */

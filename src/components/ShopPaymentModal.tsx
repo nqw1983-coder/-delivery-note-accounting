@@ -62,6 +62,7 @@ export function ShopPaymentModal({ year, months, shops, edits, onEdit }: ShopPay
                   <input
                     aria-label={shop.isBlank ? "手动添加店铺名" : `${shop.name}店铺名`}
                     className="payment-name-input"
+                    placeholder={shop.isBlank ? "＋店名" : ""}
                     value={edits[shopNameKey(year, shop.id)] ?? shop.name}
                     onChange={(event) => onEdit(shopNameKey(year, shop.id), event.target.value)}
                   />

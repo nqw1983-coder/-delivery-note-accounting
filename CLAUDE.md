@@ -164,6 +164,8 @@ npx wrangler pages deploy dist \
 1. **headless ≠ 真机 iOS。** 我用无头 Chrome(iPhone UA)跑通 ≠ 用户 iPad/iPhone Safari/PWA 跑通。headless 测的是逻辑,**证明不了 iOS 的 Service Worker 缓存、PWA 后台恢复、无痕模式、原生下载弹窗等行为**。不能拿 headless 通过当"真机已修复"。
 2. **Service Worker 缓存毒瘤(头号元凶)。** PWA 把旧 bundle 缓存在手机上,部署后用户那台**仍在跑旧代码**——所以"我说改了,他看没变"。每次都要先排除这个,而不是去改逻辑。
 
+**真实案例(2026-06-09,headless 骗了我整整一轮):** 店铺收款确认**空白格手机上点不动、不弹键盘**。我用 headless `el.click()` 测一直"通过",但真机手指点没反应。根因:空单元格按钮 `height:100%` 在自动高度的格子里**塌成 0 高度**,**手指没有可点区域**;而 `el.click()` 对 0 尺寸元素也能触发,所以 headless 测不出来。修复:`.payment-cell-button` / `.payment-name-input` 加 `min-height:42px`。**教训:测"能不能点"必须用真实坐标点击(`page.mouse.click(x,y)` + `elementFromPoint`)验证有真实可点区域,不能用 `el.click()`。**
+
 **强制流程(每次涉及"线上改动 + 用户验证"必做):**
 - **首页底部有"版本 MMDD-HHMM"号(`__BUILD_ID__`,见 vite.config.ts)。** 部署后:① 我用 headless 读线上版本号确认部署成功;② **让用户报首页版本号**。
 - 用户版本号 == 我刚部署的 → 他在跑新代码,这时再谈功能对不对。
