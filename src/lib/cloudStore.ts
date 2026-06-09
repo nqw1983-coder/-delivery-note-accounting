@@ -51,12 +51,16 @@ export async function fetchPaymentState(): Promise<PaymentStateRow[]> {
   }
 }
 
-export async function upsertPaymentState(key: string, value: string): Promise<boolean> {
+export async function upsertPaymentState(
+  key: string,
+  value: string,
+  updatedAt: string = new Date().toISOString()
+): Promise<boolean> {
   if (!supabase) return true;
   try {
     const { error } = await supabase
       .from("payment_state")
-      .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: "key" });
+      .upsert({ key, value, updated_at: updatedAt }, { onConflict: "key" });
     if (error) throw error;
     return true;
   } catch (error) {

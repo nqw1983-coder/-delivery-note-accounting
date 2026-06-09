@@ -117,7 +117,10 @@ npx wrangler pages deploy dist \
 6. **三页加同步按钮**:当日明细 / 店铺本月明细 / 店铺收款确认。
 7. **每周本机 Excel 备份提醒(06-08)**:启动时检查 `localStorage["delivery-local-excel-backup-v1"]`,距上次本机保存超 7 天(或从没存过)则在首页弹"每周本机备份"弹窗;点「立即保存」**在手势内** `exportExcel(months)` 下载全月 Excel(带日期时分名,不覆盖)+ 记下今天;点「稍后」本次启动不再弹。⚠️ iOS Safari 只允许手势内触发下载,所以导出必须由按钮点击直接触发,不能放在 await 之后。**改成每周提醒之前曾短暂做过"每次同步都自动导出",已撤销。**
 8. **店铺收款确认空白行可用(06-08,无需改代码,本就支持)**:`ShopPaymentModal` 20 行 = 12 家有名 + 8 空白。空白行最左"店铺"格是可编辑输入(`payment-name-input`,手动填店名);空白行任意月份格点开即弹"金额(可修改)+ 付款/未付款"弹窗(整格 `width/height:100%` 可点)。
-9. **店铺收款确认 / 核算确认跨设备同步(06-08,改了 Supabase)**:新增 `payment_state` 表,收款确认编辑(店名/金额/付款)与核算确认 🌹 现在**实时上云 + 启动/点同步时拉取合并**,iPhone/iPad/云端三方一致。`handleShopPaymentEdit` 走 `scheduleCloudUpsert`(500ms 去抖,避免逐字符竞态),`handleToggleReconcile` 即时上云;`syncPaymentState` 先 `flushCloudUpserts` 再拉取(云端权威,本地独有键补传)。**⚠️ 之前"收款确认只存本地、不跨设备"的说法已作废。**
+9. **店铺收款确认 / 核算确认跨设备同步(06-08,改了 Supabase)**:新增 `payment_state` 表,收款确认编辑(店名/金额/付款)与核算确认 🌹 实时上云 + 拉取合并,iPhone/iPad/云端三方一致。**⚠️ 之前"收款确认只存本地、不跨设备"的说法已作废。**
+   - **(06-08 修复间歇性不同步)** 根因有 5 个:①合并是"云端永远覆盖本地",失败/未上传的本地编辑会被旧云端值回退 ②没时间戳无法 last-write-wins ③upsert 失败静默不重传 ④去抖 timer 切后台丢失 ⑤**只有启动/手点才拉云端,iOS PWA 后台切回不 remount → 不自动拉**。
+   - 修法:`payment_state` 加 `updated_at`,本地存每键时间戳(`delivery-payment-ts-v1`),`syncPaymentState` 改为**逐键 last-write-wins**(`new Date(ts).getTime()` 比较):本地新→推上去(自动重传失败的)、云端新→拉下来,**彻底防回退防丢失**;用 `peRef/rcRef/tsRef` 避免闭包过期。
+   - 新增 **`visibilitychange` + `focus` 自动同步**:App 切回前台即静默拉取 payment_state + deliveries,**不用手点同步**。这是修复"有时同步有时不同步"的关键。
 10. 本地存储 key:`delivery-store-reconcile-v1`(核算确认)、`delivery-shop-payment-edits-v1`(收款确认覆盖)、`delivery-local-excel-backup-v1`(上次本机 Excel 备份日期)。前两者现**同时镜像到云端 `payment_state`**;第三个仅本地。
 11. ⚠️ 验证教训:headless 写测试与线上**共用同一 Supabase**,误写会污染真实 `deliveries`(曾误写 2026-05-05 万醉 777)。写入类验证只用空数据/测试日期,测完按用户许可清理。另:测 React 交互点击后必须 `sleep` 等重渲染再断言;逐字符 onChange 直接上云会竞态(`13579` 曾被中间态 `1357` 覆盖)→ 用去抖。
 

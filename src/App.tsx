@@ -99,6 +99,16 @@ export default function App() {
       return {};
     }
   });
+  // payment_state 每个云端键(pe:/rc:)的本地最后修改时间戳(ISO),用于 last-write-wins 同步
+  const [paymentTs, setPaymentTs] = useState<Record<string, string>>(() => {
+    try {
+      const raw = localStorage.getItem("delivery-payment-ts-v1");
+      const parsed = raw ? (JSON.parse(raw) as Record<string, string>) : {};
+      return parsed && typeof parsed === "object" ? parsed : {};
+    } catch {
+      return {};
+    }
+  });
   // 每周本机 Excel 备份提醒:记录上次在本机保存的日期(ISO),启动时若超 7 天则弹提示
   const [localBackupDue, setLocalBackupDue] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -239,7 +249,7 @@ export default function App() {
         return merged;
       });
       // 同步收款确认/核算确认状态(跨设备)
-      await syncPaymentState(shopPaymentEdits, storeReconcile);
+      await syncPaymentState();
       const parts: string[] = [];
       if (pushed > 0) parts.push(`上传 ${pushed} 条`);
       parts.push(`拉取 ${cloudDeliveries.length} 条`);
@@ -268,8 +278,35 @@ export default function App() {
 
   // 启动时拉取云端收款确认/核算确认状态并合并(跨 iPhone/iPad 同步)
   useEffect(() => {
-    syncPaymentState(shopPaymentEdits, storeReconcile);
+    void syncPaymentState();
     // 仅启动跑一次
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // App 从后台切回前台 / 重新获得焦点时自动拉取(iOS PWA 不会重新 mount,必须靠这个)
+  // 同时静默刷新送货数据,实现"另一端改了,这端切回来就看到",无需手点同步
+  useEffect(() => {
+    const autoSync = () => {
+      if (typeof document !== "undefined" && document.visibilityState !== "visible") return;
+      void syncPaymentState();
+      fetchDeliveries()
+        .then((cloud) =>
+          setMonths((current) => {
+            const merged = mergeCloudDeliveries(current, cloud);
+            saveStoredMonths(merged);
+            return merged;
+          })
+        )
+        .catch(() => {
+          /* 网络失败忽略,下次切回再试 */
+        });
+    };
+    document.addEventListener("visibilitychange", autoSync);
+    window.addEventListener("focus", autoSync);
+    return () => {
+      document.removeEventListener("visibilitychange", autoSync);
+      window.removeEventListener("focus", autoSync);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -482,44 +519,67 @@ export default function App() {
     setNotice("识别服务设置已清除");
   };
 
-  // 待上云的 payment_state 写入(去抖):key=云端键(pe:/rc:),避免逐字符上云竞态
-  const pendingCloudUpserts = useRef(new Map<string, { value: string; timer: ReturnType<typeof setTimeout> }>());
+  // ===== payment_state 跨设备同步(last-write-wins by updated_at) =====
+  // 用 ref 镜像最新 state,供事件监听/异步同步读取,避免闭包过期
+  const peRef = useRef(shopPaymentEdits);
+  peRef.current = shopPaymentEdits;
+  const rcRef = useRef(storeReconcile);
+  rcRef.current = storeReconcile;
+  const tsRef = useRef(paymentTs);
+  tsRef.current = paymentTs;
 
-  const scheduleCloudUpsert = (cloudKey: string, value: string, delayMs: number) => {
+  // 待上云写入(去抖):cloudKey -> {value, ts, timer}
+  const pendingCloudUpserts = useRef(new Map<string, { value: string; ts: string; timer: ReturnType<typeof setTimeout> }>());
+
+  const scheduleCloudUpsert = (cloudKey: string, value: string, ts: string, delayMs: number) => {
     const map = pendingCloudUpserts.current;
     const existing = map.get(cloudKey);
     if (existing) clearTimeout(existing.timer);
     const timer = setTimeout(() => {
       map.delete(cloudKey);
-      void upsertPaymentState(cloudKey, value);
+      void upsertPaymentState(cloudKey, value, ts);
     }, delayMs);
-    map.set(cloudKey, { value, timer });
+    map.set(cloudKey, { value, ts, timer });
   };
 
-  // 把所有待上云的写入立刻发出去(在拉取云端之前调用,防止云端旧值覆盖本地未上传的新值)
   const flushCloudUpserts = async () => {
     const map = pendingCloudUpserts.current;
     const pushes: Promise<boolean>[] = [];
-    for (const [cloudKey, { value, timer }] of map.entries()) {
+    for (const [cloudKey, { value, ts, timer }] of map.entries()) {
       clearTimeout(timer);
-      pushes.push(upsertPaymentState(cloudKey, value));
+      pushes.push(upsertPaymentState(cloudKey, value, ts));
     }
     map.clear();
     if (pushes.length) await Promise.allSettled(pushes);
   };
 
+  // 记录某 cloudKey 的本地时间戳并持久化
+  const bumpPaymentTs = (cloudKey: string, ts: string) => {
+    setPaymentTs((cur) => {
+      const next = { ...cur, [cloudKey]: ts };
+      try {
+        localStorage.setItem("delivery-payment-ts-v1", JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  };
+
   const handleShopPaymentEdit = (key: string, value: string) => {
+    const ts = new Date().toISOString();
     setShopPaymentEdits((current) => {
       const next = { ...current, [key]: value };
       try {
         localStorage.setItem("delivery-shop-payment-edits-v1", JSON.stringify(next));
       } catch {
-        // localStorage 不可用时忽略,内存态仍生效
+        /* ignore */
       }
       return next;
     });
-    // 去抖上云(前缀 pe:):打字停顿 500ms 后只传最后一次,避免逐字符竞态
-    scheduleCloudUpsert(`pe:${key}`, value, 500);
+    bumpPaymentTs(`pe:${key}`, ts);
+    // 去抖上云:打字停顿 400ms 后只传最后一次(带时间戳)。失败也没关系,下次同步靠时间戳重传
+    scheduleCloudUpsert(`pe:${key}`, value, ts, 400);
   };
 
   const handleShowShopPayment = () => {
@@ -530,43 +590,79 @@ export default function App() {
   // 切换某店铺当月的"核算确认"状态:本地 + 上云("1"=已确认 / "0"=取消)
   const handleToggleReconcile = (year: number, month: number, shop: string) => {
     const key = `${year}:${month}:${shop}`;
+    const ts = new Date().toISOString();
     const nextVal = storeReconcile[key] === "1" ? "0" : "1";
     const next = { ...storeReconcile, [key]: nextVal };
     setStoreReconcile(next);
     try {
       localStorage.setItem("delivery-store-reconcile-v1", JSON.stringify(next));
     } catch {
-      // localStorage 不可用时忽略,内存态仍生效
+      /* ignore */
     }
-    // 单击操作,几乎立即上云(仍走待发队列,以便同步前能 flush)
-    scheduleCloudUpsert(`rc:${key}`, nextVal, 0);
+    bumpPaymentTs(`rc:${key}`, ts);
+    scheduleCloudUpsert(`rc:${key}`, nextVal, ts, 0);
   };
 
-  // 同步收款确认/核算确认状态:先把本地待上云写入 flush,再拉云端 → 云端权威(共有键云端覆盖),本地独有键补传
-  const syncPaymentState = async (localPe: Record<string, string>, localRc: Record<string, string>) => {
+  // 同步 payment_state:先 flush 待上云 → 拉云端 → 按 updated_at last-write-wins 逐键合并
+  // 本地更新(或云端没有)→ 推上去(自动重传失败的);云端更新 → 拉下来。彻底防回退、防丢失。
+  const syncPaymentStateRef = useRef<() => Promise<void>>(async () => {});
+  syncPaymentStateRef.current = async () => {
     await flushCloudUpserts();
     const rows = await fetchPaymentState();
-    const cloudPe: Record<string, string> = {};
-    const cloudRc: Record<string, string> = {};
-    for (const r of rows) {
-      if (r.key.startsWith("pe:")) cloudPe[r.key.slice(3)] = r.value;
-      else if (r.key.startsWith("rc:")) cloudRc[r.key.slice(3)] = r.value;
-    }
+    const cloud = new Map<string, { value: string; ts: string }>();
+    for (const r of rows) cloud.set(r.key, { value: r.value, ts: r.updated_at });
+
+    const localPe = peRef.current;
+    const localRc = rcRef.current;
+    const localTs = tsRef.current;
+    const localMap = new Map<string, string>();
+    for (const [k, v] of Object.entries(localPe)) localMap.set(`pe:${k}`, v);
+    for (const [k, v] of Object.entries(localRc)) localMap.set(`rc:${k}`, v);
+
+    const allKeys = new Set<string>([...localMap.keys(), ...cloud.keys()]);
+    const mergedPe: Record<string, string> = {};
+    const mergedRc: Record<string, string> = {};
+    const mergedTs: Record<string, string> = {};
     const pushes: Promise<boolean>[] = [];
-    for (const [k, v] of Object.entries(localPe)) if (!(k in cloudPe)) pushes.push(upsertPaymentState(`pe:${k}`, v));
-    for (const [k, v] of Object.entries(localRc)) if (!(k in cloudRc)) pushes.push(upsertPaymentState(`rc:${k}`, v));
+
+    for (const ck of allKeys) {
+      const c = cloud.get(ck);
+      const hasLocal = localMap.has(ck);
+      const localV = localMap.get(ck);
+      const localT = localTs[ck];
+      const localMs = localT ? new Date(localT).getTime() : 0;
+      const cloudMs = c ? new Date(c.ts).getTime() : -1;
+
+      let winnerV: string;
+      let winnerT: string;
+      if (c && cloudMs >= localMs) {
+        // 云端更新(或一样新)→ 云端赢
+        winnerV = c.value;
+        winnerT = c.ts;
+      } else {
+        // 本地更新或云端没有 → 本地赢,推上去(自动重传)
+        winnerV = localV ?? "";
+        winnerT = localT ?? new Date().toISOString();
+        if (hasLocal) pushes.push(upsertPaymentState(ck, winnerV, winnerT));
+      }
+      mergedTs[ck] = winnerT;
+      if (ck.startsWith("pe:")) mergedPe[ck.slice(3)] = winnerV;
+      else if (ck.startsWith("rc:")) mergedRc[ck.slice(3)] = winnerV;
+    }
     if (pushes.length) await Promise.allSettled(pushes);
-    const mergedPe = { ...localPe, ...cloudPe };
-    const mergedRc = { ...localRc, ...cloudRc };
+
     setShopPaymentEdits(mergedPe);
     setStoreReconcile(mergedRc);
+    setPaymentTs(mergedTs);
     try {
       localStorage.setItem("delivery-shop-payment-edits-v1", JSON.stringify(mergedPe));
       localStorage.setItem("delivery-store-reconcile-v1", JSON.stringify(mergedRc));
+      localStorage.setItem("delivery-payment-ts-v1", JSON.stringify(mergedTs));
     } catch {
-      // ignore
+      /* ignore */
     }
   };
+  const syncPaymentState = () => syncPaymentStateRef.current();
 
   const handleMonthCellChange = (day: number, shop: string, value: string) => {
     const trimmedValue = value.trim();
