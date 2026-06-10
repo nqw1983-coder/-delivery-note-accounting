@@ -538,13 +538,26 @@ export default function App() {
   // 待上云写入(去抖):cloudKey -> {value, ts, timer}
   const pendingCloudUpserts = useRef(new Map<string, { value: string; ts: string; timer: ReturnType<typeof setTimeout> }>());
 
+  // 同一个 cloudKey 的上云请求**串行化**:前一个写完才发下一个,保证最终值一定最后落库,
+  // 杜绝"网络乱序导致中间值(如打 62 时的 6)覆盖最终值"的截断 bug。
+  const upsertChains = useRef(new Map<string, Promise<unknown>>());
+  const serializedUpsert = (cloudKey: string, value: string, ts: string): Promise<boolean> => {
+    const prev = upsertChains.current.get(cloudKey) ?? Promise.resolve();
+    const next = prev.catch(() => {}).then(() => upsertPaymentState(cloudKey, value, ts));
+    upsertChains.current.set(
+      cloudKey,
+      next.catch(() => {})
+    );
+    return next;
+  };
+
   const scheduleCloudUpsert = (cloudKey: string, value: string, ts: string, delayMs: number) => {
     const map = pendingCloudUpserts.current;
     const existing = map.get(cloudKey);
     if (existing) clearTimeout(existing.timer);
     const timer = setTimeout(() => {
       map.delete(cloudKey);
-      void upsertPaymentState(cloudKey, value, ts);
+      void serializedUpsert(cloudKey, value, ts);
     }, delayMs);
     map.set(cloudKey, { value, ts, timer });
   };
@@ -554,7 +567,7 @@ export default function App() {
     const pushes: Promise<boolean>[] = [];
     for (const [cloudKey, { value, ts, timer }] of map.entries()) {
       clearTimeout(timer);
-      pushes.push(upsertPaymentState(cloudKey, value, ts));
+      pushes.push(serializedUpsert(cloudKey, value, ts));
     }
     map.clear();
     if (pushes.length) await Promise.allSettled(pushes);
@@ -658,7 +671,7 @@ export default function App() {
         // 本地更新或云端没有 → 本地赢,推上去(自动重传)
         winnerV = localV ?? "";
         winnerT = localT ?? new Date().toISOString();
-        if (hasLocal) pushes.push(upsertPaymentState(ck, winnerV, winnerT));
+        if (hasLocal) pushes.push(serializedUpsert(ck, winnerV, winnerT));
       }
       mergedTs[ck] = winnerT;
       if (ck.startsWith("pe:")) mergedPe[ck.slice(3)] = winnerV;
