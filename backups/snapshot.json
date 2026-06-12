@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-11T19:45:54.559Z",
+  "exportedAt": "2026-06-12T17:55:34.334Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 96,
+  "recordCount": 103,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -995,6 +995,17 @@
       "updated_at": "2026-06-10T15:54:40.874+00:00"
     },
     {
+      "id": "19c98016-ded6-56fd-90a9-b94da53828f3",
+      "delivery_date": "2026-06-11",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-6-11-至尊",
+      "amount": 136,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-12T12:17:06.39+00:00",
+      "updated_at": "2026-06-12T12:17:06.39+00:00"
+    },
+    {
       "id": "9e407e27-7905-5132-a448-4a339d5a5cc0",
       "delivery_date": "2026-06-11",
       "shop_name": "保黄",
@@ -1004,17 +1015,6 @@
       "device": "iPhone",
       "created_at": "2026-06-11T13:13:44.189+00:00",
       "updated_at": "2026-06-11T13:13:44.189+00:00"
-    },
-    {
-      "id": "19c98016-ded6-56fd-90a9-b94da53828f3",
-      "delivery_date": "2026-06-11",
-      "shop_name": "至尊",
-      "order_no": "manual-2026-6-11-至尊",
-      "amount": 8888,
-      "raw_ocr_text": "手工录入",
-      "device": "iPhone",
-      "created_at": "2026-06-11T13:12:15.7+00:00",
-      "updated_at": "2026-06-11T13:12:15.7+00:00"
     },
     {
       "id": "b6152d53-7536-5da7-aa21-684e508d0bd8",
@@ -1059,6 +1059,83 @@
       "device": "iPhone",
       "created_at": "2026-06-11T13:11:31.175+00:00",
       "updated_at": "2026-06-11T13:11:31.175+00:00"
+    },
+    {
+      "id": "88e4ebfb-739f-5473-8456-d7e7fe238d82",
+      "delivery_date": "2026-06-12",
+      "shop_name": "保4楼",
+      "order_no": "manual-2026-6-12-保4楼",
+      "amount": 53,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-12T12:17:55.022+00:00",
+      "updated_at": "2026-06-12T12:17:55.022+00:00"
+    },
+    {
+      "id": "12167979-05e6-55ce-a2ec-36f8bc8cb135",
+      "delivery_date": "2026-06-12",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-6-12-至尊",
+      "amount": 100,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-12T12:16:49.595+00:00",
+      "updated_at": "2026-06-12T12:16:49.595+00:00"
+    },
+    {
+      "id": "da0f15b2-0172-566e-8756-374cdd4487de",
+      "delivery_date": "2026-06-12",
+      "shop_name": "吾黄",
+      "order_no": "manual-2026-6-12-吾黄",
+      "amount": 70,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-12T10:47:30.211+00:00",
+      "updated_at": "2026-06-12T10:47:30.211+00:00"
+    },
+    {
+      "id": "8edf486a-6cdd-5453-9a1d-acecd85fd112",
+      "delivery_date": "2026-06-12",
+      "shop_name": "柳",
+      "order_no": "manual-2026-6-12-柳",
+      "amount": 251,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-12T10:47:01.815+00:00",
+      "updated_at": "2026-06-12T10:47:01.815+00:00"
+    },
+    {
+      "id": "1e1cc8cb-ab52-513f-96a6-c1af4959f3c6",
+      "delivery_date": "2026-06-12",
+      "shop_name": "吾湘",
+      "order_no": "manual-2026-6-12-吾湘",
+      "amount": 208,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-12T10:46:50.954+00:00",
+      "updated_at": "2026-06-12T10:46:50.954+00:00"
+    },
+    {
+      "id": "b47109cd-5fce-568e-97b2-bfdcf5b005e5",
+      "delivery_date": "2026-06-12",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-6-12-万杨",
+      "amount": 190,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-12T10:46:18.869+00:00",
+      "updated_at": "2026-06-12T10:46:18.869+00:00"
+    },
+    {
+      "id": "02824ff9-91a6-5a76-9700-58c90c975332",
+      "delivery_date": "2026-06-12",
+      "shop_name": "万醉",
+      "order_no": "manual-2026-6-12-万醉",
+      "amount": 184,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-12T10:45:59.689+00:00",
+      "updated_at": "2026-06-12T10:46:14.71113+00:00"
     }
   ]
 }
