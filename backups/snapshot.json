@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-15T21:35:27.537Z",
+  "exportedAt": "2026-06-16T20:32:39.573Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 126,
+  "recordCount": 130,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -1138,6 +1138,17 @@
       "updated_at": "2026-06-12T10:46:14.71113+00:00"
     },
     {
+      "id": "61e008c8-77cf-5e41-9463-81672d6d2590",
+      "delivery_date": "2026-06-13",
+      "shop_name": "__b1",
+      "order_no": "manual-2026-6-13-__b1",
+      "amount": 109,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-16T09:56:11.367+00:00",
+      "updated_at": "2026-06-16T09:56:11.367+00:00"
+    },
+    {
       "id": "68956bcc-44d4-5756-9482-797b28923133",
       "delivery_date": "2026-06-13",
       "shop_name": "五洲",
@@ -1389,6 +1400,39 @@
       "device": "iPhone",
       "created_at": "2026-06-15T13:39:06.491+00:00",
       "updated_at": "2026-06-15T13:41:58.249205+00:00"
+    },
+    {
+      "id": "4169b806-226a-5160-ad33-71283a4e9744",
+      "delivery_date": "2026-06-16",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-6-16-至尊",
+      "amount": 120,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-16T10:58:22.221+00:00",
+      "updated_at": "2026-06-16T10:58:22.221+00:00"
+    },
+    {
+      "id": "c2003e01-4734-51d9-914f-99af3a35eda0",
+      "delivery_date": "2026-06-16",
+      "shop_name": "万李二",
+      "order_no": "manual-2026-6-16-万李二",
+      "amount": 225,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-16T09:53:10.433+00:00",
+      "updated_at": "2026-06-16T09:53:10.433+00:00"
+    },
+    {
+      "id": "ed51e2ca-8ddc-5242-a82e-61c61a5ffcea",
+      "delivery_date": "2026-06-16",
+      "shop_name": "吾醉",
+      "order_no": "manual-2026-6-16-吾醉",
+      "amount": 90,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-16T09:53:05.766+00:00",
+      "updated_at": "2026-06-16T09:53:05.766+00:00"
     }
   ]
 }
