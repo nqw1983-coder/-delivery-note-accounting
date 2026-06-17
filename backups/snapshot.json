@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-16T20:32:39.573Z",
+  "exportedAt": "2026-06-17T18:37:50.217Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 130,
+  "recordCount": 135,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -1433,6 +1433,61 @@
       "device": "iPhone",
       "created_at": "2026-06-16T09:53:05.766+00:00",
       "updated_at": "2026-06-16T09:53:05.766+00:00"
+    },
+    {
+      "id": "e27b1986-da0d-5c99-b20f-9be5db6a7833",
+      "delivery_date": "2026-06-17",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-6-17-至尊",
+      "amount": 141,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-17T14:34:42.718+00:00",
+      "updated_at": "2026-06-17T14:34:42.718+00:00"
+    },
+    {
+      "id": "38a159f9-f01c-567f-b28f-caacab8c480d",
+      "delivery_date": "2026-06-17",
+      "shop_name": "万醉",
+      "order_no": "manual-2026-6-17-万醉",
+      "amount": 79,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-17T14:34:29.462+00:00",
+      "updated_at": "2026-06-17T14:34:29.462+00:00"
+    },
+    {
+      "id": "ab84a98d-ed3d-5fa2-aa88-8cc321573071",
+      "delivery_date": "2026-06-17",
+      "shop_name": "吾醉",
+      "order_no": "manual-2026-6-17-吾醉",
+      "amount": 95,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-17T14:34:19.735+00:00",
+      "updated_at": "2026-06-17T14:34:19.735+00:00"
+    },
+    {
+      "id": "a6e27b6e-3524-5efd-933a-0f01a23232ea",
+      "delivery_date": "2026-06-17",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-6-17-萍姐",
+      "amount": 146,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-17T14:34:10.124+00:00",
+      "updated_at": "2026-06-17T14:34:10.124+00:00"
+    },
+    {
+      "id": "88669df1-a3e8-522f-9802-fd76c6c32add",
+      "delivery_date": "2026-06-17",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-6-17-万杨",
+      "amount": 18,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-17T14:33:52.645+00:00",
+      "updated_at": "2026-06-17T14:33:52.645+00:00"
     }
   ]
 }
