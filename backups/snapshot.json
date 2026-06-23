@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-22T20:25:28.752Z",
+  "exportedAt": "2026-06-23T17:26:54.351Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 170,
+  "recordCount": 175,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -1873,6 +1873,61 @@
       "device": "iPhone",
       "created_at": "2026-06-22T11:48:11.57+00:00",
       "updated_at": "2026-06-22T11:48:11.57+00:00"
+    },
+    {
+      "id": "3b5e7974-4589-5e91-90ab-53b1276cf476",
+      "delivery_date": "2026-06-23",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-6-23-至尊",
+      "amount": 141,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-23T14:48:11.909+00:00",
+      "updated_at": "2026-06-23T14:48:11.909+00:00"
+    },
+    {
+      "id": "ee2e7048-ac77-587d-b094-c5db722f4124",
+      "delivery_date": "2026-06-23",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-6-23-萍姐",
+      "amount": 203,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-23T14:48:04.358+00:00",
+      "updated_at": "2026-06-23T14:48:04.358+00:00"
+    },
+    {
+      "id": "f0480382-ec33-516a-8896-ce5541c2a4e0",
+      "delivery_date": "2026-06-23",
+      "shop_name": "柳",
+      "order_no": "manual-2026-6-23-柳",
+      "amount": 131,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-23T14:47:57.274+00:00",
+      "updated_at": "2026-06-23T14:47:57.274+00:00"
+    },
+    {
+      "id": "1a6ec40b-082e-557f-8322-b384c93cd630",
+      "delivery_date": "2026-06-23",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-6-23-万杨",
+      "amount": 68,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-23T14:47:47.159+00:00",
+      "updated_at": "2026-06-23T14:47:47.159+00:00"
+    },
+    {
+      "id": "f5510c5f-8819-5884-b0d8-ede3bb2c0b6d",
+      "delivery_date": "2026-06-24",
+      "shop_name": "吾黄",
+      "order_no": "manual-2026-6-24-吾黄",
+      "amount": 65,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-23T14:48:37.785+00:00",
+      "updated_at": "2026-06-23T14:48:37.785+00:00"
     }
   ]
 }
