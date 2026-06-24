@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-23T17:26:54.351Z",
+  "exportedAt": "2026-06-24T17:28:36.102Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 175,
+  "recordCount": 179,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -1919,6 +1919,28 @@
       "updated_at": "2026-06-23T14:47:47.159+00:00"
     },
     {
+      "id": "dad490e3-ca42-5250-99e0-00bf80525b0f",
+      "delivery_date": "2026-06-24",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-6-24-万杨",
+      "amount": 190,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-24T14:08:34.974+00:00",
+      "updated_at": "2026-06-24T14:08:34.974+00:00"
+    },
+    {
+      "id": "9b18823c-e4d6-5b7e-9724-c2c617497474",
+      "delivery_date": "2026-06-24",
+      "shop_name": "五洲",
+      "order_no": "manual-2026-6-24-五洲",
+      "amount": 84,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-24T14:08:15.117+00:00",
+      "updated_at": "2026-06-24T14:08:15.117+00:00"
+    },
+    {
       "id": "f5510c5f-8819-5884-b0d8-ede3bb2c0b6d",
       "delivery_date": "2026-06-24",
       "shop_name": "吾黄",
@@ -1928,6 +1950,28 @@
       "device": "iPhone",
       "created_at": "2026-06-23T14:48:37.785+00:00",
       "updated_at": "2026-06-23T14:48:37.785+00:00"
+    },
+    {
+      "id": "63c2f370-756e-5303-a648-198cba45e961",
+      "delivery_date": "2026-06-24",
+      "shop_name": "柳",
+      "order_no": "manual-2026-6-24-柳",
+      "amount": 65,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-24T14:08:12.507+00:00",
+      "updated_at": "2026-06-24T14:08:12.507+00:00"
+    },
+    {
+      "id": "e734cd66-173f-5e20-80b1-a348cd8138bb",
+      "delivery_date": "2026-06-24",
+      "shop_name": "__b1",
+      "order_no": "manual-2026-6-24-__b1",
+      "amount": 110,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-06-24T14:07:58.615+00:00",
+      "updated_at": "2026-06-24T14:07:58.615+00:00"
     }
   ]
 }
