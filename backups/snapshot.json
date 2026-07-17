@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-16T11:47:58.090Z",
+  "exportedAt": "2026-07-17T11:35:10.177Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 328,
+  "recordCount": 338,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -3589,6 +3589,116 @@
       "device": "iPhone",
       "created_at": "2026-07-15T14:35:08.614+00:00",
       "updated_at": "2026-07-15T14:35:08.614+00:00"
+    },
+    {
+      "id": "d0671d2d-38b0-54f8-8c2f-84f731420aad",
+      "delivery_date": "2026-07-16",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-7-16-至尊",
+      "amount": 277,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-16T14:18:14.015+00:00",
+      "updated_at": "2026-07-16T14:18:14.015+00:00"
+    },
+    {
+      "id": "df6e7a81-6e20-5146-8035-a5b0c3eea6b0",
+      "delivery_date": "2026-07-16",
+      "shop_name": "__b2",
+      "order_no": "manual-2026-7-16-__b2",
+      "amount": 137,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-16T14:18:04.014+00:00",
+      "updated_at": "2026-07-16T14:18:04.014+00:00"
+    },
+    {
+      "id": "a1c84289-7ab2-53fa-b4a5-b02638efc32e",
+      "delivery_date": "2026-07-16",
+      "shop_name": "五洲",
+      "order_no": "manual-2026-7-16-五洲",
+      "amount": 97,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-16T14:17:52.253+00:00",
+      "updated_at": "2026-07-16T14:17:52.253+00:00"
+    },
+    {
+      "id": "4fb8a5d3-697d-5bde-8645-2c354f5d2322",
+      "delivery_date": "2026-07-16",
+      "shop_name": "__b3",
+      "order_no": "manual-2026-7-16-__b3",
+      "amount": 43,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-16T14:17:38.187+00:00",
+      "updated_at": "2026-07-16T14:17:38.187+00:00"
+    },
+    {
+      "id": "5a369a65-f226-50e7-8102-9f9f0f8c757c",
+      "delivery_date": "2026-07-16",
+      "shop_name": "火炉山",
+      "order_no": "manual-2026-7-16-火炉山",
+      "amount": 370,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-16T14:17:22.127+00:00",
+      "updated_at": "2026-07-16T14:17:22.127+00:00"
+    },
+    {
+      "id": "46170a23-d180-5aa9-b23d-42c3b7a591e6",
+      "delivery_date": "2026-07-16",
+      "shop_name": "吾醉",
+      "order_no": "manual-2026-7-16-吾醉",
+      "amount": 199,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-16T14:17:13.938+00:00",
+      "updated_at": "2026-07-16T14:17:13.938+00:00"
+    },
+    {
+      "id": "1657a4fc-3ae6-542f-9cfc-6be4c65d1190",
+      "delivery_date": "2026-07-16",
+      "shop_name": "万醉",
+      "order_no": "manual-2026-7-16-万醉",
+      "amount": 202,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-16T14:17:04.601+00:00",
+      "updated_at": "2026-07-16T14:17:04.601+00:00"
+    },
+    {
+      "id": "9b059c70-17dc-5820-81ba-0705f699fec9",
+      "delivery_date": "2026-07-16",
+      "shop_name": "__b4",
+      "order_no": "manual-2026-7-16-__b4",
+      "amount": 260,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-16T14:16:52.322+00:00",
+      "updated_at": "2026-07-16T14:16:52.322+00:00"
+    },
+    {
+      "id": "587e6b98-4f30-586d-bcff-77f74323d47e",
+      "delivery_date": "2026-07-16",
+      "shop_name": "柳",
+      "order_no": "manual-2026-7-16-柳",
+      "amount": 129,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-16T14:16:41.213+00:00",
+      "updated_at": "2026-07-16T14:16:41.213+00:00"
+    },
+    {
+      "id": "2809ef3f-7214-5d44-ab2a-536033055dfd",
+      "delivery_date": "2026-07-16",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-7-16-万杨",
+      "amount": 330,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-16T14:14:09.199+00:00",
+      "updated_at": "2026-07-16T14:14:33.208082+00:00"
     },
     {
       "id": "aac387ca-de1d-51df-b02a-0b079442438d",
