@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-31T12:07:20.610Z",
+  "exportedAt": "2026-08-01T11:24:24.869Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 455,
+  "recordCount": 464,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -4988,6 +4988,50 @@
       "updated_at": "2026-07-30T07:38:33.01+00:00"
     },
     {
+      "id": "f305475c-7355-5499-87fa-f6d45a18e34d",
+      "delivery_date": "2026-07-31",
+      "shop_name": "吾黄",
+      "order_no": "manual-2026-7-31-吾黄",
+      "amount": 88,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-31T12:49:58.616+00:00",
+      "updated_at": "2026-07-31T12:51:55.533773+00:00"
+    },
+    {
+      "id": "6a9e79e7-179b-580f-a2d4-4aa48fa918b4",
+      "delivery_date": "2026-07-31",
+      "shop_name": "五洲",
+      "order_no": "manual-2026-7-31-五洲",
+      "amount": 87,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-31T12:49:15.818+00:00",
+      "updated_at": "2026-07-31T12:51:55.324832+00:00"
+    },
+    {
+      "id": "f6c83bbe-6ab8-5bb7-87e7-de82a3c15426",
+      "delivery_date": "2026-07-31",
+      "shop_name": "吾湘",
+      "order_no": "manual-2026-7-31-吾湘",
+      "amount": 150,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-31T12:48:55.784+00:00",
+      "updated_at": "2026-07-31T12:51:54.886015+00:00"
+    },
+    {
+      "id": "6a96a16c-2381-5505-8195-dacd00227e36",
+      "delivery_date": "2026-07-31",
+      "shop_name": "保黄",
+      "order_no": "manual-2026-7-31-保黄",
+      "amount": 35,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-31T12:50:06.735+00:00",
+      "updated_at": "2026-07-31T12:51:55.749838+00:00"
+    },
+    {
       "id": "64982b41-6ec0-5404-8f14-cef8bb8b1867",
       "delivery_date": "2026-07-31",
       "shop_name": "萍姐",
@@ -4995,8 +5039,63 @@
       "amount": 48,
       "raw_ocr_text": "手工录入",
       "device": "iPhone",
-      "created_at": "2026-07-31T10:17:41.542+00:00",
-      "updated_at": "2026-07-31T10:17:41.542+00:00"
+      "created_at": "2026-07-31T12:49:03.718+00:00",
+      "updated_at": "2026-07-31T12:51:55.09816+00:00"
+    },
+    {
+      "id": "6d5661db-f8c8-54ab-af7a-cdbd5c1297e3",
+      "delivery_date": "2026-07-31",
+      "shop_name": "__b3",
+      "order_no": "manual-2026-7-31-__b3",
+      "amount": 50,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-31T12:48:45.966+00:00",
+      "updated_at": "2026-07-31T12:51:54.563589+00:00"
+    },
+    {
+      "id": "95afa5df-8f67-5402-a0f2-d6ad92e22ea6",
+      "delivery_date": "2026-07-31",
+      "shop_name": "__b4",
+      "order_no": "manual-2026-7-31-__b4",
+      "amount": 95,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-31T12:48:21.376+00:00",
+      "updated_at": "2026-07-31T12:51:54.324083+00:00"
+    },
+    {
+      "id": "fe09191d-69f5-5d5e-ad0f-1fb965de7fdc",
+      "delivery_date": "2026-07-31",
+      "shop_name": "万",
+      "order_no": "manual-2026-7-31-万",
+      "amount": 93,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-31T12:48:16.888+00:00",
+      "updated_at": "2026-07-31T12:51:54.089863+00:00"
+    },
+    {
+      "id": "caec0a43-41b8-5aef-b251-f70844e25362",
+      "delivery_date": "2026-07-31",
+      "shop_name": "万李二",
+      "order_no": "manual-2026-7-31-万李二",
+      "amount": 164,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-31T12:48:08.584+00:00",
+      "updated_at": "2026-07-31T12:51:53.870612+00:00"
+    },
+    {
+      "id": "3192e068-f951-5dab-9d9d-038e3ae239b8",
+      "delivery_date": "2026-07-31",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-7-31-万杨",
+      "amount": 184,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-07-31T12:47:59.443+00:00",
+      "updated_at": "2026-07-31T12:51:53.657988+00:00"
     },
     {
       "id": "0f874f61-b854-5513-b4a7-c368b043e14e",
