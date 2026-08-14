@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-08-13T11:06:03.018Z",
+  "exportedAt": "2026-08-14T11:03:50.703Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 591,
+  "recordCount": 592,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -6427,6 +6427,17 @@
       "device": "iPhone",
       "created_at": "2026-08-12T13:22:28.409+00:00",
       "updated_at": "2026-08-12T13:22:28.409+00:00"
+    },
+    {
+      "id": "4c96a498-703d-5c80-b772-947c408e2196",
+      "delivery_date": "2026-08-13",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-8-13-至尊",
+      "amount": 195,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-13T12:11:49.541+00:00",
+      "updated_at": "2026-08-13T12:11:49.541+00:00"
     },
     {
       "id": "73c31305-2725-5c16-a5cc-1ab9dd96b284",
