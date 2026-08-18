@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-08-17T10:40:30.844Z",
+  "exportedAt": "2026-08-18T10:37:52.354Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 627,
+  "recordCount": 635,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -6889,6 +6889,94 @@
       "device": "iPhone",
       "created_at": "2026-08-16T22:52:15.915+00:00",
       "updated_at": "2026-08-16T22:52:15.915+00:00"
+    },
+    {
+      "id": "12710718-1dce-5463-b518-899e28547a26",
+      "delivery_date": "2026-08-17",
+      "shop_name": "柳",
+      "order_no": "manual-2026-8-17-柳",
+      "amount": 211,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-17T13:40:53.864+00:00",
+      "updated_at": "2026-08-17T13:40:53.864+00:00"
+    },
+    {
+      "id": "081c1b0f-62bd-569d-ad74-e985dacfce11",
+      "delivery_date": "2026-08-17",
+      "shop_name": "__b2",
+      "order_no": "manual-2026-8-17-__b2",
+      "amount": 37,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-17T13:40:48.506+00:00",
+      "updated_at": "2026-08-17T13:40:48.506+00:00"
+    },
+    {
+      "id": "88a60148-1f02-54d5-b29b-de9b53a2119c",
+      "delivery_date": "2026-08-17",
+      "shop_name": "__b8",
+      "order_no": "manual-2026-8-17-__b8",
+      "amount": 406,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-17T13:40:33.527+00:00",
+      "updated_at": "2026-08-17T13:40:33.527+00:00"
+    },
+    {
+      "id": "8d3b2149-3798-5717-b7fc-abb8eba3c465",
+      "delivery_date": "2026-08-17",
+      "shop_name": "火炉山",
+      "order_no": "manual-2026-8-17-火炉山",
+      "amount": 543,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-17T13:40:31.53+00:00",
+      "updated_at": "2026-08-17T13:40:31.53+00:00"
+    },
+    {
+      "id": "872f66d1-1066-5166-8a2f-1aee78aed775",
+      "delivery_date": "2026-08-17",
+      "shop_name": "五洲",
+      "order_no": "manual-2026-8-17-五洲",
+      "amount": 88,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-17T13:40:19.034+00:00",
+      "updated_at": "2026-08-17T13:40:19.034+00:00"
+    },
+    {
+      "id": "9c45a4a9-f446-5ac8-8a4a-ef41c67b7bba",
+      "delivery_date": "2026-08-17",
+      "shop_name": "万李二",
+      "order_no": "manual-2026-8-17-万李二",
+      "amount": 59,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-17T13:39:44.485+00:00",
+      "updated_at": "2026-08-17T13:39:44.485+00:00"
+    },
+    {
+      "id": "eb578b68-16b7-56fb-95f2-acc1560fd2b9",
+      "delivery_date": "2026-08-17",
+      "shop_name": "万",
+      "order_no": "manual-2026-8-17-万",
+      "amount": 268,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-17T13:39:42.902+00:00",
+      "updated_at": "2026-08-17T13:39:42.902+00:00"
+    },
+    {
+      "id": "2697dbd0-54e3-51aa-953d-9a21c17530fe",
+      "delivery_date": "2026-08-17",
+      "shop_name": "__b4",
+      "order_no": "manual-2026-8-17-__b4",
+      "amount": 77,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-17T13:39:31.623+00:00",
+      "updated_at": "2026-08-17T13:39:31.623+00:00"
     },
     {
       "id": "73541c2b-a00b-5d90-8e5d-052e28551cc3",
