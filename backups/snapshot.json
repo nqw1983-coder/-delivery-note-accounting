@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-08-22T10:32:55.351Z",
+  "exportedAt": "2026-08-23T10:32:28.792Z",
   "source": "github-actions-daily-backup",
   "recordCount": 676,
   "deliveries": [
@@ -3437,6 +3437,17 @@
       "updated_at": "2026-08-03T12:10:49.495+00:00"
     },
     {
+      "id": "9da114a7-dd20-5d44-84c0-772a8855a4ce",
+      "delivery_date": "2026-07-13",
+      "shop_name": "保黄",
+      "order_no": "manual-2026-7-13-保黄",
+      "amount": 8,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-23T09:00:05.533+00:00",
+      "updated_at": "2026-08-23T09:00:05.533+00:00"
+    },
+    {
       "id": "54b8329e-6bc5-5680-b929-bd35ff7d623d",
       "delivery_date": "2026-07-13",
       "shop_name": "万杨",
@@ -3446,17 +3457,6 @@
       "device": "iPhone",
       "created_at": "2026-07-13T12:06:22.679+00:00",
       "updated_at": "2026-07-13T12:06:22.679+00:00"
-    },
-    {
-      "id": "9da114a7-dd20-5d44-84c0-772a8855a4ce",
-      "delivery_date": "2026-07-13",
-      "shop_name": "保黄",
-      "order_no": "manual-2026-7-13-保黄",
-      "amount": 88888,
-      "raw_ocr_text": "手工录入",
-      "device": "iPhone",
-      "created_at": "2026-07-13T12:05:43.56+00:00",
-      "updated_at": "2026-07-13T12:05:43.56+00:00"
     },
     {
       "id": "71e07480-196a-59c1-ba37-305b18843d7a",
@@ -3925,11 +3925,11 @@
       "delivery_date": "2026-07-18",
       "shop_name": "保黄",
       "order_no": "manual-2026-7-18-保黄",
-      "amount": 8888,
+      "amount": 8,
       "raw_ocr_text": "手工录入",
       "device": "iPhone",
       "created_at": "2026-07-17T22:40:33.084+00:00",
-      "updated_at": "2026-07-17T22:40:33.084+00:00"
+      "updated_at": "2026-08-23T08:59:30.947379+00:00"
     },
     {
       "id": "6463d29f-4f6d-5a4c-ba29-d78f3692da4e",
@@ -4310,11 +4310,11 @@
       "delivery_date": "2026-07-22",
       "shop_name": "保黄",
       "order_no": "manual-2026-7-22-保黄",
-      "amount": 88888,
+      "amount": 8,
       "raw_ocr_text": "手工录入",
       "device": "iPhone",
       "created_at": "2026-07-23T13:11:06.75+00:00",
-      "updated_at": "2026-07-23T13:11:06.75+00:00"
+      "updated_at": "2026-08-23T08:59:36.132565+00:00"
     },
     {
       "id": "6d26c50a-0e07-59ef-be4e-125eb580cff6",
@@ -4706,11 +4706,11 @@
       "delivery_date": "2026-07-26",
       "shop_name": "保黄",
       "order_no": "manual-2026-7-26-保黄",
-      "amount": 8888,
+      "amount": 8,
       "raw_ocr_text": "手工录入",
       "device": "iPhone",
       "created_at": "2026-07-26T10:06:52.309+00:00",
-      "updated_at": "2026-07-26T10:06:52.309+00:00"
+      "updated_at": "2026-08-23T08:59:47.953874+00:00"
     },
     {
       "id": "a9d857b2-4ff9-5c4c-a150-54eaa97a82cc",
@@ -5003,11 +5003,11 @@
       "delivery_date": "2026-07-29",
       "shop_name": "保黄",
       "order_no": "manual-2026-7-29-保黄",
-      "amount": 88888,
+      "amount": 8,
       "raw_ocr_text": "手工录入",
       "device": "iPhone",
       "created_at": "2026-07-29T20:45:22.56+00:00",
-      "updated_at": "2026-07-29T20:45:22.56+00:00"
+      "updated_at": "2026-08-23T08:59:55.19304+00:00"
     },
     {
       "id": "a5912c86-1495-5c8b-842c-7ab5d77dec6e",
