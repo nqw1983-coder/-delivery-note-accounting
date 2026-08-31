@@ -22,7 +22,7 @@ const REPO_ROOT = join(__dirname, "..");
 const BACKUP_DIR = join(REPO_ROOT, "backups");
 
 const SUPABASE_URL = "https://zaqeboyaltepwpavmvkf.supabase.co";
-const KEY = "sb_publishable_sTUT0KON9Sgt2UZHWESKQQ_ed8dHX4_";
+const KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 const MAX_LABELED_STORES = 11;
 
@@ -34,6 +34,9 @@ const escape = (v) => {
 };
 
 async function main() {
+  if (!KEY) {
+    throw new Error("SUPABASE_SERVICE_ROLE_KEY 未配置，拒绝使用匿名权限备份");
+  }
   mkdirSync(BACKUP_DIR, { recursive: true });
 
   console.log("拉 Supabase deliveries...");

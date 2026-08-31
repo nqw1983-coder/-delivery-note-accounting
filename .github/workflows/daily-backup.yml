@@ -30,6 +30,8 @@ jobs:
 
       - name: Run backup script
         run: node scripts/daily-backup.mjs
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
       - name: Commit and push if changed
         run: |

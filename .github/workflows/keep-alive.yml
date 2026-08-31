@@ -31,10 +31,12 @@ jobs:
           set -e
           response=$(curl -sf -w "\n%{http_code}" \
             "https://zaqeboyaltepwpavmvkf.supabase.co/rest/v1/deliveries?select=id&limit=1" \
-            -H "apikey: sb_publishable_sTUT0KON9Sgt2UZHWESKQQ_ed8dHX4_" \
-            -H "Authorization: Bearer sb_publishable_sTUT0KON9Sgt2UZHWESKQQ_ed8dHX4_")
+            -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY")
           echo "Supabase REST 响应:"
           echo "$response"
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
       - name: Ping Supabase Edge Function (CORS preflight)
         run: |
