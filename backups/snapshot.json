@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exportedAt": "2026-08-31T17:32:12.319Z",
+  "exportedAt": "2026-09-01T14:44:17.852Z",
   "source": "github-actions-daily-backup",
-  "recordCount": 790,
+  "recordCount": 801,
   "deliveries": [
     {
       "id": "5ca2b87d-1c06-53d6-9b89-041751ba7bb1",
@@ -5626,17 +5626,6 @@
       "updated_at": "2026-08-05T08:14:34.41+00:00"
     },
     {
-      "id": "b16d72e8-5782-5dfc-9491-1cac6d625a7f",
-      "delivery_date": "2026-08-05",
-      "shop_name": "柳",
-      "order_no": "manual-2026-8-5-柳",
-      "amount": 143,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-05T08:07:13.406+00:00",
-      "updated_at": "2026-08-30T11:07:59.557543+00:00"
-    },
-    {
       "id": "5e649341-52c5-5deb-ab9e-53f0f69533aa",
       "delivery_date": "2026-08-05",
       "shop_name": "吾醉",
@@ -5723,6 +5712,17 @@
       "device": "iPhone",
       "created_at": "2026-08-05T08:08:58.688+00:00",
       "updated_at": "2026-08-05T08:08:58.688+00:00"
+    },
+    {
+      "id": "b16d72e8-5782-5dfc-9491-1cac6d625a7f",
+      "delivery_date": "2026-08-05",
+      "shop_name": "柳",
+      "order_no": "manual-2026-8-5-柳",
+      "amount": 143,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-05T08:07:13.406+00:00",
+      "updated_at": "2026-08-30T11:07:59.557543+00:00"
     },
     {
       "id": "b782d2d8-a039-5e2b-a98b-66ccb941ff9c",
@@ -6253,28 +6253,6 @@
       "updated_at": "2026-08-14T22:50:53.715+00:00"
     },
     {
-      "id": "84fbe254-4ec8-51ff-9343-ada28b77195b",
-      "delivery_date": "2026-08-11",
-      "shop_name": "萍姐",
-      "order_no": "manual-2026-8-11-萍姐",
-      "amount": 97,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-11T21:48:16.471+00:00",
-      "updated_at": "2026-08-30T11:09:44.362754+00:00"
-    },
-    {
-      "id": "42b84d74-71f0-50e5-b4b2-467a119d3438",
-      "delivery_date": "2026-08-11",
-      "shop_name": "柳",
-      "order_no": "manual-2026-8-11-柳",
-      "amount": 238,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:28:35.247+00:00",
-      "updated_at": "2026-08-30T11:28:35.247+00:00"
-    },
-    {
       "id": "723392c2-6dec-5bd1-a1c0-05b9c523191a",
       "delivery_date": "2026-08-11",
       "shop_name": "万杨",
@@ -6361,6 +6339,28 @@
       "device": "iPhone",
       "created_at": "2026-08-11T21:48:40.445+00:00",
       "updated_at": "2026-08-11T21:48:40.445+00:00"
+    },
+    {
+      "id": "42b84d74-71f0-50e5-b4b2-467a119d3438",
+      "delivery_date": "2026-08-11",
+      "shop_name": "柳",
+      "order_no": "manual-2026-8-11-柳",
+      "amount": 238,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:28:35.247+00:00",
+      "updated_at": "2026-08-30T11:28:35.247+00:00"
+    },
+    {
+      "id": "84fbe254-4ec8-51ff-9343-ada28b77195b",
+      "delivery_date": "2026-08-11",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-8-11-萍姐",
+      "amount": 97,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-11T21:48:16.471+00:00",
+      "updated_at": "2026-08-30T11:09:44.362754+00:00"
     },
     {
       "id": "075fb13d-7657-5274-97e3-4877eb4f4941",
@@ -6462,17 +6462,6 @@
       "updated_at": "2026-08-14T22:51:07.521+00:00"
     },
     {
-      "id": "9e72824b-c698-535d-afab-548731e3ba06",
-      "delivery_date": "2026-08-13",
-      "shop_name": "__b2",
-      "order_no": "manual-2026-8-13-__b2",
-      "amount": 218,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T12:07:00.581+00:00",
-      "updated_at": "2026-08-30T12:07:00.581+00:00"
-    },
-    {
       "id": "0e9631d2-9368-53b0-bf8e-3662f70459e7",
       "delivery_date": "2026-08-13",
       "shop_name": "万杨",
@@ -6561,15 +6550,15 @@
       "updated_at": "2026-08-13T12:11:49.541+00:00"
     },
     {
-      "id": "caffe13a-b464-55ae-b80f-8aa9ccc3e926",
-      "delivery_date": "2026-08-14",
-      "shop_name": "火炉山",
-      "order_no": "manual-2026-8-14-火炉山",
-      "amount": 496,
+      "id": "9e72824b-c698-535d-afab-548731e3ba06",
+      "delivery_date": "2026-08-13",
+      "shop_name": "__b2",
+      "order_no": "manual-2026-8-13-__b2",
+      "amount": 218,
       "raw_ocr_text": "手工录入",
       "device": "iPad",
-      "created_at": "2026-08-30T11:23:38.133+00:00",
-      "updated_at": "2026-08-30T11:23:38.133+00:00"
+      "created_at": "2026-08-30T12:07:00.581+00:00",
+      "updated_at": "2026-08-30T12:07:00.581+00:00"
     },
     {
       "id": "9482484c-7a0c-5f47-af6b-a07f5cdf478a",
@@ -6691,6 +6680,17 @@
       "device": "iPhone",
       "created_at": "2026-08-15T12:48:27.177+00:00",
       "updated_at": "2026-08-15T12:48:27.177+00:00"
+    },
+    {
+      "id": "caffe13a-b464-55ae-b80f-8aa9ccc3e926",
+      "delivery_date": "2026-08-14",
+      "shop_name": "火炉山",
+      "order_no": "manual-2026-8-14-火炉山",
+      "amount": 496,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:23:38.133+00:00",
+      "updated_at": "2026-08-30T11:23:38.133+00:00"
     },
     {
       "id": "48b44179-92f2-5862-95f9-a1f773c0e0f5",
@@ -6924,17 +6924,6 @@
       "updated_at": "2026-08-16T22:55:00.648+00:00"
     },
     {
-      "id": "c322c975-035d-5aba-bde2-6269a16c0a71",
-      "delivery_date": "2026-08-17",
-      "shop_name": "吾醉",
-      "order_no": "manual-2026-8-17-吾醉",
-      "amount": 228,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:16:34.603+00:00",
-      "updated_at": "2026-08-30T11:16:34.603+00:00"
-    },
-    {
       "id": "73541c2b-a00b-5d90-8e5d-052e28551cc3",
       "delivery_date": "2026-08-17",
       "shop_name": "吾黄",
@@ -7032,6 +7021,17 @@
       "device": "iPhone",
       "created_at": "2026-08-17T13:40:53.864+00:00",
       "updated_at": "2026-08-17T13:40:53.864+00:00"
+    },
+    {
+      "id": "c322c975-035d-5aba-bde2-6269a16c0a71",
+      "delivery_date": "2026-08-17",
+      "shop_name": "吾醉",
+      "order_no": "manual-2026-8-17-吾醉",
+      "amount": 228,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:16:34.603+00:00",
+      "updated_at": "2026-08-30T11:16:34.603+00:00"
     },
     {
       "id": "dc556c9e-693f-581b-ac96-557348e70dd1",
@@ -7276,81 +7276,15 @@
       "updated_at": "2026-08-20T09:08:17.686+00:00"
     },
     {
-      "id": "f26b0444-0551-51ed-beef-e1b86030b9e8",
+      "id": "7d232d38-1d53-5594-8821-835146c1950a",
       "delivery_date": "2026-08-20",
-      "shop_name": "万醉",
-      "order_no": "manual-2026-8-20-万醉",
-      "amount": 368,
-      "raw_ocr_text": "手工录入",
-      "device": "iPhone",
-      "created_at": "2026-08-31T14:06:06.177+00:00",
-      "updated_at": "2026-08-31T14:06:06.177+00:00"
-    },
-    {
-      "id": "bbafc537-3637-5332-884e-af2e39c38f98",
-      "delivery_date": "2026-08-20",
-      "shop_name": "__b4",
-      "order_no": "manual-2026-8-20-__b4",
-      "amount": 246,
+      "shop_name": "吾醉",
+      "order_no": "manual-2026-8-20-吾醉",
+      "amount": 68,
       "raw_ocr_text": "手工录入",
       "device": "iPad",
-      "created_at": "2026-08-30T11:57:38.281+00:00",
-      "updated_at": "2026-08-30T11:57:38.281+00:00"
-    },
-    {
-      "id": "b6b2c10f-2393-5594-afdc-1c72586734bd",
-      "delivery_date": "2026-08-20",
-      "shop_name": "万",
-      "order_no": "manual-2026-8-20-万",
-      "amount": 112,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:54:30.072+00:00",
-      "updated_at": "2026-08-30T11:54:30.072+00:00"
-    },
-    {
-      "id": "906afe82-4db8-50c9-86fe-eabba10934cd",
-      "delivery_date": "2026-08-20",
-      "shop_name": "万杨",
-      "order_no": "manual-2026-8-20-万杨",
-      "amount": 149,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:50:21.189+00:00",
-      "updated_at": "2026-08-30T11:50:21.189+00:00"
-    },
-    {
-      "id": "ef6269a7-c8cd-51ce-9265-8c739c34d884",
-      "delivery_date": "2026-08-20",
-      "shop_name": "__b8",
-      "order_no": "manual-2026-8-20-__b8",
-      "amount": 81,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:42:48.785+00:00",
-      "updated_at": "2026-08-30T11:42:48.785+00:00"
-    },
-    {
-      "id": "f6ec38a0-1799-59f3-9872-f52c5c47a3c7",
-      "delivery_date": "2026-08-20",
-      "shop_name": "萍姐",
-      "order_no": "manual-2026-8-20-萍姐",
-      "amount": 302,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:30:27.381+00:00",
-      "updated_at": "2026-08-30T11:30:27.381+00:00"
-    },
-    {
-      "id": "f2ce1025-2981-5b17-b6c8-570d46e7f8f6",
-      "delivery_date": "2026-08-20",
-      "shop_name": "柳",
-      "order_no": "manual-2026-8-20-柳",
-      "amount": 144,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:28:58.076+00:00",
-      "updated_at": "2026-08-30T11:28:58.076+00:00"
+      "created_at": "2026-08-30T11:16:54.527+00:00",
+      "updated_at": "2026-08-30T11:16:54.527+00:00"
     },
     {
       "id": "a8ce5e00-80f4-55e3-bc58-426c44595587",
@@ -7364,26 +7298,81 @@
       "updated_at": "2026-08-30T11:23:51.162+00:00"
     },
     {
-      "id": "7d232d38-1d53-5594-8821-835146c1950a",
+      "id": "f2ce1025-2981-5b17-b6c8-570d46e7f8f6",
       "delivery_date": "2026-08-20",
-      "shop_name": "吾醉",
-      "order_no": "manual-2026-8-20-吾醉",
-      "amount": 68,
+      "shop_name": "柳",
+      "order_no": "manual-2026-8-20-柳",
+      "amount": 144,
       "raw_ocr_text": "手工录入",
       "device": "iPad",
-      "created_at": "2026-08-30T11:16:54.527+00:00",
-      "updated_at": "2026-08-30T11:16:54.527+00:00"
+      "created_at": "2026-08-30T11:28:58.076+00:00",
+      "updated_at": "2026-08-30T11:28:58.076+00:00"
     },
     {
-      "id": "415bcaea-d617-5c4e-8a5e-fa5bb1257bfb",
-      "delivery_date": "2026-08-21",
-      "shop_name": "__b2",
-      "order_no": "manual-2026-8-21-__b2",
-      "amount": 132,
+      "id": "f6ec38a0-1799-59f3-9872-f52c5c47a3c7",
+      "delivery_date": "2026-08-20",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-8-20-萍姐",
+      "amount": 302,
       "raw_ocr_text": "手工录入",
       "device": "iPad",
-      "created_at": "2026-08-30T12:15:41.805+00:00",
-      "updated_at": "2026-08-30T12:15:41.805+00:00"
+      "created_at": "2026-08-30T11:30:27.381+00:00",
+      "updated_at": "2026-08-30T11:30:27.381+00:00"
+    },
+    {
+      "id": "ef6269a7-c8cd-51ce-9265-8c739c34d884",
+      "delivery_date": "2026-08-20",
+      "shop_name": "__b8",
+      "order_no": "manual-2026-8-20-__b8",
+      "amount": 81,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:42:48.785+00:00",
+      "updated_at": "2026-08-30T11:42:48.785+00:00"
+    },
+    {
+      "id": "906afe82-4db8-50c9-86fe-eabba10934cd",
+      "delivery_date": "2026-08-20",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-8-20-万杨",
+      "amount": 149,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:50:21.189+00:00",
+      "updated_at": "2026-08-30T11:50:21.189+00:00"
+    },
+    {
+      "id": "b6b2c10f-2393-5594-afdc-1c72586734bd",
+      "delivery_date": "2026-08-20",
+      "shop_name": "万",
+      "order_no": "manual-2026-8-20-万",
+      "amount": 112,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:54:30.072+00:00",
+      "updated_at": "2026-08-30T11:54:30.072+00:00"
+    },
+    {
+      "id": "bbafc537-3637-5332-884e-af2e39c38f98",
+      "delivery_date": "2026-08-20",
+      "shop_name": "__b4",
+      "order_no": "manual-2026-8-20-__b4",
+      "amount": 246,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:57:38.281+00:00",
+      "updated_at": "2026-08-30T11:57:38.281+00:00"
+    },
+    {
+      "id": "f26b0444-0551-51ed-beef-e1b86030b9e8",
+      "delivery_date": "2026-08-20",
+      "shop_name": "万醉",
+      "order_no": "manual-2026-8-20-万醉",
+      "amount": 368,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-31T14:06:06.177+00:00",
+      "updated_at": "2026-08-31T14:06:06.177+00:00"
     },
     {
       "id": "59b5b854-91f3-5fac-a23c-a90df7757b8d",
@@ -7494,6 +7483,17 @@
       "device": "iPhone",
       "created_at": "2026-08-21T12:07:49.348+00:00",
       "updated_at": "2026-08-21T12:07:49.348+00:00"
+    },
+    {
+      "id": "415bcaea-d617-5c4e-8a5e-fa5bb1257bfb",
+      "delivery_date": "2026-08-21",
+      "shop_name": "__b2",
+      "order_no": "manual-2026-8-21-__b2",
+      "amount": 132,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T12:15:41.805+00:00",
+      "updated_at": "2026-08-30T12:15:41.805+00:00"
     },
     {
       "id": "84f1c8ae-4e7a-5462-9c16-9fac539939d7",
@@ -8079,28 +8079,6 @@
       "updated_at": "2026-08-26T12:55:40.157+00:00"
     },
     {
-      "id": "4ebc2a54-0eb2-522d-8924-8a51dc437583",
-      "delivery_date": "2026-08-27",
-      "shop_name": "__b8",
-      "order_no": "manual-2026-8-27-__b8",
-      "amount": 256,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-28T16:28:46.523+00:00",
-      "updated_at": "2026-08-28T16:08:39.381118+00:00"
-    },
-    {
-      "id": "4e792465-26fc-5f66-9435-31a0717c71a3",
-      "delivery_date": "2026-08-27",
-      "shop_name": "万杨",
-      "order_no": "manual-2026-8-27-万杨",
-      "amount": 104,
-      "raw_ocr_text": "手工录入",
-      "device": "iPhone",
-      "created_at": "2026-08-27T13:29:11.845+00:00",
-      "updated_at": "2026-08-27T13:29:11.845+00:00"
-    },
-    {
       "id": "ffbd16ad-904a-5c78-ae1d-157bf991646e",
       "delivery_date": "2026-08-27",
       "shop_name": "火炉山",
@@ -8189,114 +8167,26 @@
       "updated_at": "2026-08-27T13:29:10.045+00:00"
     },
     {
-      "id": "4960e195-546b-59ff-976b-95f8bafa701d",
-      "delivery_date": "2026-08-28",
-      "shop_name": "火炉山",
-      "order_no": "manual-2026-8-28-火炉山",
-      "amount": 418,
+      "id": "4e792465-26fc-5f66-9435-31a0717c71a3",
+      "delivery_date": "2026-08-27",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-8-27-万杨",
+      "amount": 104,
       "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-28T16:33:14.28+00:00",
-      "updated_at": "2026-08-28T16:33:14.28+00:00"
+      "device": "iPhone",
+      "created_at": "2026-08-27T13:29:11.845+00:00",
+      "updated_at": "2026-08-27T13:29:11.845+00:00"
     },
     {
-      "id": "694d89fe-d31a-53e0-8629-73453769cccc",
-      "delivery_date": "2026-08-28",
-      "shop_name": "吾黄",
-      "order_no": "manual-2026-8-28-吾黄",
-      "amount": 77,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-28T16:29:37.594+00:00",
-      "updated_at": "2026-08-28T16:29:37.594+00:00"
-    },
-    {
-      "id": "8ee0f06d-3133-5891-88e3-2d87b4682df8",
-      "delivery_date": "2026-08-28",
-      "shop_name": "保黄",
-      "order_no": "manual-2026-8-28-保黄",
-      "amount": 105,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-28T16:29:33.134+00:00",
-      "updated_at": "2026-08-28T16:29:33.134+00:00"
-    },
-    {
-      "id": "37c7cad2-36ff-55b1-a45c-9e468b6c26e6",
-      "delivery_date": "2026-08-28",
+      "id": "4ebc2a54-0eb2-522d-8924-8a51dc437583",
+      "delivery_date": "2026-08-27",
       "shop_name": "__b8",
-      "order_no": "manual-2026-8-28-__b8",
-      "amount": 236,
+      "order_no": "manual-2026-8-27-__b8",
+      "amount": 256,
       "raw_ocr_text": "手工录入",
       "device": "iPad",
-      "created_at": "2026-08-28T16:26:55.302+00:00",
-      "updated_at": "2026-08-28T16:26:55.302+00:00"
-    },
-    {
-      "id": "8513dd46-0e71-509c-83a6-d80cb5c81689",
-      "delivery_date": "2026-08-28",
-      "shop_name": "吾醉",
-      "order_no": "manual-2026-8-28-吾醉",
-      "amount": 738,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-28T16:25:45.76+00:00",
-      "updated_at": "2026-08-28T16:25:45.76+00:00"
-    },
-    {
-      "id": "2a63a4bf-17e7-52ad-978d-88139df2d2dc",
-      "delivery_date": "2026-08-28",
-      "shop_name": "萍姐",
-      "order_no": "manual-2026-8-28-萍姐",
-      "amount": 143,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-28T16:25:39.239+00:00",
-      "updated_at": "2026-08-28T16:25:39.239+00:00"
-    },
-    {
-      "id": "ffbac236-6869-5d67-b0bb-2830ec99cf87",
-      "delivery_date": "2026-08-28",
-      "shop_name": "柳",
-      "order_no": "manual-2026-8-28-柳",
-      "amount": 172,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-28T16:25:33.467+00:00",
-      "updated_at": "2026-08-28T16:25:33.467+00:00"
-    },
-    {
-      "id": "85f0f6cd-f5c2-5814-932d-370fb98bc767",
-      "delivery_date": "2026-08-28",
-      "shop_name": "__b2",
-      "order_no": "manual-2026-8-28-__b2",
-      "amount": 77,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-28T16:25:26.448+00:00",
-      "updated_at": "2026-08-28T16:25:26.448+00:00"
-    },
-    {
-      "id": "49f6f8b8-cf17-5790-af8f-38f1b737c1e2",
-      "delivery_date": "2026-08-28",
-      "shop_name": "万",
-      "order_no": "manual-2026-8-28-万",
-      "amount": 135,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-28T16:24:58.043+00:00",
-      "updated_at": "2026-08-28T16:24:58.043+00:00"
-    },
-    {
-      "id": "d6cf87af-9bb8-539d-8b88-c86d7e7f7a4b",
-      "delivery_date": "2026-08-28",
-      "shop_name": "万醉",
-      "order_no": "manual-2026-8-28-万醉",
-      "amount": 364,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-28T16:24:42.372+00:00",
-      "updated_at": "2026-08-28T16:24:42.372+00:00"
+      "created_at": "2026-08-28T16:28:46.523+00:00",
+      "updated_at": "2026-08-28T16:08:39.381118+00:00"
     },
     {
       "id": "8bffb24f-8599-5387-8496-e815f03308b6",
@@ -8310,114 +8200,114 @@
       "updated_at": "2026-08-28T16:24:29.678+00:00"
     },
     {
-      "id": "e9b64e0d-579d-5671-a39d-4f4adfa68d97",
-      "delivery_date": "2026-08-29",
+      "id": "d6cf87af-9bb8-539d-8b88-c86d7e7f7a4b",
+      "delivery_date": "2026-08-28",
       "shop_name": "万醉",
-      "order_no": "manual-2026-8-29-万醉",
-      "amount": 467,
+      "order_no": "manual-2026-8-28-万醉",
+      "amount": 364,
       "raw_ocr_text": "手工录入",
       "device": "iPad",
-      "created_at": "2026-08-29T15:30:55.099+00:00",
-      "updated_at": "2026-08-29T15:30:55.099+00:00"
+      "created_at": "2026-08-28T16:24:42.372+00:00",
+      "updated_at": "2026-08-28T16:24:42.372+00:00"
     },
     {
-      "id": "9748e2b4-2354-5119-aff4-a78f84486fb8",
-      "delivery_date": "2026-08-29",
-      "shop_name": "至尊",
-      "order_no": "manual-2026-8-29-至尊",
-      "amount": 201,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-29T15:30:51.25+00:00",
-      "updated_at": "2026-08-29T15:30:51.25+00:00"
-    },
-    {
-      "id": "124e9184-5083-53ff-993e-15343100acf0",
-      "delivery_date": "2026-08-29",
-      "shop_name": "萍姐",
-      "order_no": "manual-2026-8-29-萍姐",
-      "amount": 269,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-29T15:24:28.833+00:00",
-      "updated_at": "2026-08-29T15:24:28.833+00:00"
-    },
-    {
-      "id": "66848280-c07f-5d22-84ed-b8a2745231bc",
-      "delivery_date": "2026-08-29",
-      "shop_name": "__b8",
-      "order_no": "manual-2026-8-29-__b8",
-      "amount": 325,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-29T15:24:18.292+00:00",
-      "updated_at": "2026-08-29T15:24:18.292+00:00"
-    },
-    {
-      "id": "60cfc998-0c53-504c-ba9f-b985cd53bbca",
-      "delivery_date": "2026-08-29",
-      "shop_name": "火炉山",
-      "order_no": "manual-2026-8-29-火炉山",
-      "amount": 853,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-29T15:24:10.739+00:00",
-      "updated_at": "2026-08-29T15:24:10.739+00:00"
-    },
-    {
-      "id": "74a8bdd8-9633-59f7-b598-3be5b7046db2",
-      "delivery_date": "2026-08-29",
-      "shop_name": "吾醉",
-      "order_no": "manual-2026-8-29-吾醉",
-      "amount": 744,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-29T15:24:01.576+00:00",
-      "updated_at": "2026-08-29T15:24:01.576+00:00"
-    },
-    {
-      "id": "08a22bb7-438d-55a3-bbdf-fee8837bb897",
-      "delivery_date": "2026-08-29",
-      "shop_name": "柳",
-      "order_no": "manual-2026-8-29-柳",
-      "amount": 196,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-29T15:23:56.073+00:00",
-      "updated_at": "2026-08-29T15:23:56.073+00:00"
-    },
-    {
-      "id": "cb07f5f2-3990-564d-995e-f52ac78aa16c",
-      "delivery_date": "2026-08-29",
-      "shop_name": "__b10",
-      "order_no": "manual-2026-8-29-__b10",
-      "amount": 195,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-29T15:23:50.281+00:00",
-      "updated_at": "2026-08-29T15:23:50.281+00:00"
-    },
-    {
-      "id": "23647da0-e268-5e3b-a98a-52cdd99e84a3",
-      "delivery_date": "2026-08-29",
-      "shop_name": "__b4",
-      "order_no": "manual-2026-8-29-__b4",
-      "amount": 79,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-29T15:23:27.183+00:00",
-      "updated_at": "2026-08-29T15:23:27.183+00:00"
-    },
-    {
-      "id": "91e5d82e-a572-513a-b67f-e90de0763014",
-      "delivery_date": "2026-08-29",
+      "id": "49f6f8b8-cf17-5790-af8f-38f1b737c1e2",
+      "delivery_date": "2026-08-28",
       "shop_name": "万",
-      "order_no": "manual-2026-8-29-万",
-      "amount": 219,
+      "order_no": "manual-2026-8-28-万",
+      "amount": 135,
       "raw_ocr_text": "手工录入",
       "device": "iPad",
-      "created_at": "2026-08-29T15:22:56.434+00:00",
-      "updated_at": "2026-08-29T15:22:56.434+00:00"
+      "created_at": "2026-08-28T16:24:58.043+00:00",
+      "updated_at": "2026-08-28T16:24:58.043+00:00"
+    },
+    {
+      "id": "85f0f6cd-f5c2-5814-932d-370fb98bc767",
+      "delivery_date": "2026-08-28",
+      "shop_name": "__b2",
+      "order_no": "manual-2026-8-28-__b2",
+      "amount": 77,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-28T16:25:26.448+00:00",
+      "updated_at": "2026-08-28T16:25:26.448+00:00"
+    },
+    {
+      "id": "ffbac236-6869-5d67-b0bb-2830ec99cf87",
+      "delivery_date": "2026-08-28",
+      "shop_name": "柳",
+      "order_no": "manual-2026-8-28-柳",
+      "amount": 172,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-28T16:25:33.467+00:00",
+      "updated_at": "2026-08-28T16:25:33.467+00:00"
+    },
+    {
+      "id": "2a63a4bf-17e7-52ad-978d-88139df2d2dc",
+      "delivery_date": "2026-08-28",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-8-28-萍姐",
+      "amount": 143,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-28T16:25:39.239+00:00",
+      "updated_at": "2026-08-28T16:25:39.239+00:00"
+    },
+    {
+      "id": "8513dd46-0e71-509c-83a6-d80cb5c81689",
+      "delivery_date": "2026-08-28",
+      "shop_name": "吾醉",
+      "order_no": "manual-2026-8-28-吾醉",
+      "amount": 738,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-28T16:25:45.76+00:00",
+      "updated_at": "2026-08-28T16:25:45.76+00:00"
+    },
+    {
+      "id": "37c7cad2-36ff-55b1-a45c-9e468b6c26e6",
+      "delivery_date": "2026-08-28",
+      "shop_name": "__b8",
+      "order_no": "manual-2026-8-28-__b8",
+      "amount": 236,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-28T16:26:55.302+00:00",
+      "updated_at": "2026-08-28T16:26:55.302+00:00"
+    },
+    {
+      "id": "8ee0f06d-3133-5891-88e3-2d87b4682df8",
+      "delivery_date": "2026-08-28",
+      "shop_name": "保黄",
+      "order_no": "manual-2026-8-28-保黄",
+      "amount": 105,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-28T16:29:33.134+00:00",
+      "updated_at": "2026-08-28T16:29:33.134+00:00"
+    },
+    {
+      "id": "694d89fe-d31a-53e0-8629-73453769cccc",
+      "delivery_date": "2026-08-28",
+      "shop_name": "吾黄",
+      "order_no": "manual-2026-8-28-吾黄",
+      "amount": 77,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-28T16:29:37.594+00:00",
+      "updated_at": "2026-08-28T16:29:37.594+00:00"
+    },
+    {
+      "id": "4960e195-546b-59ff-976b-95f8bafa701d",
+      "delivery_date": "2026-08-28",
+      "shop_name": "火炉山",
+      "order_no": "manual-2026-8-28-火炉山",
+      "amount": 418,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-28T16:33:14.28+00:00",
+      "updated_at": "2026-08-28T16:33:14.28+00:00"
     },
     {
       "id": "585c8feb-94ea-54e0-a4cd-eeba4cd4cdf8",
@@ -8431,114 +8321,114 @@
       "updated_at": "2026-08-29T15:22:49.62+00:00"
     },
     {
-      "id": "9ff8a834-45c9-5b1e-a521-0982dab6398e",
-      "delivery_date": "2026-08-30",
-      "shop_name": "吾湘",
-      "order_no": "manual-2026-8-30-吾湘",
-      "amount": 109,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:11:34.138+00:00",
-      "updated_at": "2026-08-30T11:11:34.138+00:00"
-    },
-    {
-      "id": "3f573b64-9a94-5c30-8c5a-3d61d490bd90",
-      "delivery_date": "2026-08-30",
-      "shop_name": "__b2",
-      "order_no": "manual-2026-8-30-__b2",
-      "amount": 143,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:10:48.377+00:00",
-      "updated_at": "2026-08-30T11:10:48.377+00:00"
-    },
-    {
-      "id": "b35df9e5-7906-538e-b38c-08120aefc2e4",
-      "delivery_date": "2026-08-30",
-      "shop_name": "萍姐",
-      "order_no": "manual-2026-8-30-萍姐",
-      "amount": 169,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:10:38.876+00:00",
-      "updated_at": "2026-08-30T11:10:38.876+00:00"
-    },
-    {
-      "id": "d7194aca-8c95-5523-bad6-20b256eef74d",
-      "delivery_date": "2026-08-30",
-      "shop_name": "火炉山",
-      "order_no": "manual-2026-8-30-火炉山",
-      "amount": 459,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:10:31.79+00:00",
-      "updated_at": "2026-08-30T11:10:31.79+00:00"
-    },
-    {
-      "id": "c5fe2c8d-3ab8-5c32-b1c5-a90be12465c7",
-      "delivery_date": "2026-08-30",
-      "shop_name": "__b8",
-      "order_no": "manual-2026-8-30-__b8",
-      "amount": 349,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:10:24.806+00:00",
-      "updated_at": "2026-08-30T11:24:24.564005+00:00"
-    },
-    {
-      "id": "69195e9c-ff04-554d-a288-43dc8231074b",
-      "delivery_date": "2026-08-30",
-      "shop_name": "吾醉",
-      "order_no": "manual-2026-8-30-吾醉",
-      "amount": 737,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:10:18.99+00:00",
-      "updated_at": "2026-08-30T11:10:18.99+00:00"
-    },
-    {
-      "id": "1795f041-5c35-5c2b-b069-32fdcc209e20",
-      "delivery_date": "2026-08-30",
-      "shop_name": "五洲",
-      "order_no": "manual-2026-8-30-五洲",
-      "amount": 177,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:10:14.044+00:00",
-      "updated_at": "2026-08-30T11:10:14.044+00:00"
-    },
-    {
-      "id": "88f01e56-9563-5ca5-8c2b-6d6a0a522107",
-      "delivery_date": "2026-08-30",
-      "shop_name": "柳",
-      "order_no": "manual-2026-8-30-柳",
-      "amount": 147,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-30T11:10:04.43+00:00",
-      "updated_at": "2026-08-30T11:10:04.43+00:00"
-    },
-    {
-      "id": "aab24a6c-0995-5530-b4e6-2386c55f76ea",
-      "delivery_date": "2026-08-30",
+      "id": "91e5d82e-a572-513a-b67f-e90de0763014",
+      "delivery_date": "2026-08-29",
       "shop_name": "万",
-      "order_no": "manual-2026-8-30-万",
-      "amount": 221,
+      "order_no": "manual-2026-8-29-万",
+      "amount": 219,
       "raw_ocr_text": "手工录入",
       "device": "iPad",
-      "created_at": "2026-08-30T11:09:42.903+00:00",
-      "updated_at": "2026-08-30T11:09:42.903+00:00"
+      "created_at": "2026-08-29T15:22:56.434+00:00",
+      "updated_at": "2026-08-29T15:22:56.434+00:00"
     },
     {
-      "id": "750379fb-1559-56f3-8cba-32d3187e80af",
-      "delivery_date": "2026-08-30",
+      "id": "23647da0-e268-5e3b-a98a-52cdd99e84a3",
+      "delivery_date": "2026-08-29",
       "shop_name": "__b4",
-      "order_no": "manual-2026-8-30-__b4",
-      "amount": 184,
+      "order_no": "manual-2026-8-29-__b4",
+      "amount": 79,
       "raw_ocr_text": "手工录入",
       "device": "iPad",
-      "created_at": "2026-08-30T11:09:36.147+00:00",
-      "updated_at": "2026-08-30T10:50:33.784459+00:00"
+      "created_at": "2026-08-29T15:23:27.183+00:00",
+      "updated_at": "2026-08-29T15:23:27.183+00:00"
+    },
+    {
+      "id": "cb07f5f2-3990-564d-995e-f52ac78aa16c",
+      "delivery_date": "2026-08-29",
+      "shop_name": "__b10",
+      "order_no": "manual-2026-8-29-__b10",
+      "amount": 195,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-29T15:23:50.281+00:00",
+      "updated_at": "2026-08-29T15:23:50.281+00:00"
+    },
+    {
+      "id": "08a22bb7-438d-55a3-bbdf-fee8837bb897",
+      "delivery_date": "2026-08-29",
+      "shop_name": "柳",
+      "order_no": "manual-2026-8-29-柳",
+      "amount": 196,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-29T15:23:56.073+00:00",
+      "updated_at": "2026-08-29T15:23:56.073+00:00"
+    },
+    {
+      "id": "74a8bdd8-9633-59f7-b598-3be5b7046db2",
+      "delivery_date": "2026-08-29",
+      "shop_name": "吾醉",
+      "order_no": "manual-2026-8-29-吾醉",
+      "amount": 744,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-29T15:24:01.576+00:00",
+      "updated_at": "2026-08-29T15:24:01.576+00:00"
+    },
+    {
+      "id": "60cfc998-0c53-504c-ba9f-b985cd53bbca",
+      "delivery_date": "2026-08-29",
+      "shop_name": "火炉山",
+      "order_no": "manual-2026-8-29-火炉山",
+      "amount": 853,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-29T15:24:10.739+00:00",
+      "updated_at": "2026-08-29T15:24:10.739+00:00"
+    },
+    {
+      "id": "66848280-c07f-5d22-84ed-b8a2745231bc",
+      "delivery_date": "2026-08-29",
+      "shop_name": "__b8",
+      "order_no": "manual-2026-8-29-__b8",
+      "amount": 325,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-29T15:24:18.292+00:00",
+      "updated_at": "2026-08-29T15:24:18.292+00:00"
+    },
+    {
+      "id": "124e9184-5083-53ff-993e-15343100acf0",
+      "delivery_date": "2026-08-29",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-8-29-萍姐",
+      "amount": 269,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-29T15:24:28.833+00:00",
+      "updated_at": "2026-08-29T15:24:28.833+00:00"
+    },
+    {
+      "id": "9748e2b4-2354-5119-aff4-a78f84486fb8",
+      "delivery_date": "2026-08-29",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-8-29-至尊",
+      "amount": 201,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-29T15:30:51.25+00:00",
+      "updated_at": "2026-08-29T15:30:51.25+00:00"
+    },
+    {
+      "id": "e9b64e0d-579d-5671-a39d-4f4adfa68d97",
+      "delivery_date": "2026-08-29",
+      "shop_name": "万醉",
+      "order_no": "manual-2026-8-29-万醉",
+      "amount": 467,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-29T15:30:55.099+00:00",
+      "updated_at": "2026-08-29T15:30:55.099+00:00"
     },
     {
       "id": "ca353704-3834-5508-9320-1fd570fced20",
@@ -8552,125 +8442,114 @@
       "updated_at": "2026-08-30T11:09:28.469+00:00"
     },
     {
-      "id": "61f06987-4f63-54bf-9bb1-47a97de61c05",
-      "delivery_date": "2026-08-31",
-      "shop_name": "至尊",
-      "order_no": "manual-2026-8-31-至尊",
-      "amount": 102,
-      "raw_ocr_text": "两张收据照片合计",
-      "device": "iPhone",
-      "created_at": "2026-08-31T10:55:27.795+00:00",
-      "updated_at": "2026-08-31T10:55:27.795+00:00"
-    },
-    {
-      "id": "aedcd8be-db66-57af-83aa-a83394255201",
-      "delivery_date": "2026-08-31",
-      "shop_name": "保黄",
-      "order_no": "manual-2026-8-31-保黄",
-      "amount": 70,
-      "raw_ocr_text": "手工录入",
-      "device": "iPad",
-      "created_at": "2026-08-31T10:49:28.52+00:00",
-      "updated_at": "2026-08-31T10:49:28.52+00:00"
-    },
-    {
-      "id": "7030ad23-dc96-5ac4-a26a-27fc82c24bd2",
-      "delivery_date": "2026-08-31",
-      "shop_name": "__b10",
-      "order_no": "manual-2026-8-31-__b10",
-      "amount": 350,
-      "raw_ocr_text": "两张收据照片合计",
-      "device": "iPad",
-      "created_at": "2026-08-31T10:48:42+00:00",
-      "updated_at": "2026-08-31T10:48:42+00:00"
-    },
-    {
-      "id": "cf2f3504-46d5-5e79-bcd1-c626de4b04be",
-      "delivery_date": "2026-08-31",
-      "shop_name": "万杨",
-      "order_no": "manual-2026-8-31-万杨",
-      "amount": 178,
-      "raw_ocr_text": "两张收据照片合计",
-      "device": "iPad",
-      "created_at": "2026-08-31T10:48:13.343+00:00",
-      "updated_at": "2026-08-31T10:48:13.343+00:00"
-    },
-    {
-      "id": "a7d6bd0a-439e-55ab-81c3-bff2a2faf3b7",
-      "delivery_date": "2026-08-31",
+      "id": "750379fb-1559-56f3-8cba-32d3187e80af",
+      "delivery_date": "2026-08-30",
       "shop_name": "__b4",
-      "order_no": "manual-2026-8-31-__b4",
-      "amount": 66,
-      "raw_ocr_text": "两张收据照片合计",
-      "device": "iPad",
-      "created_at": "2026-08-31T10:47:36.506+00:00",
-      "updated_at": "2026-08-31T10:47:36.506+00:00"
-    },
-    {
-      "id": "99e996bc-0f35-551d-8d9b-564f444032e8",
-      "delivery_date": "2026-08-31",
-      "shop_name": "万",
-      "order_no": "manual-2026-8-31-万",
-      "amount": 329,
-      "raw_ocr_text": "两张收据照片合计",
-      "device": "iPad",
-      "created_at": "2026-08-31T10:47:06.325+00:00",
-      "updated_at": "2026-08-31T10:47:06.325+00:00"
-    },
-    {
-      "id": "da0c693b-00cd-5555-bc31-78c0b5cf991c",
-      "delivery_date": "2026-08-31",
-      "shop_name": "吾黄",
-      "order_no": "manual-2026-8-31-吾黄",
-      "amount": 25,
+      "order_no": "manual-2026-8-30-__b4",
+      "amount": 184,
       "raw_ocr_text": "手工录入",
-      "device": "iPhone",
-      "created_at": "2026-08-31T06:01:45.648+00:00",
-      "updated_at": "2026-08-31T06:01:45.648+00:00"
+      "device": "iPad",
+      "created_at": "2026-08-30T11:09:36.147+00:00",
+      "updated_at": "2026-08-30T10:50:33.784459+00:00"
     },
     {
-      "id": "344ba460-7224-578f-ac7f-536b4ab832ff",
-      "delivery_date": "2026-08-31",
-      "shop_name": "__b8",
-      "order_no": "manual-2026-8-31-__b8",
-      "amount": 381,
-      "raw_ocr_text": "两张收据照片合计",
-      "device": "iPhone",
-      "created_at": "2026-08-31T05:53:28.095+00:00",
-      "updated_at": "2026-08-31T05:53:28.095+00:00"
+      "id": "aab24a6c-0995-5530-b4e6-2386c55f76ea",
+      "delivery_date": "2026-08-30",
+      "shop_name": "万",
+      "order_no": "manual-2026-8-30-万",
+      "amount": 221,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:09:42.903+00:00",
+      "updated_at": "2026-08-30T11:09:42.903+00:00"
     },
     {
-      "id": "9b782020-b298-5112-9954-abfc522bee68",
-      "delivery_date": "2026-08-31",
-      "shop_name": "火炉山",
-      "order_no": "manual-2026-8-31-火炉山",
-      "amount": 782,
-      "raw_ocr_text": "两张收据照片合计",
-      "device": "iPhone",
-      "created_at": "2026-08-31T03:33:20.915+00:00",
-      "updated_at": "2026-08-31T03:33:20.915+00:00"
+      "id": "88f01e56-9563-5ca5-8c2b-6d6a0a522107",
+      "delivery_date": "2026-08-30",
+      "shop_name": "柳",
+      "order_no": "manual-2026-8-30-柳",
+      "amount": 147,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:10:04.43+00:00",
+      "updated_at": "2026-08-30T11:10:04.43+00:00"
     },
     {
-      "id": "b060fe63-b297-5f1f-8944-417e8a3e2553",
-      "delivery_date": "2026-08-31",
+      "id": "1795f041-5c35-5c2b-b069-32fdcc209e20",
+      "delivery_date": "2026-08-30",
+      "shop_name": "五洲",
+      "order_no": "manual-2026-8-30-五洲",
+      "amount": 177,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:10:14.044+00:00",
+      "updated_at": "2026-08-30T11:10:14.044+00:00"
+    },
+    {
+      "id": "69195e9c-ff04-554d-a288-43dc8231074b",
+      "delivery_date": "2026-08-30",
       "shop_name": "吾醉",
-      "order_no": "manual-2026-8-31-吾醉",
-      "amount": 265,
-      "raw_ocr_text": "两张收据照片合计",
-      "device": "iPhone",
-      "created_at": "2026-08-31T03:32:59.622+00:00",
-      "updated_at": "2026-08-31T03:32:59.622+00:00"
+      "order_no": "manual-2026-8-30-吾醉",
+      "amount": 737,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:10:18.99+00:00",
+      "updated_at": "2026-08-30T11:10:18.99+00:00"
     },
     {
-      "id": "b695c491-b41c-5a02-a697-da72eb4545b2",
-      "delivery_date": "2026-08-31",
+      "id": "c5fe2c8d-3ab8-5c32-b1c5-a90be12465c7",
+      "delivery_date": "2026-08-30",
+      "shop_name": "__b8",
+      "order_no": "manual-2026-8-30-__b8",
+      "amount": 349,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:10:24.806+00:00",
+      "updated_at": "2026-08-30T11:24:24.564005+00:00"
+    },
+    {
+      "id": "d7194aca-8c95-5523-bad6-20b256eef74d",
+      "delivery_date": "2026-08-30",
+      "shop_name": "火炉山",
+      "order_no": "manual-2026-8-30-火炉山",
+      "amount": 459,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:10:31.79+00:00",
+      "updated_at": "2026-08-30T11:10:31.79+00:00"
+    },
+    {
+      "id": "b35df9e5-7906-538e-b38c-08120aefc2e4",
+      "delivery_date": "2026-08-30",
       "shop_name": "萍姐",
-      "order_no": "manual-2026-8-31-萍姐",
-      "amount": 245,
-      "raw_ocr_text": "两张收据照片合计",
-      "device": "iPhone",
-      "created_at": "2026-08-31T03:32:33.984+00:00",
-      "updated_at": "2026-08-31T03:32:33.984+00:00"
+      "order_no": "manual-2026-8-30-萍姐",
+      "amount": 169,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:10:38.876+00:00",
+      "updated_at": "2026-08-30T11:10:38.876+00:00"
+    },
+    {
+      "id": "3f573b64-9a94-5c30-8c5a-3d61d490bd90",
+      "delivery_date": "2026-08-30",
+      "shop_name": "__b2",
+      "order_no": "manual-2026-8-30-__b2",
+      "amount": 143,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:10:48.377+00:00",
+      "updated_at": "2026-08-30T11:10:48.377+00:00"
+    },
+    {
+      "id": "9ff8a834-45c9-5b1e-a521-0982dab6398e",
+      "delivery_date": "2026-08-30",
+      "shop_name": "吾湘",
+      "order_no": "manual-2026-8-30-吾湘",
+      "amount": 109,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-30T11:11:34.138+00:00",
+      "updated_at": "2026-08-30T11:11:34.138+00:00"
     },
     {
       "id": "fa77c606-cfe9-56a9-9a19-ca8b5eccfd16",
@@ -8684,15 +8563,257 @@
       "updated_at": "2026-08-31T03:32:11.62+00:00"
     },
     {
-      "id": "a572ff54-d7ef-53b3-b3d0-b7fe6a6ffb8e",
+      "id": "b695c491-b41c-5a02-a697-da72eb4545b2",
+      "delivery_date": "2026-08-31",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-8-31-萍姐",
+      "amount": 245,
+      "raw_ocr_text": "两张收据照片合计",
+      "device": "iPhone",
+      "created_at": "2026-08-31T03:32:33.984+00:00",
+      "updated_at": "2026-08-31T03:32:33.984+00:00"
+    },
+    {
+      "id": "b060fe63-b297-5f1f-8944-417e8a3e2553",
+      "delivery_date": "2026-08-31",
+      "shop_name": "吾醉",
+      "order_no": "manual-2026-8-31-吾醉",
+      "amount": 265,
+      "raw_ocr_text": "两张收据照片合计",
+      "device": "iPhone",
+      "created_at": "2026-08-31T03:32:59.622+00:00",
+      "updated_at": "2026-08-31T03:32:59.622+00:00"
+    },
+    {
+      "id": "9b782020-b298-5112-9954-abfc522bee68",
+      "delivery_date": "2026-08-31",
+      "shop_name": "火炉山",
+      "order_no": "manual-2026-8-31-火炉山",
+      "amount": 782,
+      "raw_ocr_text": "两张收据照片合计",
+      "device": "iPhone",
+      "created_at": "2026-08-31T03:33:20.915+00:00",
+      "updated_at": "2026-08-31T03:33:20.915+00:00"
+    },
+    {
+      "id": "344ba460-7224-578f-ac7f-536b4ab832ff",
+      "delivery_date": "2026-08-31",
+      "shop_name": "__b8",
+      "order_no": "manual-2026-8-31-__b8",
+      "amount": 381,
+      "raw_ocr_text": "两张收据照片合计",
+      "device": "iPhone",
+      "created_at": "2026-08-31T05:53:28.095+00:00",
+      "updated_at": "2026-08-31T05:53:28.095+00:00"
+    },
+    {
+      "id": "da0c693b-00cd-5555-bc31-78c0b5cf991c",
+      "delivery_date": "2026-08-31",
+      "shop_name": "吾黄",
+      "order_no": "manual-2026-8-31-吾黄",
+      "amount": 25,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-08-31T06:01:45.648+00:00",
+      "updated_at": "2026-08-31T06:01:45.648+00:00"
+    },
+    {
+      "id": "99e996bc-0f35-551d-8d9b-564f444032e8",
+      "delivery_date": "2026-08-31",
+      "shop_name": "万",
+      "order_no": "manual-2026-8-31-万",
+      "amount": 329,
+      "raw_ocr_text": "两张收据照片合计",
+      "device": "iPad",
+      "created_at": "2026-08-31T10:47:06.325+00:00",
+      "updated_at": "2026-08-31T10:47:06.325+00:00"
+    },
+    {
+      "id": "a7d6bd0a-439e-55ab-81c3-bff2a2faf3b7",
+      "delivery_date": "2026-08-31",
+      "shop_name": "__b4",
+      "order_no": "manual-2026-8-31-__b4",
+      "amount": 66,
+      "raw_ocr_text": "两张收据照片合计",
+      "device": "iPad",
+      "created_at": "2026-08-31T10:47:36.506+00:00",
+      "updated_at": "2026-08-31T10:47:36.506+00:00"
+    },
+    {
+      "id": "cf2f3504-46d5-5e79-bcd1-c626de4b04be",
+      "delivery_date": "2026-08-31",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-8-31-万杨",
+      "amount": 178,
+      "raw_ocr_text": "两张收据照片合计",
+      "device": "iPad",
+      "created_at": "2026-08-31T10:48:13.343+00:00",
+      "updated_at": "2026-08-31T10:48:13.343+00:00"
+    },
+    {
+      "id": "7030ad23-dc96-5ac4-a26a-27fc82c24bd2",
+      "delivery_date": "2026-08-31",
+      "shop_name": "__b10",
+      "order_no": "manual-2026-8-31-__b10",
+      "amount": 350,
+      "raw_ocr_text": "两张收据照片合计",
+      "device": "iPad",
+      "created_at": "2026-08-31T10:48:42+00:00",
+      "updated_at": "2026-08-31T10:48:42+00:00"
+    },
+    {
+      "id": "aedcd8be-db66-57af-83aa-a83394255201",
+      "delivery_date": "2026-08-31",
+      "shop_name": "保黄",
+      "order_no": "manual-2026-8-31-保黄",
+      "amount": 70,
+      "raw_ocr_text": "手工录入",
+      "device": "iPad",
+      "created_at": "2026-08-31T10:49:28.52+00:00",
+      "updated_at": "2026-08-31T10:49:28.52+00:00"
+    },
+    {
+      "id": "61f06987-4f63-54bf-9bb1-47a97de61c05",
+      "delivery_date": "2026-08-31",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-8-31-至尊",
+      "amount": 102,
+      "raw_ocr_text": "两张收据照片合计",
+      "device": "iPhone",
+      "created_at": "2026-08-31T10:55:27.795+00:00",
+      "updated_at": "2026-08-31T10:55:27.795+00:00"
+    },
+    {
+      "id": "d97b3f85-716a-48fc-ac49-fd5ffb2ccca4",
       "delivery_date": "2026-09-01",
       "shop_name": "万醉",
       "order_no": "manual-2026-9-1-万醉",
-      "amount": 618,
-      "raw_ocr_text": "两张收据照片合计",
+      "amount": 704,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-01T10:55:51.68601+00:00",
+      "updated_at": "2026-09-01T10:55:51.68601+00:00"
+    },
+    {
+      "id": "14d9b207-fca7-4f49-bdc5-d393f049c283",
+      "delivery_date": "2026-09-01",
+      "shop_name": "万",
+      "order_no": "manual-2026-9-1-万",
+      "amount": 195,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-01T10:34:42.919874+00:00",
+      "updated_at": "2026-09-01T10:34:42.919874+00:00"
+    },
+    {
+      "id": "dd1d88c1-92c1-5684-bd4b-b426e574e479",
+      "delivery_date": "2026-09-01",
+      "shop_name": "保黄",
+      "order_no": "manual-2026-9-1-保黄",
+      "amount": 69,
+      "raw_ocr_text": "手工录入",
       "device": "iPhone",
-      "created_at": "2026-08-31T08:25:33.213+00:00",
-      "updated_at": "2026-08-31T08:25:33.213+00:00"
+      "created_at": "2026-09-01T09:26:17.618+00:00",
+      "updated_at": "2026-09-01T09:26:17.618+00:00"
+    },
+    {
+      "id": "6fa1e8af-585f-4068-aa1f-33afa0041df0",
+      "delivery_date": "2026-09-01",
+      "shop_name": "__b4",
+      "order_no": "manual-2026-9-1-__b4",
+      "amount": 201,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-01T09:19:04.895508+00:00",
+      "updated_at": "2026-09-01T09:19:04.895508+00:00"
+    },
+    {
+      "id": "a61393eb-589e-404c-ad90-e5f5b46db527",
+      "delivery_date": "2026-09-01",
+      "shop_name": "五洲",
+      "order_no": "manual-2026-9-1-五洲",
+      "amount": 50,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-01T09:16:56.691875+00:00",
+      "updated_at": "2026-09-01T09:16:56.691875+00:00"
+    },
+    {
+      "id": "8f37fae4-a5b5-4d34-a0cf-3c29a59a0523",
+      "delivery_date": "2026-09-01",
+      "shop_name": "万杨",
+      "order_no": "manual-2026-9-1-万杨",
+      "amount": 18,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-01T09:15:12.066359+00:00",
+      "updated_at": "2026-09-01T09:15:12.066359+00:00"
+    },
+    {
+      "id": "fdff7e2d-80c8-49b5-8e63-2670fc8443f9",
+      "delivery_date": "2026-09-01",
+      "shop_name": "吾醉",
+      "order_no": "manual-2026-9-1-吾醉",
+      "amount": 927,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-01T07:34:11.170906+00:00",
+      "updated_at": "2026-09-01T07:34:11.170906+00:00"
+    },
+    {
+      "id": "6d1fed14-0ab3-471f-8425-b62b79bdfe64",
+      "delivery_date": "2026-09-01",
+      "shop_name": "火炉山",
+      "order_no": "manual-2026-9-1-火炉山",
+      "amount": 258,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-01T07:34:50.808506+00:00",
+      "updated_at": "2026-09-01T07:34:50.808506+00:00"
+    },
+    {
+      "id": "35633980-1f59-487b-b825-dbf38f6908f5",
+      "delivery_date": "2026-09-01",
+      "shop_name": "柳",
+      "order_no": "manual-2026-9-1-柳",
+      "amount": 30,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-01T07:35:09.991972+00:00",
+      "updated_at": "2026-09-01T07:35:09.991972+00:00"
+    },
+    {
+      "id": "1578f640-58ba-4406-8480-971b3b5f6848",
+      "delivery_date": "2026-09-01",
+      "shop_name": "萍姐",
+      "order_no": "manual-2026-9-1-萍姐",
+      "amount": 170,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-01T08:15:44.844338+00:00",
+      "updated_at": "2026-09-01T08:15:44.844338+00:00"
+    },
+    {
+      "id": "ef94207e-27ba-4fdd-ba75-93eccb6e7def",
+      "delivery_date": "2026-09-01",
+      "shop_name": "__b8",
+      "order_no": "manual-2026-9-1-__b8",
+      "amount": 213,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-01T08:16:16.382608+00:00",
+      "updated_at": "2026-09-01T08:16:16.382608+00:00"
+    },
+    {
+      "id": "7e449257-582b-554b-ba00-a18af6551845",
+      "delivery_date": "2026-09-01",
+      "shop_name": "吾黄",
+      "order_no": "manual-2026-9-1-吾黄",
+      "amount": 21,
+      "raw_ocr_text": "手工录入",
+      "device": "iPhone",
+      "created_at": "2026-09-01T08:16:48.922+00:00",
+      "updated_at": "2026-09-01T08:16:48.922+00:00"
     }
   ]
 }
