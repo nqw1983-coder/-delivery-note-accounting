@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-09-21T16:23:49.941Z",
+  "exportedAt": "2026-09-22T14:40:41.368Z",
   "source": "github-actions-daily-backup",
   "recordCount": 1000,
   "deliveries": [
@@ -11419,19 +11419,6 @@
       "void_reason": null
     },
     {
-      "id": "a941d912-32e9-5602-a7fd-aecd98d55458",
-      "delivery_date": "2026-09-10",
-      "shop_name": "__b11",
-      "order_no": "manual-2026-9-10-__b11",
-      "amount": 6703,
-      "raw_ocr_text": "手工录入",
-      "device": "iPhone",
-      "created_at": "2026-09-11T10:07:51.634+00:00",
-      "updated_at": "2026-09-11T10:07:51.634+00:00",
-      "voided_at": null,
-      "void_reason": null
-    },
-    {
       "id": "c1346c3b-9d6b-49c2-bd3a-2fa716527a36",
       "delivery_date": "2026-09-10",
       "shop_name": "万杨",
@@ -11636,19 +11623,6 @@
       "device": "Receipt automation",
       "created_at": "2026-09-12T15:12:31.595327+00:00",
       "updated_at": "2026-09-12T15:12:31.595327+00:00",
-      "voided_at": null,
-      "void_reason": null
-    },
-    {
-      "id": "f3ce1514-1af6-4e5f-8af6-713a0ef1e5c1",
-      "delivery_date": "2026-09-12",
-      "shop_name": "__b11",
-      "order_no": "manual-2026-9-12-__b11",
-      "amount": 825,
-      "raw_ocr_text": "送货单图片自动合计",
-      "device": "Receipt automation",
-      "created_at": "2026-09-12T15:12:31.597027+00:00",
-      "updated_at": "2026-09-12T15:12:31.597027+00:00",
       "voided_at": null,
       "void_reason": null
     },
@@ -12472,19 +12446,6 @@
       "void_reason": null
     },
     {
-      "id": "1b436177-3fa4-46f2-88dc-aae42fc091c3",
-      "delivery_date": "2026-09-18",
-      "shop_name": "__b11",
-      "order_no": "manual-2026-9-18-__b11",
-      "amount": 265,
-      "raw_ocr_text": "送货单图片自动合计",
-      "device": "Receipt automation",
-      "created_at": "2026-09-19T14:48:09.278062+00:00",
-      "updated_at": "2026-09-19T14:48:09.278062+00:00",
-      "voided_at": null,
-      "void_reason": null
-    },
-    {
       "id": "a4953e65-c103-44d3-9b76-25211d85d2c7",
       "delivery_date": "2026-09-18",
       "shop_name": "万杨",
@@ -12615,6 +12576,19 @@
       "void_reason": null
     },
     {
+      "id": "2c0abe00-abdf-4911-87c0-db10310a4569",
+      "delivery_date": "2026-09-19",
+      "shop_name": "__b8",
+      "order_no": "manual-2026-9-19-__b8",
+      "amount": 238,
+      "raw_ocr_text": "送货单图片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-19T02:20:34.725143+00:00",
+      "updated_at": "2026-09-19T02:20:34.725143+00:00",
+      "voided_at": null,
+      "void_reason": null
+    },
+    {
       "id": "689a4975-38a7-4aee-a574-b13673584966",
       "delivery_date": "2026-09-19",
       "shop_name": "柳",
@@ -12706,19 +12680,6 @@
       "void_reason": null
     },
     {
-      "id": "9e76ae2b-8684-469f-90bd-69f3970d2852",
-      "delivery_date": "2026-09-19",
-      "shop_name": "__b11",
-      "order_no": "manual-2026-9-19-__b11",
-      "amount": 794,
-      "raw_ocr_text": "送货单图片自动合计",
-      "device": "Receipt automation",
-      "created_at": "2026-09-19T10:24:13.999171+00:00",
-      "updated_at": "2026-09-19T10:24:13.999171+00:00",
-      "voided_at": null,
-      "void_reason": null
-    },
-    {
       "id": "374ded9f-e0c2-41ec-a53c-9f1bfc8ced50",
       "delivery_date": "2026-09-19",
       "shop_name": "万",
@@ -12754,19 +12715,6 @@
       "device": "Receipt automation",
       "created_at": "2026-09-19T02:02:29.240928+00:00",
       "updated_at": "2026-09-19T02:02:29.240928+00:00",
-      "voided_at": null,
-      "void_reason": null
-    },
-    {
-      "id": "2c0abe00-abdf-4911-87c0-db10310a4569",
-      "delivery_date": "2026-09-19",
-      "shop_name": "__b8",
-      "order_no": "manual-2026-9-19-__b8",
-      "amount": 238,
-      "raw_ocr_text": "送货单图片自动合计",
-      "device": "Receipt automation",
-      "created_at": "2026-09-19T02:20:34.725143+00:00",
-      "updated_at": "2026-09-19T02:20:34.725143+00:00",
       "voided_at": null,
       "void_reason": null
     },
@@ -12914,32 +12862,6 @@
       "void_reason": null
     },
     {
-      "id": "e324c6c8-5d9a-48c3-bd0b-84e6f368a6a9",
-      "delivery_date": "2026-09-20",
-      "shop_name": "__b11",
-      "order_no": "manual-2026-9-20-__b11",
-      "amount": 1231,
-      "raw_ocr_text": "送货单图片自动合计",
-      "device": "Receipt automation",
-      "created_at": "2026-09-20T10:30:56.993956+00:00",
-      "updated_at": "2026-09-20T10:30:56.993956+00:00",
-      "voided_at": null,
-      "void_reason": null
-    },
-    {
-      "id": "75ac1f11-cda6-4cbf-a831-d1b8930f591a",
-      "delivery_date": "2026-09-21",
-      "shop_name": "__b11",
-      "order_no": "manual-2026-9-21-__b11",
-      "amount": 216,
-      "raw_ocr_text": "送货单图片自动合计",
-      "device": "Receipt automation",
-      "created_at": "2026-09-21T11:14:04.40263+00:00",
-      "updated_at": "2026-09-21T11:14:04.40263+00:00",
-      "voided_at": null,
-      "void_reason": null
-    },
-    {
       "id": "5cb27379-b504-4c4f-8791-c99be015308c",
       "delivery_date": "2026-09-21",
       "shop_name": "柳",
@@ -13001,6 +12923,84 @@
       "device": "Receipt automation",
       "created_at": "2026-09-21T10:57:52.298141+00:00",
       "updated_at": "2026-09-21T10:57:52.298141+00:00",
+      "voided_at": null,
+      "void_reason": null
+    },
+    {
+      "id": "998ecc8f-d92b-4b54-9d83-aee5fb9ff30c",
+      "delivery_date": "2026-09-22",
+      "shop_name": "__b4",
+      "order_no": "manual-2026-9-22-__b4",
+      "amount": 53,
+      "raw_ocr_text": "送货单图片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-22T00:49:16.932574+00:00",
+      "updated_at": "2026-09-22T00:49:16.932574+00:00",
+      "voided_at": null,
+      "void_reason": null
+    },
+    {
+      "id": "2ef4c778-21e1-4bd7-ac7f-00345fe166b8",
+      "delivery_date": "2026-09-22",
+      "shop_name": "__b11",
+      "order_no": "manual-2026-9-22-__b11",
+      "amount": 243,
+      "raw_ocr_text": "送货单图片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-22T13:50:01.420688+00:00",
+      "updated_at": "2026-09-22T13:50:01.420688+00:00",
+      "voided_at": null,
+      "void_reason": null
+    },
+    {
+      "id": "920d424e-b719-459e-a3f6-1ffb3eae785b",
+      "delivery_date": "2026-09-22",
+      "shop_name": "至尊",
+      "order_no": "manual-2026-9-22-至尊",
+      "amount": 78,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-22T10:48:06.17783+00:00",
+      "updated_at": "2026-09-22T10:48:06.17783+00:00",
+      "voided_at": null,
+      "void_reason": null
+    },
+    {
+      "id": "3c0976f7-6cd6-42c6-bf22-50d578e8c6dd",
+      "delivery_date": "2026-09-22",
+      "shop_name": "五洲",
+      "order_no": "manual-2026-9-22-五洲",
+      "amount": 96,
+      "raw_ocr_text": "收据照片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-22T01:57:55.223294+00:00",
+      "updated_at": "2026-09-22T01:57:55.223294+00:00",
+      "voided_at": null,
+      "void_reason": null
+    },
+    {
+      "id": "cc12c224-193c-48f5-84f8-e7402d32deae",
+      "delivery_date": "2026-09-22",
+      "shop_name": "柳",
+      "order_no": "manual-2026-9-22-柳",
+      "amount": 169,
+      "raw_ocr_text": "送货单图片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-22T01:06:08.724101+00:00",
+      "updated_at": "2026-09-22T01:06:08.724101+00:00",
+      "voided_at": null,
+      "void_reason": null
+    },
+    {
+      "id": "1bf4e1c3-2ec1-413f-bf6a-74add6b4582a",
+      "delivery_date": "2026-09-22",
+      "shop_name": "__b8",
+      "order_no": "manual-2026-9-22-__b8",
+      "amount": 26,
+      "raw_ocr_text": "送货单图片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-22T01:28:28.531167+00:00",
+      "updated_at": "2026-09-22T01:28:28.531167+00:00",
       "voided_at": null,
       "void_reason": null
     }
