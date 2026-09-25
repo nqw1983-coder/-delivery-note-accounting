@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-09-24T14:54:24.314Z",
+  "exportedAt": "2026-09-25T15:08:43.449Z",
   "source": "github-actions-daily-backup",
   "recordCount": 1000,
   "deliveries": [
@@ -12797,6 +12797,19 @@
       "void_reason": null
     },
     {
+      "id": "20d1d978-0353-41fd-9e58-5cbcde62e34f",
+      "delivery_date": "2026-09-21",
+      "shop_name": "保黄",
+      "order_no": "manual-2026-9-21-保黄",
+      "amount": 35,
+      "raw_ocr_text": "送货单图片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-25T10:17:10.737505+00:00",
+      "updated_at": "2026-09-25T10:17:10.737505+00:00",
+      "voided_at": null,
+      "void_reason": null
+    },
+    {
       "id": "5cb27379-b504-4c4f-8791-c99be015308c",
       "delivery_date": "2026-09-21",
       "shop_name": "柳",
@@ -12914,6 +12927,32 @@
       "void_reason": null
     },
     {
+      "id": "5224d546-ba3b-41c6-9fa3-d782bd8f210a",
+      "delivery_date": "2026-09-22",
+      "shop_name": "火炉山",
+      "order_no": "manual-2026-9-22-火炉山",
+      "amount": 140,
+      "raw_ocr_text": "送货单图片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-22T01:38:51.111371+00:00",
+      "updated_at": "2026-09-22T01:38:51.111371+00:00",
+      "voided_at": null,
+      "void_reason": null
+    },
+    {
+      "id": "8979bd62-f200-417a-a06f-43417c47877d",
+      "delivery_date": "2026-09-22",
+      "shop_name": "保黄",
+      "order_no": "manual-2026-9-22-保黄",
+      "amount": 17,
+      "raw_ocr_text": "送货单图片自动合计",
+      "device": "Receipt automation",
+      "created_at": "2026-09-25T09:26:37.415651+00:00",
+      "updated_at": "2026-09-25T09:26:37.415651+00:00",
+      "voided_at": null,
+      "void_reason": null
+    },
+    {
       "id": "cc12c224-193c-48f5-84f8-e7402d32deae",
       "delivery_date": "2026-09-22",
       "shop_name": "柳",
@@ -12940,19 +12979,6 @@
       "void_reason": null
     },
     {
-      "id": "5224d546-ba3b-41c6-9fa3-d782bd8f210a",
-      "delivery_date": "2026-09-22",
-      "shop_name": "火炉山",
-      "order_no": "manual-2026-9-22-火炉山",
-      "amount": 140,
-      "raw_ocr_text": "送货单图片自动合计",
-      "device": "Receipt automation",
-      "created_at": "2026-09-22T01:38:51.111371+00:00",
-      "updated_at": "2026-09-22T01:38:51.111371+00:00",
-      "voided_at": null,
-      "void_reason": null
-    },
-    {
       "id": "dba4780b-6083-4751-a0a0-af4066a2bfdc",
       "delivery_date": "2026-09-23",
       "shop_name": "至尊",
@@ -12975,32 +13001,6 @@
       "device": "Receipt automation",
       "created_at": "2026-09-23T01:54:27.71242+00:00",
       "updated_at": "2026-09-23T01:54:27.71242+00:00",
-      "voided_at": null,
-      "void_reason": null
-    },
-    {
-      "id": "dab8de37-bac3-4737-992b-d91d91cc5896",
-      "delivery_date": "2026-09-23",
-      "shop_name": "__b8",
-      "order_no": "manual-2026-9-23-__b8",
-      "amount": 43,
-      "raw_ocr_text": "送货单图片自动合计",
-      "device": "Receipt automation",
-      "created_at": "2026-09-23T01:22:27.699699+00:00",
-      "updated_at": "2026-09-23T01:22:27.699699+00:00",
-      "voided_at": null,
-      "void_reason": null
-    },
-    {
-      "id": "3d1d641e-970a-41e3-a42a-3616d0c1053b",
-      "delivery_date": "2026-09-23",
-      "shop_name": "万杨",
-      "order_no": "manual-2026-9-23-万杨",
-      "amount": 156,
-      "raw_ocr_text": "送货单图片自动合计",
-      "device": "Receipt automation",
-      "created_at": "2026-09-23T00:29:47.011656+00:00",
-      "updated_at": "2026-09-23T00:29:47.011656+00:00",
       "voided_at": null,
       "void_reason": null
     }
